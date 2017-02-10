@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>云洋i农综合管理平台</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Forza">
+    <meta name="author" content="Ndevr Studios & The Red Team">
+    <meta property="qc:admins" content="5701516423475461561167414163757">
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- <script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" charset="utf-8" data-callback="true"></script> -->
+
+    <!-- inject:css -->
+    <link rel="stylesheet" href="assets/css/all.gz.css">
+    <!-- endinject -->
+
+    <link href='assets/demo/variations/default.css' rel='stylesheet' type='text/css' media='all' id='styleswitcher'>
+    <link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body class=""
+      ng-app="mainApp"
+      ng-controller="MainController"
+      ng-class="{
+                    'static-header': !style_fixedHeader,
+                    'focusedform': style_fullscreen,
+                    'layout-horizontal': style_layoutHorizontal,
+                    'fixed-layout': style_layoutBoxed,
+                    'collapse-leftbar': style_leftbarCollapsed && !style_leftbarShown,
+                    'show-rightbar': style_rightbarCollapsed,
+                    'show-leftbar': style_leftbarShown
+                    }"
+      ng-click="hideSearchBar();hideHeaderBar()"
+      ng-cloak>
+
+<div id="headerbar" ng-class="{topNegative1000: style_headerBarHidden, topZero: !style_headerBarHidden}">
+
+
+</div>
+<!--headerbar-->
+
+<header class="navbar navbar-inverse" style="z-index:10001;background-color: rgb(85, 150, 51);height:45px;"
+        ng-class="{'navbar-fixed-top': style_fixedHeader, 'navbar-static-top': !style_fixedHeader}" role="banner">
+    <a id="leftmenu-trigger" tooltip-placement="right" tooltip="展开侧边栏" ng-click="toggleLeftBar()"></a>
+
+    <div class="navbar-header">
+        <!--<a class="navbar-brand" href="#/">Forza</a>-->
+        <div style="font-size:large !important;font-weight:bolder;margin-top:10px;font-size:medium;position: absolute;left:40%;color:rgb(253, 253, 253)">
+            <!--<i class="fa fa-soundcloud"></i>&nbsp;云洋大棚监控云平台-->
+            <img src="assets/img/yylogo.png" alt="yyloco">云洋大棚监控云平台
+        </div>
+
+    </div>
+
+    <ul class="nav navbar-nav pull-right toolbar">
+        <li>
+            <a data-toggle="dropdown" class="dropdown-toggle"><span class="hidden-xs"><i
+                    class="fa fa-user"></i>&nbsp;{{username}}</span>
+            </a>
+
+            <ul class="dropdown-menu" style="text-align: center;font-size: 15px">
+                <li >
+                    <a target="_self" update-pwd>
+                        <img src="assets/img/updatapsw.png">
+                        <span>修改密码</span>
+                    </a>
+
+                </li>
+                <li >
+                    <a ng-click="logOut()">
+                       <img src="assets/img/out.png">
+                        <span>退出登录</span>
+                    </a>
+
+                </li>
+
+            </ul>
+
+            <div id="up_pwd">
+                <a id="shut">×</a>
+                <h3>修改密码</h3>
+                <div>
+                    <div>
+                        <label>原密码: &nbsp;</label>
+                        <input type="text" ng-model="updateData.password" placeholder="请输入原密码" onfocus="this.placeholder = ''" onblur="this.placeholder = '请输入原密码'">
+                    </div>
+                    <div>
+                        <label>新密码: &nbsp;</label>
+                        <input type="text" ng-model="updateData.password_new" placeholder="请输入新密码" onfocus="this.placeholder = ''" onblur="this.placeholder = '请输入新密码'">
+                    </div>
+
+                    <div>
+                        <input type="button" value="保存" class="btn btn-primary" style="width: 80px" ng-click="update_pwd()">
+                    </div>
+
+                </div>
+            </div>
+
+        </li>
+    </ul>
+
+    <div class="nav pull-right" style="margin-right: 15px;margin-top: 8px">
+        <a ng-href="{{url}}" ng-click="refresh_state()">
+            <img src="assets/img/alarm_none.gif" ng-show="!push_state">
+            <img ng-show="push_state" src="assets/img/alarm_error.gif">
+        </a>
+    </div>
+
+</header>
+
+<div id="page-container" class="clearfix">
+    <!-- BEGIN SIDEBAR -->
+    <nav id="page-leftbar" role="navigation">
+
+        <div>
+            <ul ng-controller="NavigationController" id="sidebar" sticky-scroll="40"
+                style="background-color: rgb(228, 228, 228)">
+
+                <br>
+                <br>
+                <li ng-repeat="item in menu"
+                    ng-class="{ hasChild: (item.children!==undefined),
+                                      active: item.selected,
+                                      open: (item.children!==undefined) && item.open }"
+                    ng-include="'templates/nav_renderer.html'">
+                </li>
+            </ul>
+        </div>
+        <!-- END SIDEBAR MENU -->
+    </nav>
+
+    <div ng-include="'views/DevListSideBar.html'"></div>
+
+    <div id="page-content" class="clearfix" fit-height>
+        <div id="wrap" ng-view="" class="mainview-animation">
+        </div>
+    </div>
+    <!-- page-content -->
+
+    <footer role="contentinfo">
+        <div class="clearfix">
+            <ul class="list-unstyled list-inline pull-left">
+                <li>monitorClould &copy; 2015</li>
+            </ul>
+            <button class="pull-right btn btn-default btn-xs hidden-print" back-to-top style="padding: 1px 10px;"><i
+                    class="fa fa-angle-up"></i></button>
+        </div>
+    </footer>
+
+</div>
+<!-- page-container -->
+
+<!--[if lt IE 9]>
+<script src="bower_components/es5-shim/es5-shim.js"></script>
+<script src="bower_components/json3/lib/json3.min.js"></script>
+<script src="../bower_components/es5-shim/es5-shim.js"></script>
+
+<![endif]-->
+
+<!-- <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=b6kLIzGgBCtDB43c3kBr2HP0"></script> -->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=b6kLIzGgBCtDB43c3kBr2HP0"></script>
+<script type="text/javascript"
+        src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+<script type="text/javascript"
+        src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+<!-- inject:js -->
+<script src="scripts/lib_js_all.gz.js"></script>
+<script src="scripts/logic_js_all.gz.js"></script>
+<!-- endinject -->
+
+
+</body>
+</html>

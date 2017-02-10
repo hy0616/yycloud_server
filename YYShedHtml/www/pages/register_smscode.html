@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5">
+
+<script type="text/javascript" src="../jm/jquery.min.js"></script>  
+<link rel="stylesheet" href="../css/core.css" />
+<link rel="stylesheet" href="../css/page.css" />
+<script type="text/javascript" src="../jm/jquery.mobile.min.js"></script>  
+<script type="text/javascript" charset="utf-8" src="../js/core.js" ></script>
+<script type="text/javascript" charset="utf-8" src="../js/page.js" ></script>
+<script type="text/javascript">
+	var phone = getQueryString("phone");
+	$(document).ready(function(){
+		 document.getElementById("phonenum").innerHTML = phone;
+	});
+	function back()
+	{
+		window.history.go(-1);
+	}
+	function next()
+	{
+		if(valid()){
+			var  smscode = document.getElementById("smscode").value;
+			location.href = "../pages/register_settingpsd.html?phone="+phone
+							+"&sms_code="+smscode;
+		}else{
+			alert("请输入验证码!");
+		}
+	}
+	//js验证
+	function valid(){
+		if($("#smscode").val()=='') {
+			return false;
+		}else{
+			return true;
+		}
+	}
+	function smscode()
+	{
+		//var smscode = document.getElementById("smscode").value;
+		getSmsCodeWithPhone(phone);
+	}
+	function getSmsCodeSuccess()
+	{
+		//alert("发送请求成功!");
+	}
+	function getSmsCodeError()
+	{
+		alert("发送请求失败!");
+	}
+	function getSmsCodeWithPhone(phone) {
+		var url_fix = IP+"/api/users/smscodes?"
+		var url =url_fix+"phone="+phone;
+		$.ajax({
+				type: "GET",
+		        url: url,  
+				success: getSmsCodeSuccess,
+				error: getSmsCodeError
+			});
+	}
+	
+</script>
+<title>注册</title> 
+</head>
+<body style="background-color: white;">
+<div data-role="page" id="login" data-theme="a" class="page_style">
+	<div id="header" data-role="header"   class="header_div">
+		<div style="width: 10%;float: left;">
+			<img  onclick="back();" style="width:13px;height:24px; margin-left: 10px;margin-top: 9px;" class="home_page_left" src="../images/item_grid_header_arrow_icon.png">
+		</div>
+		<div class="home_page_center">
+			注册
+		</div>
+	</div>
+	<div id="content" data-role="content" align="center" class="content_div">
+		<div id="unLogin" style="border:0px;">
+			<div style="margin:3%;">
+				<div  style="width: 100%;line-height:40px; height: 40px;text-align: left;text-shadow: none;margin-top: 10px">
+		 			<div >你的手机号码为：<span id="phonenum"></span></div>
+		 		</div>
+		 		<div style="width: 100%;line-height: 40px;">
+				 	<div style="float: left;width: 47%;" class="forgetpassword_div">
+						<input type="text" id="smscode"  data-role="none" value="验证码"/>
+					</div>
+					<div onclick="smscode();" style="width: 47%;line-height:42px; height: 42px;background-color: #3AB430;text-align: center;text-shadow: none;float: left;margin-left: 10px;">
+						获取验证码
+					</div>
+				</div>
+				<div id="next" onclick="next();" style="width: 100%;line-height:40px; height: 40px;background-color: #3AB430;text-align: center;text-shadow: none;margin-top: 60px">
+					确认
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+</body>
+</html>

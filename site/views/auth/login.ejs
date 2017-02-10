@@ -1,0 +1,56 @@
+
+
+<div class="container">
+    <h3>欢迎登陆XX设备云</h3>
+    <% if (errors.length > 0) {%>
+    <div class="alert alert-danger" role="alert">
+        <% errors.forEach(function (error) { %>
+        <%= __(error) %>
+        <% }) %>
+    </div>
+    <% } %>
+
+    <% if (infos.length > 0) {%>
+    <div class="alert alert-success" role="alert">
+        <% infos.forEach(function (info) { %>
+        <%= __(info) %>
+        <% }) %>
+    </div>
+    <% } %>
+
+    <br>
+    <form role="form" action="/auth/local" method="post">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="exampleInputEmail1">用户名:</label>
+                <input type="text" class="form-control"  name="identifier" placeholder="用户名 或 注册邮件">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="exampleInputEmail1">密码:</label>
+                <input type="password" class="form-control" name="password" placeholder="">
+                <a href="/api/user/reset" class="pull-right">| 忘记密码?</a>
+                <a href="/register" class="pull-right">注册用户&nbsp;</a>
+            </div>
+        </div>
+
+        <div class="form-group col-md-4">
+            <div class="pull-right">
+                <button type="submit" class="btn btn-success">登陆</button>
+                <a href="/home" class="btn btn-default">回首页 →</a>
+            </div>
+        </div>
+    </form>
+
+
+    <br>
+    <br>
+    <h4>第三方登陆：</h4>
+    <hr>
+    <% Object.keys(providers).forEach(function (key) { %>
+    <a href="/auth/<%= providers[key].slug %>" role="button"><%= providers[key].name %></a>
+    <% }) %>
+
+</div>

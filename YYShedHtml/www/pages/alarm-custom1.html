@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+	<title>下拉刷新示例</title>
+</head>
+<style>
+    .form-size {
+        width: 260px;
+        height: 240px;
+        background-color: #fff;
+        border: 1px solid #CCC;
+        border-radius: 4px;
+        padding-left:10px;
+        cursor: pointer;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+
+    .form-size:hover {
+        border-color: #999999;
+    }
+    .col-md-3
+    {
+    	float: left;
+min-height: 1px;
+padding-left: 10px;
+padding-right: 10px;
+     } 
+    .control-label{padding-top: 8px;padding-bottom: 0px;}
+</style>
+<body>
+<div style="background-color: #e7e7e7" >
+    <div style="margin-left: 10px">
+
+            <div class=" form-size">
+                <br>
+                <label class="col-md-3 control-label" style="width: 60px">低电量</label>
+
+                <div style="width: 60%;float: left;">
+                     <label>
+                        <input type="checkbox" > 一级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;°C
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 二级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;%
+                    </label><br>
+                </div>
+            </div>
+
+            <div class=" form-size">
+                <br>
+                <label class="col-md-3 control-label" style="width: 75px">空气高温</label>
+
+                <div style="width: 60%;float: left;">
+                    <label>
+                        <input type="checkbox" > 一级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;°C
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 二级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;°C
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 三级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;°C
+                    </label>
+
+                </div>
+
+                <label class="col-md-3 control-label" style="width: 75px">空气低温</label>
+
+                <div style="width: 60%;float: left;">
+                    <label>
+                        <input type="checkbox" > 一级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;°C
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 二级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;°C
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 三级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;°C
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group form-size">
+                <br>
+                <label class="col-md-3 control-label" style="width: 60px">高湿度</label>
+
+                <div style="width: 70%;float: left;">
+                   <label>
+                        <input type="checkbox" > 一级
+                        <input type="text" style="width: 60px">&nbsp;%RH
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 二级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;%RH
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 三级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;%RH
+                    </label>
+
+                </div>
+                <label class="col-md-3 control-label" style="width: 60px">低湿度</label>
+
+                <div style="width: 60%;float: left;">
+                    <label>
+                        <input type="checkbox" > 一级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;%RH
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 二级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;%RH
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 三级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;%RH
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group form-size">
+                <br>
+                <label class="col-md-3 control-label" style="width: 75px">co高浓度</label>
+
+                <div style="width: 60%;float: left;">
+                    <label>
+                        <input type="checkbox" > 一级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;ppm
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 二级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;ppm
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 三级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;ppm
+                    </label>
+
+                </div>
+                <label class="col-md-3 control-label" style="width: 75px">co低浓度</label>
+
+                <div style="width: 60%;float: left;">
+                    <label>
+                        <input type="checkbox" > 一级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;ppm
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 二级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;ppm
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 三级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;ppm
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group form-size">
+                <br>
+                <label class="col-md-3 control-label" style="width: 80px">co2高浓度</label>
+
+                <div style="width: 60%;float: left;">
+                    <label>
+                        <input type="checkbox" > 一级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;ppm
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 二级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;ppm
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 三级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;ppm
+                    </label>
+
+                </div>
+                <label class="col-md-3 control-label" style="width: 80px">co2低浓度</label>
+
+                <div style="width: 60%;float: left;">
+                    <label>
+                        <input type="checkbox"> 一级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;ppm
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 二级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;ppm
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 三级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;ppm
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group form-size">
+                <br>
+                <label class="col-md-3 control-label" style="width: 75px">土壤高温</label>
+
+                <div style="width: 60%;float: left;">
+                    <label>
+                        <input type="checkbox" > 一级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;°C
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 二级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;°C
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 三级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;°C
+                    </label>
+
+                </div>
+                <label class="col-md-3 control-label" style="width: 75px">土壤低温</label>
+
+                <div style="width: 60%;float: left;">
+                    <label>
+                        <input type="checkbox" > 一级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;°C
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 二级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;°C
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 三级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;°C
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group form-size">
+                <br>
+                <label class="col-md-3 control-label" style="width: 75px">土壤高湿</label>
+
+                <div style="width: 60%;float: left;">
+                    <label>
+                        <input type="checkbox" > 一级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;%RH
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 二级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;%RH
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 三级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;%RH
+                    </label>
+
+                </div>
+                <label class="col-md-3 control-label" style="width: 75px">土壤低湿</label>
+
+                <div style="width: 60%;float: left;">
+                    <label>
+                        <input type="checkbox" > 一级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;%RH
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 二级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;%RH
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 三级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;%RH
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group form-size">
+                <br>
+                <label class="col-md-3 control-label" style="width: 60px">高光照</label>
+
+                <div style="width: 60%;float: left;">
+                    <label>
+                        <input type="checkbox" > 一级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;Lux
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 二级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;Lux
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 三级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;Lux
+                    </label>
+
+                </div>
+                <label  class="col-md-3 control-label" style="width: 60px">低光照</label>
+
+                <div style="width: 60%;float: left;">
+                    <label>
+                        <input type="checkbox" > 一级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;Lux
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 二级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;Lux
+                    </label><br>
+                    <label>
+                        <input type="checkbox" > 三级
+                        <input type="text" style="width: 60px">&nbsp;&nbsp;Lux
+                    </label>
+                    
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<style>
+  .tile-channel-title {
+    font-size: medium;
+    font-weight: bold;
+    background:rgb(48, 48, 48);
+    border-bottom-right-radius: 10px;
+  }
+
+  .tile-channel-body {
+    border-top: 1px solid grey;
+    border-right: 1px solid grey;
+    /*border-left: 1px solid grey;*/
+    margin-bottom: 5px;
+    font-size: x-large;
+  }
+
+  .border-left-grey {
+    border-left: 1px solid grey;
+  }
+
+  .border-right-grey {
+    border-right: 1px solid grey;
+  }
+
+  .am-color {
+    color:rgb(215, 203, 84)
+  }
+
+  .fm-color {
+    color: rgb(112, 216, 208);
+  }
+
+  .tile-channel-top {
+    font-size: xx-small;
+    font-weight:normal;
+    line-height: 10px;
+    padding-bottom: 5px;
+  }
+
+  .font-normal {
+    font-weight:normal !important;
+  }
+
+  .badge {
+    padding: 2px 2px;
+  }
+
+  .online {
+    color: rgb(112, 210, 112) !important;
+  }
+
+  .freq-select {
+    background-color: rgb(86, 154, 184);
+    color: #fff;
+  }
+
+  .radius {
+    border-radius: 15px;
+  }
+
+  .shortcut-tiles .tiles-body i {
+    font-size: 10px;
+  }
+
+  .light-blue {
+    color: rgb(109, 163, 216) !important;
+  }
+
+  .small-font {
+    font-size: small
+  }
+
+  .grey-font {
+    color: rgb(169, 164, 164)
+  }
+
+  .hand {
+    cursor: pointer;
+  }
+
+</style>
+
+<div class="shortcut-tiles tiles-inverse">
+  <div class="tiles-body" style="border-radius: 12px">
+    <div class="row">
+      <div class="col-md-2 tile-channel-top text-center hidden-sm hidden-xs">
+        <span ng-show="devinfo.common.online">
+          <i class="fa fa-circle online"></i>&nbsp;<span class="grey-font">在线</span>
+        </span>
+        <span ng-show="!devinfo.common.online">
+          <i class="fa fa-circle"></i>&nbsp;<span class="grey-font">离线</span>
+        </span>
+
+        &nbsp;<i class="fa fa-database"></i>&nbsp;<span class="grey-font">{{devinfo.common.ssd_usage}}</span>
+      </div>
+      <div ng-repeat="chn in devinfo.components" class="col-md-1 tile-channel-top text-center hidden-sm hidden-xs">
+        <!--<span class="badge badge-orange font-normal">{{chn.enctype}}</span>-->
+        <span class="badge font-normal"
+              ng-class="{'badge-orange':chn.enctype == 'aac', 'badge-info':chn.enctype == 'mp3' }">
+          {{chn.enctype}}
+        </span>
+
+        <span class="badge badge-danger font-normal">{{(chn.bitrate / 1000)+'k'}}</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2 tile-channel-title text-center">
+        <span class="">{{devinfo.common.dev_name}}</span>
+      </div>
+      <div ng-repeat="chn in devinfo.components" class="col-md-1 col-sm-1 tile-channel-body text-center">
+        <span class="hand"
+              ng-class="{'fm-color':chn.mode == 'fm','am-color':chn.mode == 'am', 'freq-select': curselect == (devinfo.common.dev_uuid + chn.components_id)}"
+              ng-click="select(devinfo.common.dev_uuid, chn.components_id)">
+          {{chn.freq}}
+        </span>
+        <span class="visible-xs visible-sm">&nbsp; <i class="fa fa-ellipsis-v"></i>&nbsp;<span class="label label-orange">{{chn.mode}}</span></span>
+        <span class="visible-xs visible-sm">&nbsp; <i class="fa fa-ellipsis-v"></i>&nbsp;通道&nbsp;{{chn.components_id}}</span>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-2 tile-channel-top text-center">
+        <i class="fa fa-cloud-upload"></i>&nbsp;<span class="grey-font">{{devinfo.common.uploading_speed}}</span>
+        &nbsp;&nbsp;<i class="fa fa-info-circle"></i>&nbsp;<span class="grey-font">{{devinfo.common.version}}</span>
+      </div>
+
+      <div ng-repeat="chn in devinfo.components" class="col-md-1 tile-channel-top text-center hidden-sm hidden-xs">
+        <i class="fa fa-ellipsis-v"></i>&nbsp;通道&nbsp;{{chn.components_id}}
+      </div>
+
+    </div>
+  </div><!--tiles-body-->
+</div><!--shortcut-tiles-->
+
+
+
+

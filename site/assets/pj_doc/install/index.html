@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Forza">
+    <meta name="author" content="Ndevr Studios Ltd.">
+	<title>Forza Documentation</title>
+    
+	<link href="assets/style.css" rel="stylesheet" type="text/css" media="all">
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	  <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
+	<![endif]-->
+  </head>
+  <body id="top" data-spy="scroll" data-target="#navbar-demo" data-offset="81"> 
+
+	<!-- Fixed navbar -->
+	<div class="navbar navbar-default navbar-fixed-top" id="navbar-demo">
+	  <div class="container">
+		<div class="navbar-header">
+		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+			<span class="fa fa-bar"></span>
+			<span class="fa fa-bar"></span>
+			<span class="fa fa-bar"></span>
+		  </button>
+		  <a class="navbar-brand" href="#top">Forza</a>
+		</div>
+		<div class="navbar-collapse collapse">
+		  <ul class="nav navbar-nav">
+			<li class="active"><a href="#top">Home</a></li>
+			<li><a href="#markup">Markup</a></li>
+			<li><a href="#styles">Styles</a></li>
+			<li><a href="#javascript">Javascript</a></li>
+			<li><a href="#fonts">Fonts</a></li>
+			<li><a href="#plugins">Plugins</a></li>
+			<li><a href="#tips">Tips</a></li>
+			<li style="display:none"><a href="#changelog"></a></li>
+		  </ul>
+		  <ul class="nav navbar-nav navbar-right">
+			<!-- <li><a href="#">Theme Link</a></li> -->
+		  </ul>
+		</div><!--/.nav-collapse -->
+	  </div>
+	</div>
+
+	<div class="container">
+
+	  <!-- Main component for a primary marketing message or call to action -->
+	  <div class="jumbotron">
+		<h1 class="text-center"><img src="assets/logo-big.png" alt="Forza"> <small>Documentation</small></h1>
+		<p class="text-center">A modern, powerful admin template built with AngularJS</p>
+		<div class="well"><p><small>Thank you for purchasing our theme. If you have any questions that are beyond the scope of this help file, please feel free to email us!</small></p></div>
+		<div class="row">
+		  <div class="col-md-4"><a href="http://themeforest.net/item/forza-admin-app-with-angularjs/8408668" target="_blank" class="btn btn-lg btn-block btn-primary">Item URL</a></div>
+		  <div class="col-md-4"><a href="#changelog" class="btn btn-lg btn-block btn-success">Changelog</a></div>
+		  <div class="col-md-4"><a href="#contact" class="btn btn-lg btn-block btn-danger">Contact</a></div>
+		</div>
+	  </div>
+
+		<div class="table-responsive">
+			<table class="table" id="versioninfo">
+				<tr>
+					<th>Author:</th>
+					<td>Ndevr Studios</td>
+					<th>Author URL:</th>
+					<td><a href="http://themeforest.net/user/ndevrstudios">@Themeforest</a></td>
+					<th>Theme Version:</th>
+					<td>1.1</td>
+					<th>Created:</th>
+					<td>30 Jul 2014</td>
+				</tr>
+				<tr>
+					<th>Contact:</th>
+					<td><a href="mailto:ndevrstudios@gmail.com">ndevrstudios@gmail.com</a></td>
+					<!-- <th>Theme URL:</th> -->
+					<!-- <td><a href="http://themeforest.net/item/">@Forza</a></td> -->
+					<th></th>
+					<td></td>
+					<th>Documentation Version:</th>
+					<td>1.1</td>
+					<th>Modified:</th>
+					<td>11 Aug 2014</td>
+				</tr>
+			</table>
+		</div>
+
+<section>
+	<div id="markup"></div><!--putting scrollspy links fixes issues with having a fixed topbar -->
+	<div class="page-header">
+		<h1>Installation <small>Get Forza up and running</small></h3>
+	</div>
+	<p>The easiest way to get Forza up and running is with the <code>prebuilt</code> folder we've provided.</p>
+	<p>First you'll need an HTTP server. If you're on Windows, check out <a href="https://www.apachefriends.org/index.html" target="_blank">XAMPP</a>.</p>
+	<p>Once you've installed an Apache server, just paste the <code>prebuilt</code> in the <code>htdocs</code> folder. Now visit <code>http://localhost/prebuilt/</code> and Forza should be up and running!</p>
+	<div class="page-header">
+		<h1>Build <small>On the build flow of Forza</small></h3>
+	</div>
+		<p>Forza is built with the modern build flow that incorporates Bower and Grunt to automate the build process.</p>
+		<p><span class="label label-primary">NOTE</span> If you wish to skip building the project manually just use the <code>prebuilt</code> folder instead that doesn't require this step.</p>
+		<p><span class="label label-primary">NOTE</span> we assume you already have Node/NPM installed on your system.</p>
+		<div class="row">
+			<div class="col-md-12">
+				<h3>Installing Grunt</h3>
+				<p>First install Grunt command line interface</p>
+<pre>
+npm install -g grunt-cli
+</pre>
+				<p>The necessary <code>package.json</code> and <code>Gruntfile.js</code> are already there in the folder.</p>
+				<h3>Installing Grunt Dependencies</h3>
+				<p>Once Grunt is installed, cd to the project folder and run:</p>
+<pre>
+npm install
+</pre>
+				<p>This will install the necessary dependencies for running Grunt tasks.</p>
+				<h3>Installing Bower</h3>
+				<p>Run the following command to install Bower globally:</p>
+<pre>
+npm install -g bower
+</pre>
+				<p>Now you have Bower installed!</p>
+				<h3>Installing Bower Dependencies</h3>
+				<p>Now you should install the Bower packages required by Forza. To do this:</p>
+<pre>
+bower install
+</pre>
+				<p>It'll install all the necessary packages for Forza in the <code>app/bower_components</code> folder.</p>
+				<h3>Building the project</h3>
+				<p>When you want to build the project for production, simply run</p>
+<pre>
+grunt
+</pre>
+				<p>You may have to use <code>sudo</code> if you lack permissions.</p>
+			</div>
+		</div>
+
+	<div class="page-header">
+		<h1>Markup <small>Markup customization and highlights</small></h3>
+	</div>
+		<p>The theme is fluid layout with 12 columns. The left sidebar is removed from the grid and is fixed. The right sidebar appears on top of site and is also not a part of the grid. All content should go inside #page-content > #wrap.</p>
+		<div class="row">
+			<div class="col-sm-3">
+				<h3>General Markup</h3>
+				<p>The general template structure is the same throughout the template. Here is the general structure.</p>
+			</div>
+			<div class="col-sm-9">
+				<div class="detailedcontent">
+<pre class="prettyprint linenums">
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;&lt;!--insert all stylesheet links --&gt;&lt;/head&gt;
+&lt;body&gt;
+  &lt;header class=&quot;navbar navbar-inverse&quot; role=&quot;banner&quot;&gt;
+    &lt;!-- All header links, including sidebar triggers and drop downs--&gt;
+  &lt;/header&gt;
+  &lt;div id=&quot;page-container&quot;&gt;
+    &lt;nav id=&quot;page-leftbar&quot; role=&quot;navigation&quot;&gt;
+      &lt;!-- sidebar items go here --&gt;
+    &lt;/nav&gt;
+    &lt;div id=&quot;page-rightbar&quot;&gt;
+      &lt;!-- righbar widgets go here --&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;page-content&quot;&gt;
+      &lt;div id=&quot;wrap&quot; ng-view&gt;&lt;!-- where page content is loaded via AJAX! --&gt;
+        &lt;div id=&quot;page-heading&quot;&gt;&lt;!-- page heading content--&gt;&lt;/div&gt;
+        &lt;div class=&quot;container&quot;&gt;&lt;!-- Content begins here--&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;footer role=&quot;contentinfo&quot;&gt;&lt;!--Footer--&gt;&lt;/footer&gt;
+  &lt;!-- scripts are loaded here --&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3">
+				<h3>Partial Views</h3>
+				<p>Standard naming convention</p>
+			</div>
+			<div class="col-sm-9">
+				<div class="detailedcontent">
+					<p>Wildcard routes look for a .html file with the name matching the URL segment after the <code>#/</code>.</p>
+					<p>So, when you hit the URL <code>#/layout-fixed</code>, Forza will make a request to the server for <code>layout-fixed.html</code> partial view file located in <code>app/views/</code>.</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3">
+				<h3>Fixed/Boxed Layout</h3>
+			</div>
+			<div class="col-sm-9">
+				<div class="detailedcontent">
+					<p>You can easily make a fixed/boxed layout by adding the <code>fixed-layout</code> class to the body in the above code. You can change the width of the boxed layout and the background from the <em>variables.less</em> file.</p>
+
+					<p>In JavaScript, you can use the provided <code>$global</code> service to turn on boxed layout with <code>$global.set('layoutBoxed', true)</code>.</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3">
+				<h3>Fullscreen Layout</h3>
+			</div>
+			<div class="col-sm-9">
+				<div class="detailedcontent">
+					<p>The <code>body</code> needs a <code>focusedform</code> class to turn on fullscreen mode.</p>
+
+					<p>To do this, turn on <code>fullscreen</code> with <code>$global.set('fullscreen', true)</code>.</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3">
+				<h3>Horizontal Layout</h3>
+			</div>
+			<div class="col-sm-9">
+				<div class="detailedcontent">
+					<p>The <code>body</code> needs a <code>layout-horizontal</code> class to use the horizontal layout.</p>
+
+					<p>To turn on horizontal layout programmatically, use <code>$global.set('layoutHorizontal', true)</code>.</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3">
+				<h3>Navigation</h3>
+				<p>Left sidebar navigation controls</p>
+			</div>
+			<div class="col-sm-9">
+				<div class="detailedcontent">
+					<p>Forza has a unique and completely data-driven navigation system keeping true to the Angular methodology. Therefore, it's split between <code>view</code> and <code>model</code> parts.</p>
+					<p>First, the <code>view</code> is set up to recursively render the menu items using the <code>templates/nav_renderer.html</code> template snippet.</p>
+<pre class="prettyprint linenums">
+  &lt;ul ng-controller=&quot;NavigationController&quot; id=&quot;sidebar&quot;&gt;
+      &lt;li ng-repeat=&quot;item in menu&quot;
+          ng-class=&quot;{ hasChild: (item.children!==undefined),
+                        active: item.selected,
+                          open: (item.children!==undefined) &amp;&amp; item.selected }&quot;
+          ng-include=&quot;&#039;templates/nav_renderer.html&#039;&quot;
+        &gt;&lt;/li&gt;
+  &lt;/ul&gt;
+</pre>
+					<p>Note that the behavior is driven by the <code>NavigationController</code> controller. This is defined in the <code>app/scripts/controllers/Navigation.js</code> file.</p>
+					<p>Here's how menu items are built in JS:</p>
+<pre class="prettyprint linenums">
+$scope.menu = [
+    {
+        label: &#039;Dashboard&#039;,
+        iconClasses: &#039;fa fa-home&#039;,
+        url: &#039;#/&#039;,
+        html: &#039;&lt;span class=&quot;badge badge-indigo&quot;&gt;4&lt;/span&gt;&#039;,
+    },
+    {
+        label: &#039;Layout Options&#039;,
+        iconClasses: &#039;fa fa-cog&#039;,
+        children: [
+            {
+                label: &#039;Grids&#039;,
+                url: &#039;#/layout-grid&#039;
+            },
+            {
+                label: &#039;Horizontal Navigation&#039;,
+                url: &#039;#/layout-horizontal&#039;
+            },
+            {
+                label: &#039;Horizontal Navigation 2&#039;,
+                url: &#039;#/layout-horizontal2&#039;
+            },
+            {
+                label: &#039;Fixed Boxed Layout&#039;,
+                url: &#039;#/layout-fixed&#039;
+            }
+        ]
+    }
+
+...
+
+]
+</pre>
+				<p>Navigation heirarchies are defined through the <code>children</code> property and thus can be extended to infinite depths!</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3">
+				<h3>Horizontal Navigation</h3>
+				Forza comes with two Horizontal Navigation options
+			</div>
+			<div class="col-sm-9">
+				<div class="detailedcontent">
+					<p>General markup styles can for horizontal navigation can be achieved by using the <code>horizontal-nav</code> class on the body as such</p>
+<pre class="prettyprint linenums">
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;&lt;!--insert all stylesheet links --&gt;&lt;/head&gt;
+&lt;body class=&quot;horizontal-nav&quot&gt;
+  &lt;header class=&quot;navbar navbar-inverse&quot; role=&quot;banner&quot;&gt;
+    &lt;!-- All header links, including sidebar triggers and drop downs--&gt;
+  &lt;/header&gt;
+  &lt;div id=&quot;page-container&quot;&gt;
+  &lt;nav class=&quot;navbar navbar-default andromdea-dropdown&quot; role=&quot;navigation&quot;&gt;
+	&lt;div class=&quot;navbar-header&quot;&gt;
+	  &lt;button type=&quot;button&quot; class=&quot;navbar-toggle&quot; data-toggle=&quot;collapse&quot; data-target=&quot;.collapsenav&quot;&gt;
+	    &lt;span class=&quot;sr-only&quot;&gt;Toggle navigation&lt;/span&gt;
+	    &lt;span class=&quot;fa fa-bar&quot;&gt;&lt;/span&gt;
+	    &lt;span class=&quot;fa fa-bar&quot;&gt;&lt;/span&gt;
+	    &lt;span class=&quot;fa fa-bar&quot;&gt;&lt;/span&gt;
+	  &lt;/button&gt;
+	&lt;/div&gt;
+
+	&lt;div class=&quot;collapse navbar-collapse collapsenav&quot; id=&quot;horizontal-navbar&quot;&gt;
+	  &lt;ul class=&quot;nav navbar-nav&quot;&gt;
+	    &lt;li class=&quot;active&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;i class=&quot;fa fa-dashboard&quot;&gt;&lt;/i&gt; &lt;span&gt;Dashboard&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+	    ...
+	  &lt;/ul&gt;
+	&lt;/div&gt;
+  &lt;/nav&gt;
+    &lt;div id=&quot;page-rightbar&quot;&gt;
+      &lt;div id=&quot;widgetarea&quot;&gt;&lt;!-- all rightbar widgets --&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;page-content&quot;&gt;
+      &lt;div id=&quot;wrap&quot;&gt;
+        &lt;div id=&quot;page-heading&quot;&gt;&lt;!-- page heading content--&gt;&lt;/div&gt;
+        &lt;div class=&quot;container&quot;&gt;&lt;!-- Content begins here--&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;footer role=&quot;contentinfo&quot;&gt;&lt;!--Footer--&gt;&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<p>If you wish to have the large icon navigation simply add <code>large-icons-nav</code> class to the <code>#horizontal-navigation</code> div</p>
+				</div>
+			</div>
+		</div>
+</section>
+
+
+<section>
+	<div class="page-header">
+		<h1 id="styles">Styles <small>Styles customization and highlights</small></h1>
+	</div>
+	<p><span class="label label-info">Heads up!</span> The theme is built using <a href="http://lesscss.org">LESS</a>. However you should precompile the files in CSS for improved performance in production. We recommend <a href="http://winless.org/">WinLESS</a></p>
+	
+	<div class="row">
+		<div class="col-sm-3">
+			<h3>Stylesheets</h3> <p>The locations and filenames of the stylesheets</p>
+		</div>
+		<div class="col-sm-9">
+			<div class="detailedcontent">
+			<p>All the .less files are located in <em>assets/less/</em> directory of the admin theme and are called via <em>styles.less</em> file. Forza code and Bootstrap code are kept separate so that you can easily switch to a new Bootstrap version by overwriting the files at <em>assets/less/bootstrap/</em>.</p>
+			<p>The few files that have been heavily edited are:</p>
+			<div class="responsive">
+				<table class="table table-striped">
+					<tr>
+						<td>variables.less</td>
+						<td>Bootstrap's variables.less, with additional variables for Forza</td>
+					</tr>
+					<tr>
+						<td>navbar.less</td>
+						<td>Bootstrap's navbar.less file, heavily modified</td>
+					</tr>
+					<tr>
+						<td>layout.less</td>
+						<td>Handles the layout &amp; left sidebar of the theme.</td>
+					</tr>
+					<tr>
+						<td>topnav.less</td>
+						<td>The topnav dropdowns</td>
+					</tr>
+					<tr>
+						<td>leftbar.less</td>
+						<td>The left sidebar navigation and search</td>
+					</tr>
+					<tr>
+						<td>rightbar.less</td>
+						<td>The right sidebar, widget area and chatbox</td>
+					</tr>
+					<tr>
+						<td>panels.less</td>
+						<td>Completely redone to support tabs</td>
+					</tr>
+					<tr>
+						<td>tiles.less</td>
+						<td>the Tiles component</td>
+					</tr>
+					<tr>
+						<td>apps.less</td>
+						<td>A few plugins used for the theme has their style modified to use with the theme. Those codes are available here.</td>
+					</tr>
+					<tr>
+						<td>forza-mixins.less</td>
+						<td>Mixins used in Forza and in some cases modification of bootstrap's mixins.</td>
+					</tr>
+					<tr>
+						<td>feeds.less</td>
+						<td>The CSS for the Feeds Panel and To Do</td>
+					</tr>
+					<tr>
+						<td>timeline.less</td>
+						<td>The CSS for Timeline apge</td>
+					</tr>
+					<tr>
+						<td>tabs.less</td>
+						<td>The CSS for the inline tabs and accordions</td>
+					</tr>
+					<tr>
+						<td>demo.less</td>
+						<td>Some styles used in displaying the demo, but no need for a fresh install</td>
+					</tr>
+				</table>
+
+				<p>The following files are modification on top of Bootstrap's codes</p>
+
+				<table class="table table-striped">
+					<tr>
+						<td>extend-core.less</td>
+						<td>scaffolding, type, code, grid, tables, forms, buttons</td>
+					</tr>
+					<tr>
+						<td>extend-common.less</td>
+						<td>dropdown, list-groups, wells, close</td>
+					</tr>
+					<tr>
+						<td>extend-nav.less</td>
+						<td>navs, button-groups, breadcrumbs, paginations, pager</td>
+					</tr>
+					<tr>
+						<td>extend-popover.less</td>
+						<td>modals, tooltips, popovers</td>
+					</tr>
+					<tr>
+						<td>extend-misc.less</td>
+						<td>alerts, thumbnails, labels, badges, progressbars, input groups...</td>
+					</tr>
+				</table>
+			</div>
+			<p>A pre-compiled <em>style.css</em> is provided in case you are not comfortable with LESS. It is minified at <em>styles.min.css</em></p>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<h3>Fundamental styles</h3>
+			<p>The classes and elements used in Forza</p>
+		</div>
+		<div class="col-sm-9">
+			<div class="detailedcontent">
+				<p>You can take a look at <a href="http://getbootstrap.com/css/">Bootstrap 3.2 Documentation</a> for an extensive how to on how to use the theme and style the elements. Since the theme is based on top of BS 3.2, all the examples are valid albit styled differently</p>
+				<p>A large part of the theme can be customized with the included <em>varialbles.less</em> file</p>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<h3>Color Variations</h3>
+			<p>Changing the default</p>
+		</div>
+		<div class="col-sm-9">
+			<div class="detailedcontent">
+				<p>If you want to change the default color variation, simply comment out the current variation and uncomment any of the six other variation provided from <code>variables.less</code></p>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section>
+	<div class="page-header">
+		<h1 id="javascript">Javascript <small>JavaScript customization</small></h1>
+	</div>
+	<div class="row">
+		<div class="col-sm-3">
+			<h3>Scripts</h3> <p>The location and filenames if the javascript files</p>
+		</div>
+		<div class="col-sm-9">
+			<div class="detailedcontent">
+				<p>The JavaScript files essential for the theme are located in the <code>app/scripts</code> folder.</p>
+				<div class="responsive-tables">
+					<table class="table table-striped">
+						<tr>
+							<td>app.js</td>
+							<td>Primary "entrypoint." It defines all dependencies and handles routing and temlpate behaviors.</td>
+						</tr>
+						<tr>
+							<td>controllers/*.js</td>
+							<td>Essential Angular controllers. Handles the basic behavior of the theme such as navigation.</td>
+						</tr>
+						<tr>
+							<td>shared/Directives.js</td>
+							<td>Defines all the common directives to be used throughout the webapp.</td>
+						</tr>
+						<tr>
+							<td>shared/Services.js</td>
+							<td>Common services used by the theme are defined here.</td>
+						</tr>
+						<tr>
+							<td>templates/templates.js</td>
+							<td>Cached templates for fast rendering. Cached version of files found in <code>app/views/templates/*.html</code> files.<br>
+								<span class="label label-primary">Note</span> You must run <code>grunt ngtemplates</code> to see the changes made to html files.
+							</td>
+						</tr>
+						<tr>
+							<td>templates/overrides.js</td>
+							<td>Use this file to put all the template customizations.</td>
+						</tr>
+						<tr>
+							<td>app/assets/plugins/misc/<a href="http://lesscss.org">less.js</a></td>
+							<td>The LESS pre-processor. It is removed for production and replaced by compiled CSS instead.</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-3">
+			<h3>The <code>$global</code> service</p>
+		</div>
+		<div class="col-sm-9">
+			<div class="detailedcontent">
+				<p>Forza comes with an Angular service named <code>$global</code> which you can inject into any controller that wishes to change global template properties.</p>
+				<p>This hopes provide a singular entrypoint for all UI properties that may need to be changed without relying on nesting scopes.</p>
+				<p>For example, you use the following line to change into fullscreen layout and restore previous layout on scope destroy:</p>
+				<pre class="prettyprint">
+    $global.set(&#039;fullscreen&#039;, true);
+
+    $scope.$on(&#039;$destroy&#039;, function () {
+      $global.set(&#039;fullscreen&#039;, false);
+    });
+				</pre>
+				<p>Any other controllers listening for changes to service properties will be notified of this change.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section>
+	<div class="page-header">
+		<h1 id="fonts">Fonts <small>Custom Fonts</small></h1>
+	</div>
+	<div class="row">
+		<div class="col-sm-3">
+			<h3>Webfonts</h3>
+			<p>Spice up your site with webfonts!</p>
+		</div>
+		<div class="col-sm-9">
+			<div class="detailedcontent">
+<pre class="prettyprint linenums">
+&lt;script type=&quot;text/javascript&quot;&gt;
+  WebFontConfig = {
+  };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })(); &lt;/script&gt;
+</pre>
+<p>Or alternatively</p>
+<pre class="prettyprint">
+</pre>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-3">
+			<h3>Icon Font</h3> <p>Loation of the icon fonts</p>
+		</div>
+		<div class="col-sm-9">
+			<div class="detailedcontent">
+				<p>Forza uses <a href="fontawesome.github.io/Font-Awesome/">FontAwesome</a> icon library as default.</p>
+				<p>The library is included as a less file in the main <i>styles.less</i></p>
+				<p>If you want to separately include the FontAwesome library, you must include the CSS file from <pre class="prettyprint">&lt;link href=&quot;assets/fonts/font-awesome/css/font-awesome.min.css&quot; rel=&quot;stylesheet&quot;&gt;</pre>
+				<p>If you wish to, however, you can include the font set from the following CDN</p>
+				<pre class="prettyprint">&lt;link href=&quot;//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.min.css&quot; rel=&quot;stylesheet&quot;&gt;</pre>
+				<p>To include the glyphicon iconset, you must similarly include the CSS file from the link below. Note that Font-Awesome is used primarily in Forza and you might need to modify Forza significantly to move to this iconset. However, you can use Glyphicon and Font-Awesome side-by-side</p><pre class="prettyprint">&lt;link href=&quot;assets/fonts/glyphicons/css/glyphicons.css&quot; rel=&quot;stylesheet&quot;&gt;</pre>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+<section>
+	<div class="page-header">
+		<h1 id="plugins">Plugins <small>Third-party plugins used to enhance the theme</small></h1>
+	</div>
+	<div class="row">
+		<div class="col-sm-3">
+			<h3>Plugins</h3>
+		</div>
+		<div class="col-sm-9">
+			<div class="detailedcontent">
+				<p>Plugins used through Bower or found in <em>assets/plugins</em> folder. Explore the documentation of each plugins for your answers on how to use them.</p>
+				<p>Neither Ndevr Studios or Forza claim any credits or responsibility of the use of these plugins. Any support regarding the plugins should be directed to the makers of the plugin</p>
+				<div class="detailedcontent">
+					<div class="responsive">
+						<table class="table table-striped">
+							<tr>
+								<td width="25%"><a href="https://github.com/flowjs/ng-flow">ng-flow</a></td>
+								<td>Powerful multifile uploader for AngularJS</td>
+							</tr>
+							<tr>
+								<td width="25%"><a href="http://angular-ui.github.io/ng-grid/">ng-grid</a></td>
+								<td>Advanced Tables for AngularJS</td>
+							</tr>
+							<tr>
+								<td width="25%"><a href="https://github.com/JimLiu/angular-ui-tree">angular-ui-tree</a></td>
+								<td>Flexible tree-views for AngularJS</td>
+							</tr>
+							<tr>
+								<td width="25%"><a href="http://www.oesmith.co.uk/morris.js/">charts-morrisjs</a></td>
+								<td>Creates beautiful charts in canvas</td>
+							</tr>
+							<tr>
+								<td>Prettify's code with highlighting</td>
+							</tr>
+							<tr>
+								<td><a href="http://www.jacklmoore.com/autosize/">form-autosize</a></td>
+								<td>Automatically adjusts text-size area</td>
+							</tr>
+							<tr>
+								<td><a href="http://ckeditor.com">form-ckeditor</a></td>
+								<td>Advanced WYSIWYG Editor</td>
+							</tr>
+							<tr>
+								<td><a href="http://burakson.github.io/fseditor/">form-fseditor</a></td>
+								<td>jQuery Fullscreen Editor plugin transforms textfields to customizable editors, either it can be used within a form or standalone.</td>
+							</tr>
+							<tr>
+								<td><a href="http://www.eyecon.ro/bootstrap-colorpicker/">form-colorpicker</a></td>
+								<td>Colorpicker</td>
+							</tr>
+							<tr>
+								<td><a href="https://github.com/dangrossman/bootstrap-daterangepicker">form-datrangeepicker</a></td>
+								<td>Selecting Date Range</td>
+							</tr>
+							<tr>
+								<td><a href="https://github.com/RobinHerbots/jquery.inputmask">form-inputmask</a></td>
+								<td>An inputmask helps the user with the input by ensuring a predefined format.</td>
+							</tr>
+							<tr>
+								<td><a href="http://loudev.com/">form-multiselect</a></td>
+								<td>Userfriendly drop-in replacement for standard <code>select</code></td>
+							</tr>
+							<tr>
+								<td><a href="http://parsleyjs.org">form-parsley</a></td>
+								<td>Front-end UX-aware form-validation.</td>
+							</tr>
+							<tr>
+								<td><a href="http://jquerypulsate.kilianvalkhof.com/">jQuery.pulsate</a></td>
+								<td>jQuery.pulsate.js adds a pulsating effect to elements.</td>
+							</tr>
+							<tr>
+								<td><a href="http://jonathandanielmiles.com/bootstrap-datepaginator/">Date Paginator</a></td>
+								<td>Adds date functions to bootstrap's pagination using jQuery</td>
+							</tr>
+							<tr>
+								<td><a href="http://deepliquid.com/content/Jcrop.html">jCrop</a></td>
+								<td>jQuery Image Cropping Plugin</td>
+							</tr>
+							<tr>
+								<td><a href="clu3.github.io/bootstro.js/">bootsto.js</a></td>
+								<td>Show your users a guided tour of what is what on a page.</td>
+							</tr>
+							<tr>
+								<td><a href="http://vitalets.github.io/angular-xeditable/">Angular-xeditable</a></td>
+								<td>Create editable elements on your page</td>
+							</tr>
+							<tr>
+								<td><a href="https://github.com/eternicode/bootstrap-datepicker‎">Bootstrap Datepicker</a></td>
+								<td>A datepicker for Twitter bootstrap</td>
+							</tr>
+							<tr>
+								<td><a href="http://bootboxjs.com/">Bootbox</a></td>
+								<td>Create programmatic dialog boxes using Twitter’s Bootstrap modals without managing DOM elements</td>
+							</tr>
+							<tr>
+								<td><a href="https://github.com/angular-ui/ui-select2">angular-ui-select2</a></td>
+								<td>
+									<p>Advanced select boxes for AngularJS</p>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="https://github.com/cgarvis/angular-toggle-switch">angular-toggle-switch</a></td>
+								<td>Toggle buttons for AngularJS</td>
+							</tr>
+							<tr>
+								<td><a href="https://github.com/seiyria/bootstrap-slider">bootstrap-slider</a></td>
+								<td>Slider module for AngularJS</td>
+							</tr>
+							<tr>
+								<td><a href="http://arshaw.com/fullcalendar/">fullcalendar</a></td>
+								<td>Full sized Calendar plugin</td>
+							</tr>
+							<tr>
+								<td><a href="http://hpneo.github.io/gmaps/">gmaps</a></td>
+								<td>
+									<p>Google Maps API made simple</p>
+									<p>Please check <code>app/scripts/maps/GoogleMaps.js</code> for the wrapper service written for AngularJS for Forza.</p>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="https://github.com/brandonaaron/jquery-mousewheel">jquery-mousewheel</a></td>
+								<td>Crossbrowser mousewheel support. For input boxes.</td>
+							</tr>
+							<tr>
+								<td><a href="http://fgelinas.com/code/timepicker/">jqueryui-timepicker</a></td>
+								<td>Based on the existing jQuery date picker, the timepicker will blend nicely with your form and use your selected jQuery UI theme.</td>
+							</tr>
+							<tr>
+								<td><a href="jqvmap.com">jqvmap</a></td>
+								<td>Resizable and scalable vector maps</td>
+							</tr>
+							<tr>
+								<td><a href="http://anthonyterrien.com/knob/">knob</a></td>
+								<td>Touch enabled jQuery dial</td>
+							</tr>
+							<tr>
+								<td><a href="http://mixitup.io">mixitup</a></td>
+								<td>A lightweight and powerful filter and sort plugin which provides beautiful animations</td>
+							</tr>
+							<tr>
+								<td><a href="http://skylo.s3-website-ap-southeast-1.amazonaws.com/">progress-skylo</a></td>
+								<td>Progressbar at the top of the page</td>
+							</tr>
+							<tr>
+								<td><a href="http://omnipotent.net/jquery.sparkline/">sparklines</a></td>
+								<td>Generate inline charts</td>
+							</tr>
+							<tr>
+								<td><a href="http://github.com/wbotelhos/stepy">stepy</a></td>
+								<td>A jQuery wizard plugin</td>
+							</tr>
+							<tr>
+								<td><a href="http://jqueryvalidation.org/">form-validation</a></td>
+								<td>This jQuery plugin makes simple clientside form validation easy, whilst still offering plenty of customization options. This plugin is needed if you are using the the stepy for form wizard validation.</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-3">
+			<h3>Compability Fixes</h3>
+		</div>
+		<div class="col-sm-9">
+			<div class="detailedcontent">
+				<p>Some plugins listed requires special modifications to work with Bootstrap 3, and thus, the theme.</p>
+				<h4>Form Wizard / Stepy</h4>
+				<p>Add the following line of code after you call the <code>.stepy()</code> plugin. This ensures that the back and next buttons are properly indented to the <code>panel-footer</code>. <em>jQuery.steppy.js</em> has been lightly modified with classnames used in Bootstrap 3</p>
+<pre class="prettyprint linenums">
+$('.stepy-navigator').wrapInner('&lt;div class=&quot;pull-right&quot;&gt;&lt;/div&gt;');
+</pre>
+				<h4>Form Validation / jQuery Validation</h4>
+				<p>Add these properties to the jQuery Validation plugin to make it work with Forza. Note that this is not the plugin demonstrated in the Form Validation demo of the site but just with the wizard. The jQuery Validator support is built in to the Wizard</p>
+<pre class="prettyprint linenums">
+$('#form').validate({
+    errorClass: "help-block",
+    validClass: "help-block",
+    highlight: function(element, errorClass,validClass) {
+       $(element).closest('.form-group').addClass("has-error");
+    },
+    unhighlight: function(element, errorClass,validClass) {
+        $(element).closest('.form-group').removeClass("has-error");
+    }
+});
+</pre>
+				<h4>Form Validation / Parsley</h4>
+				<p>Add these properties whenever you use Parsley</p>
+<pre class="prettyprint linenums">
+//Parsley Form Validation
+//While the JS is not usually required in Parsley, we will be modifying
+//the default classes so it plays well with Bootstrap
+$('#vform).parsley({
+    successClass: 'has-success',
+    errorClass: 'has-error',
+    errors: {
+        classHandler: function(el) {
+            return $(el).closest('.form-group');
+        },
+        errorsWrapper: '&lt;ul class=\&quot;help-block list-unstyled\&quot;&gt;&lt;/ul&gt;',
+        errorElem: '&lt;li&gt;&lt;/li&gt;'
+    }
+});
+</pre>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section>
+	<div class="page-header">
+		<h1 id="tips">Theme Tips <small>Make the most out of Forza</small></h1>
+	</div>
+	<div class="row">
+
+		<div class="col-sm-3">
+			<p>Always show navigation arrows instead of when just hovering</p>
+		</div>
+		<div class="col-sm-9">
+			<p>Find and change the first instance of <code>#sidebar:hover li.hasChild>a:before, #sidebar:hover li.hasChild.open>a:before</code> in the file layout.less and remove all <code>:hover</code> references</p>
+			<hr>
+		</div>
+	
+		<div class="col-sm-3">
+			<p>Leverage LESS Mixins</p>
+		</div>
+		<div class="col-sm-9">
+			<p>Create as many different colors schemes of panels or buttons as you want!</p>
+			<p>Simply change and add the variables in <em>panels.less</em> file:</p>
+	
+<pre class="prettyprint linenums">.panel-color { 
+  .panel-variated(@heading-text-color, @heading-bg-color, @heading-border);
+}</pre>
+
+	For Buttons in <em>buttons.less</em>:
+<pre class="prettyprint linenums">.btn-color {
+  .btn-pseudo-states(@btn-default-color, @btn-default-bg, @btn-default-border);
+}</pre>
+
+	For Alternative Buttons:
+<pre class="prettyprint linenums">.btn-color-alt {
+  .btn-alt-states(@border);
+}</pre>
+
+	For alerts in <em>alerts.less</em>:
+<pre class="prettyprint linenums">.alert-color {
+  .alert-variant(@background; @border; @text-color);
+}</pre>
+
+	For labels in <em>labels.less</em>:
+<pre class="prettyprint linenums">.label-color {
+  .label-variant(@color);
+}</pre>
+
+	For progressbars in <em>progress-bars.less</em>:
+<pre class="prettyprint linenums">.progress-color {
+  .progress-bar-variant(@color);
+}</pre>
+	
+		</div>
+		<div class="col-sm-3">
+			<h3>Internet Explorer</h3>
+			<p>8 and below</p>
+		</div>
+		<div class="col-sm-9">
+			<div class="detailedcontent">
+				<p>For supporting IE8 and below, please include the following in your header</p>
+<pre class="prettyprint linenums">
+&lt;!--[if lt IE 9]&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;assets/css/ie8.css&quot;&gt;
+  &lt;script type=&quot;text/javascript&quot; src=&quot;http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot; src=&quot;assets/plugins/charts-flot/excanvas.min.js&quot;&gt;&lt;/script&gt;
+&lt;![endif]--&gt;
+</pre>
+				<p>Respond.js, which makes Bootstrap IE8 compatible, is inherently incompatible with LESS.js because of how they work (<a href="http://stackoverflow.com/questions/8141696/how-can-i-make-respond-js-and-less-js-play-nice-together">learn more</a>). If you want your site to function properly in IE8 we strongly recommend that you compile your LESS files into a CSS file - it also improves performance!</p>
+				<p>The included <em>assets/js/placeholdr.js</em> adds drop-in HTML5 placeholder support for input boxes. However, it must be executed after jQuery</p>
+			</div>
+		</div>
+		
+	</div>
+</section>
+
+<section>
+	<div class="page-header">
+		<h1 id="FAQ">FAQ</h1>
+	</div>
+	<h3>What is LESS and how do I use it?</h3>
+	<p><a href="http://lesscss.org/">LESS</a> is a CSS Pre-Processor. In simple terms, LESS allows you to write CSS in a smarter way by combining functions, mixins, operations and more. This means you write more concise style information and can reuse things like colors and styles more easily.</p>
+
+
+	<p>More to the point, all the .less files are in assets/less directory of the theme. Browsers cannot read less files as is, which is why we need to compile it into css. There are many applications which can serve this purpse (<a href="http://winless.org/">WinLESS</a>, <a href="http://wearekiss.com/simpless">SimpLESS</a>) or you can also use javascript to read less directly (slower, we recommend compiling into css first in production environment).</p>
+
+</section>
+
+<section>
+	<div class="page-header">
+		<h1 id="changelog">Changelog</h1>
+	</div>
+	<div class="table-responsive">
+	<table class="table table-bordered table-striped table-condensed">
+			<thead>
+				<tr>
+					<td width="7%">Version</td>
+					<td width="18%">Date</td>
+					<td width="75%">Info</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>v1.1</td>
+					<td>11th August 2014</td>
+					<td>
+						CSS optimization bugs removed<br>
+						Grunt flow updated<br>
+						Lazy loading added<br>
+						Progress loader added on page transitions<br>
+						Gallery updated<br>
+						Documentation updated<br>
+						Minor bugfixes<br>
+						General optimizations<br>
+					</td>
+				</tr>
+				<tr>
+					<td>v1.0</td>
+					<td>30th July 2014</td>
+					<td>Initial Release</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
+
+
+<section>
+	<div class="page-header">
+		<h1 id="contact">Contact &amp; more!</h1>
+	</div>
+	<p>Please feel free to email with your questions at <a href="mailto:ndevrstudios@gmail.com">ndevrstudios@gmail.com</a> or post in the <a href="http://themeforest.net/item/forza-admin-app-with-angularjs/8408668" target="_blank">item discussion</a> page in Themeforest</p>
+	<p>We will be making more admin themes in the future, so if you have any suggestions we are open all ears! And if you can send us links or screenshots of your implimentation that would be really helpful in developing better themes in the future</p>
+</section>
+
+
+<hr>
+<p>Once again, thank you so much for purchasing this theme! We request you to rate the theme 5-stars if you like it, and if you don't, just shoot us an email or post your question in the Item Discussion section before you vote so we can solve your issues regarding the theme first.</p>
+
+<footer style="background:none; color:inherit">
+	<hr>
+	<p>&copy; 2014 Ndevr Studios Ltd.</p>
+</footer>
+
+	</div> <!-- /container -->
+
+
+	<!-- Bootstrap core JavaScript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script type="text/javascript" src="assets/jquery-1.8.1.min.js"></script>
+	<script type="text/javascript" src="assets/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/prettify.js"></script>
+	<script type="text/javascript">
+		$(function(){
+		  jQuery( document ).ready( function() {
+		    prettyPrint();
+		  });
+
+		  var voffset = 80;
+			$('.navbar li a').click(function(event) {
+			    event.preventDefault();
+			    $($(this).attr('href'))[0].scrollIntoView();
+			    scrollBy(0, -voffset);
+			});
+		});
+	</script>
+  </body>
+</html>

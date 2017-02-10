@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5">
+
+<script type="text/javascript" src="../jm/jquery.min.js"></script>  
+<link rel="stylesheet" href="../css/core.css" />
+<link rel="stylesheet" href="../css/page.css" />
+<script type="text/javascript" src="../jm/jquery.mobile.min.js"></script>  
+<script type="text/javascript" charset="utf-8" src="../js/core.js" ></script>
+<script type="text/javascript" charset="utf-8" src="../js/page.js" ></script>
+<script type="text/javascript">
+	var phone = getQueryString("phone");
+	var sms_code =  getQueryString("sms_code");
+	$(document).ready(function(){
+		
+	});
+	function back()
+	{
+		window.history.go(-1);
+	}
+	function next()
+	{
+		var username = document.getElementById("username").value;
+		var password = document.getElementById("password").value;
+		var againpsd = document.getElementById("againpsd").value;
+		if(password == againpsd)
+		{
+			register(username,password);
+		}
+		else
+		{
+			alert("两次密码不一致!");
+		}
+	}
+	function registerSuccess()
+	{
+		alert("注册成功!");
+	}
+	function registerError()
+	{
+		alert("注册失败!");
+	}
+	function register(username,password) {
+		var url_fix = IP+"/api/users/phones";
+		var checkData = {username:username,password:password,phone:phone,sms_code:sms_code};
+		$.ajax({
+				type: "POST",
+		        url: url,  
+		        data: checkData,
+				success: registerSuccess,
+				error: registerError
+			});
+	}
+	
+</script>
+<title>注册</title> 
+</head>
+<body style="background-color: white;">
+<div data-role="page" id="login" data-theme="a" class="page_style">
+	<div id="header" data-role="header"   class="header_div">
+		<div style="width: 10%;float: left;">
+			<img  onclick="back();" style="width:13px;height:24px; margin-left: 10px;margin-top: 9px;" class="home_page_left" src="../images/item_grid_header_arrow_icon.png">
+		</div>
+		<div class="home_page_center">
+			注册
+		</div>
+	</div>
+	<div id="content" data-role="content" align="center" class="content_div">
+		<div id="unLogin" style="border:0px;">
+			<div style="margin:3%;">
+				<div  style="width: 100%;line-height:40px; height: 40px;text-align: left;text-shadow: none;margin-top: 10px">
+		 			<div >请设置你的密码：</div>
+		 		</div>
+		 		<div class="forgetpassword_div">
+					<input type="text" id="username"  data-role="none" value="用户名"/>
+				</div>
+				<div style="margin-top: 5px;" class="forgetpassword_div">
+					<input type="text" id="password"  data-role="none" value="密码"/>
+				</div>
+				<div style="margin-top: 5px;" class="forgetpassword_div">
+					<input type="text" id="againpsd"  data-role="none" value="重复密码"/>
+				</div>
+				<div  style="width: 100%;text-align: left;text-shadow: none;margin-top: 10px">
+		 			<div >密码为6-16位，可以由英文字母，数字符号构成，区分大小写</div>
+		 		</div>
+				<div id="next" onclick="next();" style="width: 100%;line-height:40px; height: 40px;background-color: #3AB430;text-align: center;text-shadow: none;margin-top: 5px">
+					完成
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+</body>
+</html>

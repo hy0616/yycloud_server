@@ -1,0 +1,505 @@
+<style>
+
+    .panel .panel-heading h4 {
+        color: #000 !important;
+    }
+
+    .text-dark {
+        color: grey;
+    }
+
+    .sensor-panel {
+        background-color: rgb(245, 244, 244);
+        padding: 6px 12px;
+        margin-top: 4px;
+        border-radius: 5px;
+        height: 50px;
+        /*padding:0 8px;*/
+    }
+
+    th, td {
+        min-width: 100px;
+    }
+
+</style>
+
+<div class="col-sm-10" ng-controller="DashboardController as DashCtrl">
+    <br>
+    <tabset style="width:94%" panel-tabs="true" panel-class="panel-white" heading="">
+        <!--<tab active="tab.active">-->
+        <!--<tab ng-controller="MapController" select="dashboardTabSelected('map')">-->
+        <tab ng-click="DashCtrl.tabSelected('map')">
+            <tab-heading ng-class="{'grey_bottom':DashCtrl.maptabActive}">
+                <i class="fa fa-map-marker text-dark" style="font-size:1.1em"></i>
+            </tab-heading>
+
+            <div id="dashmap" style="height:600px;"></div>
+        </tab>
+
+        <tab ng-controller="DevTableController" ng-click="DashCtrl.tabSelected('list')">
+            <tab-heading ng-class="{'grey_bottom':DashCtrl.listtabActive}">
+                <i class="fa fa-list-ul text-dark" style="font-size:1.1em"></i>
+            </tab-heading>
+
+            <div class="row">
+                <div class="col-md-1" style="text-align:center;padding-top:5px;font-weight:bold">
+                    <span>省份：</span>
+                </div>
+
+                <div class="col-md-1" ng-repeat="province in province_list">
+                    <bottom class="btn btn-default btn-sm"
+                            ng-class="{'btn-info': curProvince == province.name}"
+                            ng-click="selectProvince(province.name)">
+                        {{province.name}}-{{province.count}}
+                    </bottom>
+                </div>
+
+            </div>
+
+            <div class="row" style="margin-top:10px">
+                <div class="col-md-1" style="text-align:center;padding-top:5px;font-weight:bold">
+                    <span>城市：</span>
+                </div>
+
+                <div class="col-md-1" ng-repeat="city in city_list">
+                    <bottom class="btn btn-default btn-xs"
+                            ng-class="{'btn-info':curCity == city.name}"
+                            ng-click="selectCity(city.name)">
+                        {{city.name}}({{city.count}})
+                    </bottom>
+                </div>
+
+            </div>
+
+            <div class="row" style="margin-top:10px">
+                <div class="col-md-1" style="text-align:center;padding-top:5px;font-weight:bold">
+                    <span>区域：</span>
+                </div>
+
+                <div class="col-md-1" ng-repeat="district in district_list">
+                    <bottom class="btn btn-default btn-xs"
+                            ng-class="{'btn-info':curDistrict == district.name}"
+                            tooltip-placement="top"
+                            tooltip="{{district.name}}({{district.count}})"
+                            style="margin-bottom:5px"
+                            ng-click="selectDistricts(district.name)">
+                        {{district.name}}({{district.count}})
+                    </bottom>
+                </div>
+
+            </div>
+            <hr>
+
+            <div class="row" style="margin-top:10px;height:400px">
+                <div class="col-md-1" style="text-align:left;padding-top:2px;font-weight:bold">
+                    <span>大棚列表</span>
+                </div>
+                <!--dev_list:{{dev_list}}-->
+                <div class="col-md-1" ng-repeat="dev in dev_list">
+                    <bottom class="btn btn-default btn-xs"
+                            ng-class="{'btn-info':curCity == dev.dev_name}"
+                            tooltip-placement="top"
+                            tooltip="{{dev.dev_name}}"
+                            style="margin-bottom:5px"
+                            ng-click="selectDev(dev.sn)">
+                        <i class="fa fa-code-fork"></i>&nbsp;{{dev.dev_name}}
+                    </bottom>
+                </div>
+
+            </div>
+
+        </tab>
+    </tabset>
+
+</div>
+
+<div class="col-sm-10" style="width:78%" ng-controller="DashCurController" ng-show="curTabname == 'map'">
+
+    <panel panel-class="panel-white" heading="大棚概况" style="width:80%">
+        <panel-controls>
+            <!--<a href="javascript:;"><i class="fa fa-cog"></i></a>-->
+            <!--<a href="javascript:;"><i class="fa fa-wrench"></i></a>-->
+            <a href="">
+                <panel-control-collapse class="fa fa-chevron-down"></panel-control-collapse>
+            </a>
+        </panel-controls>
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="sensor-panel" style="background-color: rgb(250, 247, 214);margin-bottom:8px">
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span>大棚名称：{{curGreenHouse.smartgate.dev_name}}</span>
+                        </div>
+
+                        <div class="col-md-3">
+                            <span>种植作物：{{curGreenHouse.smartgate.plant_name}}</span>
+                        </div>
+
+                        <div class="col-md-2">
+                            <span>种植时间：{{plant_time}}</span>
+                        </div>
+
+                        <div class="col-md-3">
+                            <span> 预计收获时间：{{harvest_time}}</span>
+                        </div>
+
+                        <div class="col-md-1">
+                            <i ng-show="curGreenHouse"
+                               class="fa fa-refresh"
+                               ng-class="{'fa-spinner': refreshing == true, 'fa-refresh':refreshing == false}"
+                               ng-click="refresh()"
+                               style="float:right;margin-right:25px;margin-top:5px ; font-size: 20px"></i>&nbsp;
+                        </div>
+
+                    </div>
+
+                    <!--<i class="fa fa-refresh pull-right"></i>&nbsp;-->
+
+                    <div class="row">
+
+                        <div class="col-md-3">
+          <span>大棚面积：
+            <span class="text-info" odometer="curGreenHouse.smartgate.area"
+                  odometer-options="{theme: 'default', duration: 500}"></span>
+            <span>（平方米）</span>
+          </span>
+                        </div>
+
+                        <div class="col-md-3">
+                          <span> 预计年产量：
+                            <span class="text-info" odometer="curGreenHouse.smartgate.expectation"
+                                  odometer-options="{theme: 'default', duration: 500}"></span>
+                            <span>（公斤）</span>
+                          </span>
+                        </div>
+
+                        <div class="col-md-2">
+                          <span> 实际年产量：
+                            <span class="text-info" odometer="curGreenHouse.smartgate.harvest_weight"
+                                  odometer-options="{theme: 'default', duration: 500}"></span>
+                            <span>（公斤）</span>
+                          </span>
+                        </div>
+
+                        <div class="col-md-3">
+                            <span>版本号 : {{curGreenHouse.smartgate.version}}</span>
+                        </div>
+                    </div>
+                    <!--row-->
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div ng-repeat="item in sort_curGreenHouse" style="float: left">
+                    <li ng-show=" 'humidity-temperature' == item.dev_type"
+                        ng-class="{'offline_block' : item.online_state == 'offline','online_block' : item.online_state == 'online'}">
+                        <div class="price">
+                            <div class="price_figure">
+                                <span class="price_number">{{item.dev_name}}</span>
+                            </div>
+                        </div>
+                        <ul class="features">
+                            <li>设备类型: 温湿度传感器</li>
+                            <li>sn: {{item.sn}}</li>
+                            <li ng-show="item.online_state == 'online'">设备状态: 在线</li>
+                            <li ng-show="item.online_state == 'offline'">设备状态: 离线</li>
+                            <li ng-show="item.dev_alias === '' || item.dev_alias === undefined || item.dev_alias === null || item.dev_alias === 'undefined'">
+                                设备别名: 无别名</li>
+                            <li ng-show="item.dev_alias !== '' && item.dev_alias !== undefined && item.dev_alias !== null && item.dev_alias !== 'undefined'">
+                                设备别名:{{item.dev_alias}}</li>
+                            <li ng-show="item.online_state == 'online'">
+                                温度: <span odometer="item.air_temperature"
+                                          odometer-options="{theme: 'default', duration: 1000}"></span> °C
+                            </li>
+                            <li ng-show="item.online_state == 'offline'">
+                                温度: ----------
+                            </li>
+                            <li ng-show="item.online_state == 'online'">
+                                湿度: <span odometer="item.air_humidity"
+                                          odometer-options="{theme: 'default', duration: 1000}"></span> %HR
+                            </li>
+                            <li ng-show="item.online_state == 'offline'">
+                                湿度: ----------
+                            </li>
+                            <li>最后更新时间: <span class="pull-center" am-time-ago="update_date"> </span></li>
+                        </ul>
+                    </li>
+
+                    <li ng-show=" 'camera' == item.dev_type"
+                        ng-class="{'offline_block' : item.online_state == 'offline','online_block' : item.online_state == 'online'}">
+                        <div class="price">
+                            <div class="price_figure">
+                                <span class="price_number">{{item.dev_name}}</span>
+                            </div>
+                        </div>
+                        <ul class="features">
+                            <li>设备类型: 普通摄像头</li>
+                            <li>sn: {{item.sn}}</li>
+                            <li ng-show="item.online_state == 'online'">设备状态: 在线</li>
+                            <li ng-show="item.online_state == 'offline'">设备状态: 离线</li>
+                            <li ng-show="item.dev_alias === '' || item.dev_alias === undefined || item.dev_alias === null || item.dev_alias === 'undefined'">
+                                设备别名: 无别名</li>
+                            <li ng-show="item.dev_alias !== '' && item.dev_alias !== undefined && item.dev_alias !== null && item.dev_alias !== 'undefined'">
+                                设备别名:{{item.dev_alias}}</li>
+                            <li>最后更新时间: <span class="pull-center" am-time-ago="update_date"> </span></li>
+                        </ul>
+                    </li>
+
+                    <li ng-show=" 'cameraip' == item.dev_type"
+                        ng-class="{'offline_block' : item.online_state == 'offline','online_block' : item.online_state == 'online'}">
+                        <div class="price">
+                            <div class="price_figure">
+                                <span class="price_number">{{item.dev_name}}</span>
+                            </div>
+                        </div>
+                        <ul class="features">
+                            <li>设备类型: 网络摄像头</li>
+                            <li>sn: {{item.sn}}</li>
+                            <li ng-show="item.online_state == 'online'">设备状态: 在线</li>
+                            <li ng-show="item.online_state == 'offline'">设备状态: 离线</li>
+                            <li ng-show="item.dev_alias === '' || item.dev_alias === undefined || item.dev_alias === null || item.dev_alias === 'undefined'">
+                                设备别名: 无别名</li>
+                            <li ng-show="item.dev_alias !== '' && item.dev_alias !== undefined && item.dev_alias !== null && item.dev_alias !== 'undefined'">
+                                设备别名:{{item.dev_alias}}</li>
+                            <li>最后更新时间: <span class="pull-center" am-time-ago="update_date"> </span></li>
+                        </ul>
+                    </li>
+
+                    <li ng-show=" 'erelay' == item.dev_type"
+                        ng-class="{'offline_block' : item.online_state == 'offline','online_block' : item.online_state == 'online'}">
+                        <div class="price">
+                            <div class="price_figure">
+                                <span class="price_number">{{item.dev_name}}</span>
+                            </div>
+                        </div>
+                        <ul class="features">
+                            <li>设备类型: 普通控制器</li>
+                            <li>sn: {{item.sn}}</li>
+                            <li ng-show="item.online_state == 'online'">设备状态: 在线</li>
+                            <li ng-show="item.online_state == 'offline'">设备状态: 离线</li>
+                            <li ng-show="item.status == 1">设备开关: 开</li>
+                            <li ng-show="item.status == 0">设备开关: 关</li>
+                            <li ng-show="item.dev_alias === '' || item.dev_alias === undefined || item.dev_alias === null || item.dev_alias === 'undefined'">
+                                设备别名: 无别名</li>
+                            <li ng-show="item.dev_alias !== '' && item.dev_alias !== undefined && item.dev_alias !== null && item.dev_alias !== 'undefined'">
+                                设备别名:{{item.dev_alias}}</li>
+                            <li>最后更新时间: <span class="pull-center" am-time-ago="update_date"> </span></li>
+                        </ul>
+                    </li>
+
+                    <li ng-show=" 'erelay2' == item.dev_type"
+                        ng-class="{'offline_block' : item.online_state == 'offline','online_block' : item.online_state == 'online'}">
+                        <div class="price">
+                            <div class="price_figure">
+                                <span class="price_number">{{item.dev_name}}</span>
+                            </div>
+                        </div>
+                        <ul class="features">
+                            <li>设备类型: 卷帘机控制器</li>
+                            <li>sn: {{item.sn}}</li>
+                            <li ng-show="item.online_state == 'online'">设备状态: 在线</li>
+                            <li ng-show="item.online_state == 'offline'">设备状态: 离线</li>
+                            <li ng-show="item.dev_alias === '' || item.dev_alias === undefined || item.dev_alias === null || item.dev_alias === 'undefined'">
+                                设备别名: 无别名</li>
+                            <li ng-show="item.dev_alias !== '' && item.dev_alias !== undefined && item.dev_alias !== null && item.dev_alias !== 'undefined'">
+                                设备别名:{{item.dev_alias}}</li>
+                            <li ng-show="item.status == 0">卷帘机状态: 上行</li>
+                            <li ng-show="item.status == 1">卷帘机状态: 下行</li>
+                            <li ng-show="item.status == 2">卷帘机状态: 停止</li>
+                            <li>最后更新时间: <span class="pull-center" am-time-ago="update_date"> </span></li>
+                        </ul>
+                    </li>
+
+                    <li ng-show=" 'illumination' == item.dev_type"
+                        ng-class="{'offline_block' : item.online_state == 'offline','online_block' : item.online_state == 'online'}">
+                        <div class="price">
+                            <div class="price_figure">
+                                <span class="price_number">{{item.dev_name}}</span>
+                            </div>
+                        </div>
+                        <ul class="features">
+                            <li>设备类型: 光照传感器</li>
+                            <li>sn: {{item.sn}}</li>
+                            <li ng-show="item.online_state == 'online'">设备状态: 在线</li>
+                            <li ng-show="item.online_state == 'offline'">设备状态: 离线</li>
+                            <li ng-show="item.dev_alias === '' || item.dev_alias === undefined || item.dev_alias === null || item.dev_alias === 'undefined'">
+                                设备别名: 无别名</li>
+                            <li ng-show="item.dev_alias !== '' && item.dev_alias !== undefined && item.dev_alias !== null && item.dev_alias !== 'undefined'">
+                                设备别名:{{item.dev_alias}}</li>
+                            <li ng-show="item.online_state == 'online'">
+                                光照: <span odometer="item.lux"
+                                          odometer-options="{theme: 'default', duration: 1000}"></span> lux
+                            </li>
+                            <li ng-show="item.online_state == 'offline'">
+                                光照: ----------
+                            </li>
+                            <li>最后更新时间: <span class="pull-center" am-time-ago="update_date"> </span></li>
+                        </ul>
+                    </li>
+
+                    <li ng-show=" 'co' == item.dev_type"
+                        ng-class="{'offline_block' : item.online_state == 'offline','online_block' : item.online_state == 'online'}">
+                        <div class="price">
+                            <div class="price_figure">
+                                <span class="price_number">{{item.dev_name}}</span>
+                            </div>
+                        </div>
+                        <ul class="features">
+                            <li>设备类型: co传感器</li>
+                            <li>sn: {{item.sn}}</li>
+                            <li ng-show="item.online_state == 'online'">设备状态: 在线</li>
+                            <li ng-show="item.online_state == 'offline'">设备状态: 离线</li>
+                            <li ng-show="item.dev_alias === '' || item.dev_alias === undefined || item.dev_alias === null || item.dev_alias === 'undefined'">
+                                设备别名: 无别名</li>
+                            <li ng-show="item.dev_alias !== '' && item.dev_alias !== undefined && item.dev_alias !== null && item.dev_alias !== 'undefined'">
+                                设备别名:{{item.dev_alias}}</li>
+                            <li>最后更新时间: <span class="pull-center" am-time-ago="update_date"> </span></li>
+                        </ul>
+                    </li>
+
+                    <li ng-show=" 'co2' == item.dev_type"
+                        ng-class="{'offline_block' : item.online_state == 'offline','online_block' : item.online_state == 'online'}">
+                        <div class="price">
+                            <div class="price_figure">
+                                <span class="price_number">{{item.dev_name}}</span>
+                            </div>
+                        </div>
+                        <ul class="features">
+                            <li>设备类型: co2传感器</li>
+                            <li>sn: {{item.sn}}</li>
+                            <li ng-show="item.online_state == 'online'">设备状态: 在线</li>
+                            <li ng-show="item.online_state == 'offline'">设备状态: 离线</li>
+                            <li ng-show="item.dev_alias === '' || item.dev_alias === undefined || item.dev_alias === null || item.dev_alias === 'undefined'">
+                                设备别名: 无别名</li>
+                            <li ng-show="item.dev_alias !== '' && item.dev_alias !== undefined && item.dev_alias !== null && item.dev_alias !== 'undefined'">
+                                设备别名:{{item.dev_alias}}</li>
+                            <li>最后更新时间: <span class="pull-center" am-time-ago="update_date"> </span></li>
+                        </ul>
+                    </li>
+
+                    <li ng-show=" 'soil-th' == item.dev_type"
+                        ng-class="{'offline_block' : item.online_state == 'offline','online_block' : item.online_state == 'online'}">
+                        <div class="price">
+                            <div class="price_figure">
+                                <span class="price_number">{{item.dev_name}}</span>
+                            </div>
+                        </div>
+                        <ul class="features">
+                            <li>设备类型: 土壤温湿度传感器</li>
+                            <li>sn: {{item.sn}}</li>
+                            <li ng-show="item.online_state == 'online'">设备状态: 在线</li>
+                            <li ng-show="item.online_state == 'offline'">设备状态: 离线</li>
+                            <li ng-show="item.dev_alias === '' || item.dev_alias === undefined || item.dev_alias === null || item.dev_alias === 'undefined'">
+                                设备别名: 无别名</li>
+                            <li ng-show="item.dev_alias !== '' && item.dev_alias !== undefined && item.dev_alias !== null && item.dev_alias !== 'undefined'">
+                                设备别名:{{item.dev_alias}}</li>
+                            <li ng-show="item.online_state == 'online'">
+                                温度: <span odometer="item.soil_temperature"
+                                          odometer-options="{theme: 'default', duration: 1000}"></span> °C
+                            </li>
+                            <li ng-show="item.online_state == 'offline'">
+                                温度: ----------
+                            </li>
+                            <li ng-show="item.online_state == 'online'">
+                                湿度: <span odometer="item.soil_humidity"
+                                          odometer-options="{theme: 'default', duration: 1000}"></span> %HR
+                            </li>
+                            <li ng-show="item.online_state == 'offline'">
+                                湿度: ----------
+                            </li>
+                            <li>最后更新时间: <span class="pull-center" am-time-ago="update_date"> </span></li>
+                        </ul>
+                    </li>
+
+                    <li ng-show=" 'smoke' == item.dev_type"
+                        ng-class="{'offline_block' : item.online_state == 'offline','online_block' : item.online_state == 'online'}">
+                        <div class="price">
+                            <div class="price_figure">
+                                <span class="price_number">{{item.dev_name}}</span>
+                            </div>
+                        </div>
+                        <ul class="features">
+                            <li>设备类型: 烟雾传感器</li>
+                            <li>sn: {{item.sn}}</li>
+                            <li ng-show="item.online_state == 'online'">设备状态: 在线</li>
+                            <li ng-show="item.online_state == 'offline'">设备状态: 离线</li>
+                            <li ng-show="item.dev_alias === '' || item.dev_alias === undefined || item.dev_alias === null || item.dev_alias === 'undefined'">
+                                设备别名: 无别名</li>
+                            <li ng-show="item.dev_alias !== '' && item.dev_alias !== undefined && item.dev_alias !== null && item.dev_alias !== 'undefined'">
+                                设备别名:{{item.dev_alias}}</li>
+                            <li ng-show="item.online_state == 'online'">
+                                烟雾浓度: <span odometer="item.smoke"
+                                          odometer-options="{theme: 'default', duration: 1000}"></span> PPM
+                            </li>
+                            <li ng-show="item.online_state == 'offline'">
+                                烟雾浓度: ----------
+                            </li>
+                            <li>最后更新时间: <span class="pull-center" am-time-ago="update_date"> </span></li>
+                        </ul>
+                    </li>
+
+                </div>
+
+              <!--  <li ng-show="falsh_data" class="online_block">
+                    <div class="price">
+                        <div class="price_figure">
+                            <span class="price_number">土壤酸碱度</span>
+                        </div>
+                    </div>
+                    <ul class="features">
+                        <li>设备类型:土壤酸碱度传感器</li>
+                         <li>sn: 0000000000000021</li>
+                        <li>设备状态: 在线</li>
+                        <li>设备别名: 无别名</li>
+                        <li>土壤酸碱度: 7.5 pH</li>
+                        <li>最后更新时间: <span class="pull-center" am-time-ago="update_date"> </span></li>
+                    </ul>
+                </li>
+
+                <li ng-show="falsh_data" class="online_block">
+                    <div class="price">
+                        <div class="price_figure">
+                            <span class="price_number">土壤水分</span>
+                        </div>
+                    </div>
+                    <ul class="features">
+                        <li>设备类型: 土壤水分传感器</li>
+                        <li>sn: 000000000000000025</li>
+                        <li>设备状态: 在线</li>
+                        <li>设备别名: 无别名</li>
+                        <li>土壤水分: 21.5 %</li>
+                        <li>最后更新时间: <span class="pull-center" am-time-ago="update_date"> </span></li>
+                    </ul>
+                </li>
+
+                <li ng-show="falsh_data" class="online_block">
+                    <div class="price">
+                        <div class="price_figure">
+                            <span class="price_number">土壤温度</span>
+                        </div>
+                    </div>
+                    <ul class="features">
+                        <li>设备类型: 土壤温度传感器</li>
+                        <li>sn: 000000000000000015</li>
+                        <li>设备状态: 在线</li>
+                        <li>设备别名: 无别名</li>
+                        <li>土壤温度: 7.6 °C</li>
+                        <li>最后更新时间: <span class="pull-center" am-time-ago="update_date"> </span></li>
+                    </ul>
+                </li>-->
+
+            </div>
+
+
+            <!--repeat item done-->
+        </div>
+
+    </panel>
+</div><!-- col-sm-10 -->
+
+
+

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>云洋监测</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="qc:admins" content="5701516423475461561167414163757">
+
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../bower_components/jquery/dist/jquery.min.js"><\/script>')</script>
+    <script src="assets/plugins/login/simple_storage.js"></script>
+    <script>
+
+        if( $.localStorage('yy.token') ) {
+          window.location = "/main"
+        }
+
+      //$.localStorage('yy.token') ? window.location = "/main" : window.location = "/login";
+      
+    </script>
+     <link rel="stylesheet" href="assets/plugins/login/login_page.css" />
+    <link rel="stylesheet" href="assets/plugins/jquery.toast.min.css" />
+        
+    <style>
+      .mt10 {
+      margin-top:10px;
+      }
+
+      .mt60 {
+       margin-top:60px;
+      }
+      .mt50 {
+       margin-top:50px;
+      }
+      
+      .br20 {
+      border-radius: 20px;
+      }
+      .new-user {
+      //height:55px;
+      position:relative;
+      }
+
+      .new-user .line {
+      position:absolute;
+      border-bottom:1px solid rgb(157, 226, 195);
+      width:300px;
+      top:10%;
+      left:25%;
+      cursor: pointer;
+      }
+
+      .forget-passwd {
+        margin-left:30%;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom:50px;
+        padding-top:10px;
+      }
+
+      .forget-passwd:hover {
+      color:white;
+      cursor: pointer;
+      }
+      
+      .register-form {
+      display:none;
+      }
+      .reset-form {
+      display:none;
+      }
+
+      .transparent-btn {
+      color: white;
+      background-color: rgba(255, 255, 255, 0.3);
+      }
+
+      .transparent-btn:hover {
+      color:grey;
+      background-color: rgba(255, 255, 255, 0.8);
+      }
+
+      .register-smscode-field {
+      display:none;
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <div class="wrapper">
+	    <div class="container">
+		    <h3 style="color:white;">- 云洋监测 -</h3>
+
+
+        <form class="form login-form">
+          <p class="mt10">
+            <input placeholder="用户名" onfocus="this.placeholder = ''" onblur="this.placeholder = '用户名'"  type="text" class="js-login-user"/>
+          </p>
+
+          <p class="mt10">
+            <input type="password" onfocus="this.placeholder = ''" onblur="this.placeholder = '密码'" placeholder="密码" class="js-login-passwd"/>
+          </p>
+
+          <div class="new-user">
+            <div class="line"></div>
+          </div>
+
+         <div class="forget-passwd js-forget-btn">忘记密码?</div>
+          
+          <p class="">
+            <button type="submit" class="br20" id="login-button">登陆</button>
+          </p>
+          <br>
+          <p>
+            <button type="button" class="transparent-btn js-register-btn br20">注册</button>
+          </p>
+
+        </form>
+
+        <form class="form reset-form">
+          <h5>请输入您的注册电子邮箱:</h5>
+
+          <p class="mt10">
+            <input type="text" class="reset-val"/>
+          </p>
+           
+
+          <div class="new-user">
+            <div class="line"></div>
+          </div>
+          
+          <p class="mt50">
+            <button type="button" class="br20" id="reset-button">确认</button>
+          </p>
+          <br>
+          <p>
+            <button type="button" class="transparent-btn js-go-login-page br20">返回</button>
+          </p>
+
+        </form>
+
+        
+        <form class="form register-form">
+          <p class="mt10">
+            <input placeholder="用户名"
+                   class="js-register-user"
+                   onfocus="this.placeholder = ''"
+                   onblur="this.placeholder = '用户名'"
+                   type="text">
+          </p>
+
+          <p class="mt10">
+            <input placeholder="密码"
+                   class="js-register-passwd"
+                   onfocus="this.placeholder = ''"
+                   onblur="this.placeholder = '密码'"
+                   type="password">
+          </p>
+
+          <p class="mt10">
+            <input placeholder="密码确认"
+                   class="js-register-passwd2"
+                   onfocus="this.placeholder = ''"
+                   onblur="this.placeholder = '密码确认'"
+                   type="password">
+          </p>
+
+          <p class="mt10">
+            <input placeholder="手机号码（可选）"
+                   class="js-register-phone"
+                   onfocus="this.placeholder = ''"
+                   onblur="this.placeholder = '手机号码（可选）'"
+                   type="text">
+          </p>
+
+          <p class="mt10">
+            <input placeholder="手机验证码"
+                   class="register-smscode-field js-register-smscode"
+                   onfocus="this.placeholder = ''"
+                   onblur="this.placeholder = '手机验证码'"
+                   type="text">
+          </p>
+
+          <p class="mt10">
+            <input placeholder="电子邮箱（可选）"
+                   class="js-register-email"
+                   onfocus="this.placeholder = ''"
+                   onblur="this.placeholder = '电子邮箱（可选）'"
+                   type="email">
+          </p>
+
+          <div class="new-user">
+            <div class="line"></div>
+          </div>
+
+          <p class="mt50">
+            <button type="submit" id="register-btn" class="button br20">注 册</button>
+          </p>
+          <br>
+          <p>
+            <button type="button" class="transparent-btn js-go-login-page br20">返 回</button>
+          </p>
+
+        </form>
+
+	    </div>
+
+      <ul class="bg-bubbles">
+		    <li></li>
+		    <li></li>
+		    <li></li>
+		    <li></li>
+		    <li></li>
+		    <li></li>
+		    <li></li>
+		    <li></li>
+		    <li></li>
+		    <li></li>
+	    </ul><!--bg-bubbles-->
+
+    </div><!--wrapper-->
+
+    <!-- <script src="//cdn.bootcss.com/jquery-form-validator/2.2.1/jquery.form-validator.min.js"></script> -->
+
+    <script src="assets/plugins/jquery.toast.min.js"></script>
+
+    <script src="//cdn.bootcss.com/velocity/1.2.2/velocity.js"></script>
+    <script src="//cdn.bootcss.com/velocity/1.2.2/velocity.ui.min.js"></script>
+
+    <script src="../bower_components/is_js/is.min.js"></script>
+    <script src="assets/plugins/login/login.js"></script>
+
+    <!-- <script type="text/javascript" -->
+    <!--         src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" -->
+    <!--         data-appid="101230076" -->
+    <!--         data-redirecturi="http://yycloud.yunyangdata.com/" charset="utf-8"> -->
+    <!-- </script> -->
+    
+    <script type="text/javascript">
+      //QC.Login({
+        //btnId:"qqLoginBtn"	//插入按钮的节点id
+      //});
+    </script>
+
+
+  </body>
+</html>

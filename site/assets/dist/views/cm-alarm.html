@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <tabset panel-tabs="true" panel-class="panel-color">
+                <tab>
+                    <tab-heading>报警预览</tab-heading>
+                    <div ng-controller="AlarmController">
+
+                        <div class="total">
+                            <div class="header"></div>
+
+                            <div class="leftbar">
+                                <ul class="nav">
+                                    <li>
+                                        <a href="" ng-click="unread()"> 未读信息</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="" ng-click="onread()"> 已读信息</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="rightbar">
+                                <div class="gridStyle" data-ng-grid="gridOptions"></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </tab>
+                <tab>
+                    <tab-heading>报警设置</tab-heading>
+                    <div ng-include="'views/alarm-SetDisplay.html'"></div>
+                </tab>
+                <tab>
+                    <tab-heading>预案设置</tab-heading>
+                    <div ng-include="'views/alarm-custom.html'"></div>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<tr>
+    <td ></td>
+    <td>2级</td>
+    <td>40%</td>
+  </tr>
+   <tr>
+    <td>高电量 </td>
+    <td>1级</td>
+    <td>20.0% </td>
+  </tr>
+  <tr>
+    <td ></td>
+    <td>2级</td>
+    <td>40%</td>
+  </tr>
+    <tr>
+    <td>高电量 </td>
+    <td>1级</td>
+    <td>20.0% </td>
+  </tr>
+  <tr>
+    <td ></td>
+    <td>2级</td>
+    <td>40%</td>
+  </tr>

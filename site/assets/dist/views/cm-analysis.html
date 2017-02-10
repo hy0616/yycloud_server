@@ -1,0 +1,287 @@
+<html>
+<head></head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <!--<div class="panel panel-sky">-->
+            <!--<div class="panel panel-inverse">-->
+            <div class="panel panel-white">
+                <div class="panel-heading">
+                    <h4><i class="fa fa-bar-chart-o"></i>&nbsp;统计分析</h4>
+                </div>
+                <div class="panel-body" ng-controller="AnalysisController">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3" style="color:grey">
+                                <!--今天 | 本周 | 本月-->
+                                <div class="btn-group">
+                                    <label class="btn btn-default btn-xs bold" ng-click="selectDateRange('today')"
+                                           ng-model="dayModel" btn-radio="'today'" uncheckable="">今天 </label>
+                                    <label class="btn btn-default btn-xs bold" ng-click="selectDateRange('week')"
+                                           ng-model="dayModel" btn-radio="'week'" uncheckable="">本周 </label>
+                                    <label class="btn btn-default btn-xs bold" ng-click="selectDateRange('month')"
+                                           ng-model="dayModel" btn-radio="'month'" uncheckable="">本月 </label>
+                                    <label ng-click="isDateStaffCollapsed = true" class="btn btn-default btn-xs bold"
+                                           ng-model="dayModel" btn-radio="'custom'" uncheckable="">自定义 </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-4" style="text-align: center;color:rgb(10, 132, 95)">
+                                {{dateTimeTitle}}
+                            </div>
+                            <div class="btn-group" style="float:right;margin-right:20px;">
+                                <label class="btn btn-default btn-xs bold" ng-click="updateChartType('area')"
+                                       ng-model="typeModel" btn-radio="'area'" uncheckable="">面积图</label>
+                                <label class="btn btn-default btn-xs bold" ng-click="updateChartType('column')"
+                                       ng-model="typeModel" btn-radio="'column'" uncheckable="">柱状图</label>
+                                <label class="btn btn-default btn-xs bold" ng-click="updateChartType('line')"
+                                       ng-model="typeModel" btn-radio="'line'" uncheckable="">线图</label>
+                                <label class="btn btn-default btn-xs bold" ng-click="updateChartSize('scope2')"
+                                       ng-model="sizeModel" btn-radio="'scope2'" uncheckable=""><i
+                                        class="fa fa-circle"></i>&nbsp;小时</label>
+                                <label ng-show="range == 'today' || range == 'week' "
+                                       class="btn btn-default btn-xs bold" ng-click="updateChartSize('scope1')"
+                                       ng-model="sizeModel" btn-radio="'scope1'" uncheckable=""><i
+                                        class="fa fa-clock-o"></i>&nbsp;20分钟</label>
+                                <label ng-show="range == 'today'" class="btn btn-default btn-xs bold"
+                                       ng-click="updateChartSize('scope0')" ng-model="sizeModel" btn-radio="'scope0'"
+                                       uncheckable=""><i class="fa fa-clock-o"></i>&nbsp;5分钟</label>
+                            </div>
+                        </div>
+                        <!--row-->
+                        <div ng-show="showNotSelectError" class="alert alert-danger" style="margin-top:20px;">
+                            <!--<div collapse="showNotSelectError != true" class="alert alert-danger" style="margin-top:20px">-->
+                            请在
+                            <strong>右侧--&gt;</strong>选择大棚
+                        </div>
+                    </div>
+                    <!--md-col-10-->
+                    <div class="col-md-10">
+                        <div collapse="!isDateStaffCollapsed">
+                            <hr/>
+                            <div style="color:#8a6d3b;background-color: #fcf8e3;border-color:#faebcc;padding:20px 15px;border-radius:10px">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h5 class="advance-subtitle"><i class="fa fa-circle advance-subtitle-dot"></i>&nbsp;自定义时间范围
+                                        </h5>
+
+                                        <div class="row">
+                                            <div class="col-sm-2" style="margin-top:5px;text-align:right;">
+                                                {{&quot;TIME_BEGAIN&quot; | translate}}:
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="form-group">
+                                                    <div class="input-group date" id="datetimepicker5">
+                                                        <span class="input-group-addon input-sm advance-time-select-input-addon"> <span
+                                                                class="glyphicon glyphicon-calendar"></span> </span>
+                                                        <input type="text" ng-model="anStartDateModel"
+                                                               id="anStartDateModel"
+                                                               class="form-control input-sm advance-time-select-input"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <script type="text/javascript">
+                                                $(function () {
+                                                    $('#datetimepicker5').datetimepicker({
+                                                        format: "YYYY/MM/DD HH:mm",
+                                                        /*inline: true,
+                                                        sideBySide: true*/
+                                                        calendarWeeks: true
+                                                    })
+                                                });
+                                            </script>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-2" style="margin-top:5px;text-align:right;">
+                                                {{&quot;TIME_END&quot; | translate}}:
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="form-group">
+                                                    <div class="input-group date" id="datetimepicker1">
+                                                        <span class="input-group-addon input-sm advance-time-select-input-addon"> <span
+                                                                class="glyphicon glyphicon-calendar"></span> </span>
+                                                        <input type="text" ng-model="anEndDateModel" id="anEndDateModel"
+                                                               class="form-control input-sm advance-time-select-input"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <script type="text/javascript">
+                                                $(function () {
+                                                    $('#datetimepicker1').datetimepicker({
+                                                        format: "YYYY/MM/DD HH:mm",
+                                                        /*inline: true,
+                                                        sideBySide: true,*/
+                                                        calendarWeeks: true
+                                                    })
+                                                });
+                                            </script>
+                                        </div>
+                                        <div>
+                                            <span ng-click="isDateStaffCollapsed = false;showNotSelectError = false;showExcel = false"
+                                                  class="btn btn-default btn-xs pull-right hand"
+                                                  style="margin-right:25px">{{&quot;CANCLE&quot; | translate}}</span>
+                                            <span ng-click="dateRangeConfirm()"
+                                                  class="btn btn-success btn-xs pull-right hand"
+                                                  style="margin-right:4px">{{&quot;CONFIRM&quot; | translate}}</span>
+                                        </div>
+                                    </div>
+
+                                    <div style="float: right; margin: 8px 30px 0 0;" ng-if="showExcel">
+                                        <a href="javascript:return false" download="myexcel.xls" ng-click="exportExcel('#exportTable')"><img src="assets/img/fxdc.jpg" /></a>
+                                    </div>
+
+                                    <div style="display: none;">
+                                        <table id="exportTable">
+                                            <tr>
+                                                <th>网关名称</th>
+                                                <th>设备sn</th>
+                                                <th>时间</th>
+                                                <th>{{exportDataHeard}}</th>
+                                                <th ng-if="exportExcelData.device_type == 'soil-th' || exportExcelData.device_type == 'humidity-temperature'">
+                                                    {{exportDataHeard1}}</th>
+                                            </tr>
+                                            <tr ng-repeat="data in exportExcelData.data"
+                                                ng-if="exportExcelData.device_type != 'soil-th' && exportExcelData.device_type != 'humidity-temperature'">
+                                                <td>{{curDevInfo.smartgate.dev_name}}</td>
+                                                <td>{{exportExcelData.sn}}</td>
+                                                <td>{{data.time}}</td>
+                                                <td>{{data.value}}</td>
+                                            </tr>
+                                            <tr ng-if="exportExcelData.device_type == 'soil-th' || exportExcelData.device_type == 'humidity-temperature'"
+                                                ng-repeat="data in exportExcelData.data">
+                                                <td>{{curDevInfo.smartgate.dev_name}}</td>
+                                                <td>{{exportExcelData.sn}}</td>
+                                                <td>{{data.time}}</td>
+                                                <td>{{data.value}}</td>
+                                                <td>{{data.value1}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <!--row-->
+                                <span ng-click="isDateStaffCollapsed = false;showExcel = false"
+                                      class="btn btn-default btn-xs pull-right hand">收起</span>
+                                <br/>
+                            </div>
+                        </div>
+                        <!--isDateStaffCollapsed-->
+                        <highchart ng-model="val" config="temperature_chartOptionForTemp" style="height:220px;"
+                                   ng-show="humidity_temperature_chartshow"></highchart>
+                        <highchart config="humidity_chartOptionForTemp" style="height:220px;"
+                                   ng-show="humidity_temperature_chartshow"></highchart>
+                        <highchart config="lux_chartOptionForTemp" style="height:220px;"
+                                   ng-show="illumination_chartshow"></highchart>
+                        <highchart ng-model="val" config="soil_temperature_chartOptionForTemp" style="height:220px;"
+                                   ng-show="soilth_chartshow"></highchart>
+                        <highchart config="soil_humidity_chartOptionForTemp" style="height:220px;"
+                                   ng-show="soilth_chartshow"></highchart>
+                        <highchart config="smoke_chartOptionForTemp" style="height:220px;"
+                                   ng-show="smoke_chartshow"></highchart>
+                        <div class="sensor_selector_area">
+                            <div class="row">
+                                <div ng-repeat="item in curSensors" class="col-md-2 item">
+           <span class="hand" ng-click="selectSensor(item.sn,item.dev_type)"> <i
+                   ng-class="{'fa fa-check-circle':item.sn == curSensorId, 'fa fa-circle-thin':item.sn != curSensorId}"> </i>&nbsp;
+            <!--class="fa fa-circle-thin"></i>&nbsp;--> <span tooltip-placement="top"
+                                                              tooltip="传感器sn: {{item.sn}}"> <span>{{item.dev_name}}</span> </span> </span>
+                                </div>
+                                <span ng-show="!humidity_temperature_chartshow && !illumination_chartshow && !soilth_chartshow && !smoke_chartshow"
+                                      style="font-weight: bold;line-height: 50px;font-size: large">该大棚无传感器</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--col-md-10-->
+                    <div class="col-md-2" style="height:500px;overflow: scroll;margin-top:-20px;">
+                        <div ng-repeat="group in geoGroups" style="margin-bottom:5px">
+                            <div style="background-color: #f3f3f3;padding:10px 8px;border-left:3px solid rgb(125, 204, 147)"
+                                 ng-click="group.__isCollapsed = !group.__isCollapsed;showGeoGroupDetail(group.name, group.__isCollapsed)">
+                                <!--<i class="fa fa-eye small-fa">&nbsp;</i>-->
+
+                                <span class="hand" style="font-size: medium;color:#969a91;"
+                                      ng-show="group.name === '' || group.name === undefined || group.name === null || group.name === 'undefined'"> 未知分组 &nbsp;({{group.count}})</span>
+                                <span class="hand" style="font-size: medium;color:#969a91;"
+                                      ng-show="group.name !== '' && group.name !== undefined && group.name !== null && group.name !== 'undefined'">
+                                    {{group.name}}&nbsp;({{group.count}}) </span>
+
+                                <span class="pull-right" style="color:#969a91;">
+                                    <i class="hand"
+                                       ng-class="{'fa fa-angle-double-right': !group.__isCollapsed,'fa fa-angle-double-down': group.__isCollapsed}"></i>&nbsp; </span>
+                            </div>
+                            <div collapse="!group.__isCollapsed" style="border-left:1px solid rgb(234, 234, 234)">
+                                <div ng-hide="group.geoCities.length &gt; 0">
+                                    <span style="padding-left:20px;">loading...</span>
+                                </div>
+                                <div ng-repeat="city in group.geoCities" style="color:#676767;margin-top:5px;">
+                                    <div style="font-size: medium"
+                                         ng-click="city.__isCollapsed = !city.__isCollapsed;showGeoGityDetail(group.name,city.name,city.__isCollapsed)">
+                                        <i style="margin-left:20px;"
+                                           ng-class="{'fa fa-plus-square': !city.__isCollapsed,'fa fa-minus-square': city.__isCollapsed,'light_blue': city.name == curCity}">
+                                            &nbsp;</i>
+
+                                        <span class="hand"
+                                              ng-show="city.name === '' || city.name === undefined || city.name === null || city.name === 'undefined'"> 未知分组 &nbsp;({{city.count}}) </span>
+                                         <span class="hand"
+                                               ng-show="city.name !== '' && city.name !== undefined && city.name !== null && city.name !== 'undefined'">
+                                             {{city.name}}&nbsp;({{city.count}})</span>
+
+                                        <span class="pull-right" style="color:#969a91;"> <i class="hand"
+                                                                                            style="margin-right:9px;margin-top:3px;"
+                                                                                            ng-class="{'fa fa-angle-double-right': !city.__isCollapsed,'fa fa-angle-double-down': city.__isCollapsed}"></i>&nbsp; </span>
+                                    </div>
+                                    <div collapse="!city.__isCollapsed">
+                                        <div ng-show="devinfoLoadding">
+                                            loadding...
+                                        </div>
+                                        <div ng-repeat="district in city.geoDistricts"
+                                             style="color:#676767;margin-top:5px;font-size: small">
+                                            <div ng-click="district.__isCollapsed = !district.__isCollapsed;showGeoDistrictDetail(group.name,city.name, district.name,district.__isCollapsed)">
+                                                <i style="margin-left:30px;"
+                                                   ng-class="{'fa fa-plus-square': !district.__isCollapsed,'fa fa-minus-square': district.__isCollapsed,'light_blue': district.name == curDistrict}">
+                                                    &nbsp;</i>
+
+                                                <span class="hand"
+                                                      ng-show="district.name === '' || district.name === undefined || district.name === null || district.name === 'undefined'"> 未知分组 &nbsp;({{district.count}}) </span>
+                                                <span class="hand"
+                                                      ng-show="district.name !== '' && district.name !== undefined && district.name !== null && district.name !== 'undefined'">
+                                                    {{district.name}}&nbsp;({{district.count}}) </span>
+
+                                                <span class="pull-right" style="color:#969a91;"> <i class="hand"
+                                                                                                    style="margin-right:9px;margin-top:3px;"
+                                                                                                    ng-class="{'fa fa-angle-double-right': !district.__isCollapsed,'fa fa-angle-double-down': district.__isCollapsed}"></i>&nbsp; </span>
+                                            </div>
+                                            <!--city.devinfo: {{city.devinfo}}-->
+                                            <div collapse="!district.__isCollapsed">
+                                                <div ng-show="devinfoLoaddingFlag">
+                                                    loadding...
+                                                </div>
+                                                <div ng-repeat="dev in district.devinfo" style="margin-top:2px">
+                                                    <div ng-click="showDevDetail($event, dev.sn, dev.lat, dev.lng)">
+                                                        <i class="fa fa-map-marker"
+                                                           ng-class="{'light_blue': curDev == dev.sn}"
+                                                           style="margin-left:40px; font-size: small">&nbsp;</i>
+                                                        <!-- <i class="fa fa-hdd-o" style="color:#afafaf"></i>&nbsp;-->
+                                                    <span class="hand"
+                                                          ng-class="{'offline_state': dev.online_state == 'offline'}"
+                                                          tooltip-placement="top" tooltip="设备SN: {{dev.sn}}"> {{dev.dev_name}} </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--city collapse-->
+                                </div>
+                                <!--device group-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--AnalysisController-->
+            </div>
+        </div>
+    </div>
+    <!--row-->
+</div>
+<!-- container -->
+</body>
+</html>

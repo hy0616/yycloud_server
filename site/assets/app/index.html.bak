@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>云洋监测</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Forza">
+        <meta name="author" content="Ndevr Studios & The Red Team">
+        <meta property="qc:admins" content="5701516423475461561167414163757">
+        <link rel="icon" type="image/png" href="favicon.png">
+
+        <script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" charset="utf-8" data-callback="true"></script>
+        <!-- prochtml:remove:dist -->
+        <link href="assets/less/styles.less" rel="stylesheet/less" media="all">
+        <!-- /prochtml -->
+
+        <link href='assets/demo/variations/default.css' rel='stylesheet' type='text/css' media='all' id='styleswitcher'>
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries. Placeholdr.js enables the placeholder attribute -->
+        <!--[if lt IE 9]>
+        <link rel="stylesheet" href="assets/css/ie8.css">
+        <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
+        <script type="text/javascript" src="assets/plugins/charts-flot/excanvas.min.js"></script>
+        <script type='text/javascript' src='assets/plugins/misc/placeholdr.js'></script>
+        <![endif]-->
+
+        <!-- The following CSS are included as plugins and can be removed if unused-->
+
+        <!-- build:css assets/css/vendor.css -->
+        <!-- bower:css -->
+        <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.css" />
+        <link rel="stylesheet" href="../bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css" />
+        <link rel="stylesheet" href="../bower_components/angular-ui-tree/dist/angular-ui-tree.min.css" />
+        <link rel="stylesheet" href="../bower_components/angular-toggle-switch/angular-toggle-switch.css" />
+        <link rel="stylesheet" href="../bower_components/ng-grid/ng-grid.css" />
+        <link rel="stylesheet" href="../bower_components/angular-xeditable/dist/css/xeditable.css" />
+        <link rel="stylesheet" href="../bower_components/select2/select2.css" />
+        <link rel="stylesheet" href="../bower_components/jScrollPane/style/jquery.jscrollpane.css" />
+        <link rel="stylesheet" href="../bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+        <link rel="stylesheet" href="../bower_components/angular-toastr/dist/angular-toastr.css" />
+        <link rel="stylesheet" href="../bower_components/angular-form-for/dist/form-for.css" />
+        <link rel="stylesheet" href="../bower_components/angular-ui-select/dist/select.css" />
+        <link rel="stylesheet" href="../bower_components/nvd3/build/nv.d3.css" />
+        <link rel="stylesheet" href="../bower_components/angular-loading-bar/build/loading-bar.css" />
+        <link rel="stylesheet" href="../bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.css" />
+        <link rel="stylesheet" href="../bower_components/css-toggle-switch/dist/toggle-switch.css" />
+        <!-- endbower -->
+        <link rel="stylesheet" href="../bower_components/odometer/themes/odometer-theme-default.css" />
+
+        <!--<link rel='stylesheet' type='text/css' href='assets/fonts/glyphicons/css/glyphicons.min.css'/>-->
+        <!--<link rel='stylesheet' type='text/css' href='assets/plugins/form-multiselect/css/multi-select.css'/>-->
+        <!--<link rel='stylesheet' type='text/css' href='assets/plugins/form-tokenfield/bootstrap-tokenfield.css'/>-->
+        <link rel='stylesheet' type='text/css' href='assets/plugins/progress-skylo/skylo.css'/>
+
+        <link rel='stylesheet' type='text/css' href='assets/plugins/leaflet/leaflet.css'/>
+        <link rel='stylesheet' type='text/css' href='assets/plugins/leaflet/MarkerCluster.css'/>
+        <link rel='stylesheet' type='text/css' href='assets/plugins/leaflet/MarkerCluster.Default.css'/>
+
+        <link rel='stylesheet' type='text/css' href='assets/css/devices.min.css' />
+
+
+        <!-- endbuild -->
+
+        <!-- build:css({.tmp,app}) assets/css/main.css -->
+        <link rel="stylesheet" href="assets/css/main.css">
+        <link rel="stylesheet" href="assets/css/styles.css">
+        <!-- endbuild -->
+
+        <!-- prochtml:remove:dist -->
+        <script type="text/javascript">less = {};
+         less.env = 'development';</script>
+        <script type="text/javascript" src="assets/plugins/misc/less.js"></script>
+        <!-- /prochtml -->
+
+        <style type="text/css">
+         .xx-small {
+             font-size:xx-small;
+         }
+         .x-small{
+             font-size:x-small;
+         }
+
+         .small {
+             font-size: small;
+         }
+
+         .hand {
+             cursor: pointer;
+         }
+
+         .padding-left-3 {
+             padding-left: 3px !important;
+         }
+         .rightbar-status-spot-green {
+             font-size:0.1em;
+             padding-top:3px;
+             padding-right:8px;
+             color: rgb(124, 200, 63);
+         }
+         .rightbar-status-spot-grey {
+             font-size:0.1em;
+             padding-top:3px;
+             padding-right:8px;
+             color: rgb(192, 192, 192);
+         }
+         .rightbar-status-spot-red {
+             font-size:0.1em;
+             padding-top:3px;
+             padding-right:8px;
+             color: rgb(228, 120, 149);
+         }
+
+         .rightbar-status-spot-eye {
+             font-size:0.1em;
+             color:rgb(184, 184, 184);
+             margin-left:5px;
+         }
+
+         .rightbar-status-group-eye {
+             color: #666565;
+         }
+         .rightbar-status-group-eye-slash {
+             color: #838282;
+             text-decoration:line-through;
+         }
+
+
+         [ng-cloak] {
+             display: none;
+         }
+
+         .topNegative1000 {
+             top: -1000px !important;
+         }
+
+         .topZero {
+             top: 0 !important;
+         }
+
+         .mainview-animation {
+             position: relative;
+         }
+
+         .mainview-animation.ng-enter {
+             -webkit-transition: .3s linear all; /* Safari/Chrome */
+             -moz-transition: .3s linear all; /* Firefox */
+             -o-transition: .3s linear all; /* Opera */
+             transition: .3s linear all; /* IE10+ and Future Browsers */
+         }
+
+         /**
+          * Pre animation -> enter
+          */
+         .mainview-animation.ng-enter {
+             /* The animation preparation code */
+             opacity: 0;
+         }
+
+         /**
+          * Post animation -> enter
+          */
+         .mainview-animation.ng-enter.ng-enter-active {
+             /* The animation code itself */
+             opacity: 1;
+         }
+
+         .angular-google-map-container {
+             height: 300px;
+         }
+
+         .navbar.navbar-default.ng-hide {
+             display: none;
+         }
+
+         #page-rightbar .jspHorizontalBar {
+             /*display: none !important;*/
+         }
+
+         .fc-grid .fc-day-number {
+             padding: 5px 6px;
+         }
+
+         .logout-lable {
+             text-align:right;
+             padding-right:20px;
+             font-weight:bold;
+         }
+
+         .logout-lable:hover {
+             background-color: rgb(236, 240, 227);
+             cursor: pointer;
+         }
+
+        </style>
+    </head>
+
+    <body class=""
+          ng-app="mainApp"
+          ng-controller="MainController"
+          ng-class="{
+                    'static-header': !style_fixedHeader,
+                    'focusedform': style_fullscreen,
+                    'layout-horizontal': style_layoutHorizontal,
+                    'fixed-layout': style_layoutBoxed,
+                    'collapse-leftbar': style_leftbarCollapsed && !style_leftbarShown,
+                    'show-rightbar': style_rightbarCollapsed,
+                    'show-leftbar': style_leftbarShown
+                    }"
+          ng-click="hideSearchBar();hideHeaderBar()"
+          ng-cloak>
+
+        <div id="headerbar" ng-class="{topNegative1000: style_headerBarHidden, topZero: !style_headerBarHidden}">
+
+
+        </div><!--headerbar-->
+
+        <header class="navbar navbar-inverse" style="z-index:10001;background-color: rgb(85, 150, 51);height:45px;"
+                ng-class="{'navbar-fixed-top': style_fixedHeader, 'navbar-static-top': !style_fixedHeader}" role="banner">
+            <a id="leftmenu-trigger" tooltip-placement="right" tooltip="展开侧边栏" ng-click="toggleLeftBar()"></a>
+
+            <div class="navbar-header">
+                <!--<a class="navbar-brand" href="#/">Forza</a>-->
+                <div style="font-size:large !important;font-weight:bolder;margin-top:10px;font-size:medium;position: absolute;left:40%;color:rgb(253, 253, 253)">
+                    <!--<i class="fa fa-soundcloud"></i>&nbsp;云洋大棚监控云平台-->
+                    <img src="assets/img/yylogo.png" alt="yyloco">云洋大棚监控云平台
+                </div>
+
+            </div>
+
+            <ul class="nav navbar-nav pull-right toolbar">
+                <!-- <span id="qqLoginBtn"></span> -->
+
+                <!-- <li class="dropdown" ng-show="!isLoggedIn"> -->
+                <!--     <a href="#/extras-login2" style="font-size: 14px"><i class="fa fa-sign-in"></i> Log in</a> -->
+                <!-- </li> -->
+
+                <!-- <li class="dropdown" ng-show="isLoggedIn"> -->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle username"><span class="hidden-xs"><i class="fa fa-user"></i>&nbsp;{{username}}</span>
+                        <!--<img src="assets/demo/avatar/dangerfield.png" alt="Dangerfield"/>-->
+                    </a>
+
+                    <ul class="dropdown-menu userinfo arrow">
+                        <li class="userlinks">
+                            <ul class="dropdown-menu">
+                                <li class="divider"></li>
+                                <li ng-click="logOut()" class="logout-lable">
+                                    <i class="icon ion-log-out"></i>
+                                    <span>登出</span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </header>
+
+        <div id="page-container" class="clearfix">
+            <!-- BEGIN SIDEBAR -->
+            <nav id="page-leftbar" role="navigation">
+
+                <div>
+                    <ul ng-controller="NavigationController" id="sidebar" sticky-scroll="40" style="background-color: rgb(228, 228, 228)">
+
+                        <br>
+                        <br>
+                        <li ng-repeat="item in menu"
+                            ng-class="{ hasChild: (item.children!==undefined),
+                                      active: item.selected,
+                                      open: (item.children!==undefined) && item.open }"
+                            ng-include="'templates/nav_renderer.html'" style="z-index:10000">
+                        </li>
+                    </ul>
+                </div>
+                <!-- END SIDEBAR MENU -->
+            </nav>
+
+            <div ng-include="'views/DevListSideBar.html'"></div>
+
+            <div id="page-content" class="clearfix" fit-height>
+                <div id="wrap" ng-view="" class="mainview-animation">
+                </div>
+            </div>
+            <!-- page-content -->
+
+            <footer role="contentinfo">
+                <div class="clearfix">
+                    <ul class="list-unstyled list-inline pull-left">
+                        <li>monitorClould &copy; 2015</li>
+                    </ul>
+                    <button class="pull-right btn btn-default btn-xs hidden-print" back-to-top style="padding: 1px 10px;"><i
+        class="fa fa-angle-up"></i></button>
+                </div>
+            </footer>
+
+        </div>
+        <!-- page-container -->
+
+        <!--[if lt IE 9]>
+        <script src="bower_components/es5-shim/es5-shim.js"></script>
+        <script src="bower_components/json3/lib/json3.min.js"></script>
+        <![endif]-->
+
+        <script type='text/javascript' src='assets/plugins/sails.io.js'></script>
+
+        <!-- build:js scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="../bower_components/es5-shim/es5-shim.js"></script>
+        <script src="../bower_components/modernizr/modernizr.js"></script>
+        <script src="../bower_components/jquery/dist/jquery.js"></script>
+        <script src="../bower_components/angular/angular.js"></script>
+        <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="../bower_components/angular-route/angular-route.js"></script>
+        <script src="../bower_components/angular-mocks/angular-mocks.js"></script>
+        <script src="../bower_components/angular-animate/angular-animate.js"></script>
+        <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src="../bower_components/flot/jquery.flot.js"></script>
+        <script src="../bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+        <script src="../bower_components/jquery-autosize/jquery.autosize.js"></script>
+        <script src="../bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+        <script src="../bower_components/jquery.pulsate/jquery.pulsate.js"></script>
+        <script src="../bower_components/jquery.knob/js/jquery.knob.js"></script>
+        <script src="../bower_components/jScrollPane/script/jquery.mousewheel.js"></script>
+        <script src="../bower_components/jScrollPane/script/mwheelIntent.js"></script>
+        <script src="../bower_components/jScrollPane/script/jquery.jscrollpane.min.js"></script>
+        <script src="../bower_components/enquire/dist/enquire.js"></script>
+        <script src="../bower_components/lodash/dist/lodash.compat.js"></script>
+        <script src="../bower_components/highcharts-ng/dist/highcharts-ng.js"></script>
+        <script src="../bower_components/angular-translate/angular-translate.js"></script>
+        <script src="../bower_components/angular-sails/dist/angular-sails.js"></script>
+        <script src="../bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+        <script src="../bower_components/angular-toastr/dist/angular-toastr.js"></script>
+        <script src="../bower_components/angular-form-for/dist/form-for.js"></script>
+        <script src="../bower_components/angular-ui-select/dist/select.js"></script>
+        <script src="../bower_components/d3/d3.js"></script>
+        <script src="../bower_components/nvd3/build/nv.d3.js"></script>
+        <script src="../bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>
+        <script src="../bower_components/angular-loading-bar/build/loading-bar.js"></script>
+        <script src="../bower_components/angular-touch/angular-touch.js"></script>
+        <script src="../bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.js"></script>
+        <script src="../bower_components/is_js/is.js"></script>
+        <script src="../bower_components/odometer/odometer.js"></script>
+        <script src="../bower_components/angular-odometer-js/dist/angular-odometer.js"></script>
+        <!-- endbower -->
+
+        <script src="../bower_components/odometer/odometer.min.js"></script>
+        <script src="../bower_components/angular-odometer-js/dist/angular-odometer.min.js"></script>
+        <script src="../bower_components/angular-cookies/angular-cookies.js"></script>
+
+        <script src="../bower_components/moment/min/moment.min.js"></script>
+        <script src="../bower_components/moment/locale/zh-cn.js"></script>
+        <script src="../bower_components/angular-moment/angular-moment.min.js"></script>
+
+        <script src="../bower_components/angular-form-for/dist/form-for.default-templates.js"></script>
+        <script src="../bower_components/angular-ui-select/dist/select.min.js"></script>
+
+        <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+
+        <script type='text/javascript' src="assets/plugins/moment/moment.min.js"></script>
+        <script type='text/javascript' src="assets/plugins/moment/zh-cn.js"></script>
+        <script src="../bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
+        <script src='assets/plugins/highchart/highcharts.src.js'></script>
+        <script src='assets/plugins/form-datepicker/js/bootstrap-datepicker.js'></script>
+        <script src='assets/plugins/form-datepicker/js/locales/bootstrap-datepicker.zh-CN.js'></script>
+        <script src='assets/plugins/leaflet/leaflet.js'></script>
+        <script src="assets/plugins/leaflet/leaflet.markercluster.js"></script>
+        <script src='assets/plugins/leaflet/angular-leaflet-directive.js'></script>
+
+        <script src='assets/plugins/datepaginator/bootstrap-datepaginator.js'></script>
+        <script src='assets/plugins/progress-skylo/skylo.js'></script>
+
+        <script src="scripts/shared/Services.js"></script>
+        <script src="scripts/shared/Directives.js"></script>
+        <script src="scripts/maps/LeafLetMap.js"></script>
+        <script src="scripts/tile/ChannelTiles.js"></script>
+        <script src="scripts/tile/HeaderTiles.js"></script>
+        <script src="scripts/controllers/Manager.js"></script>
+        <script src="scripts/form/Components.js"></script>
+
+        <!--<script src="scripts/form/Directives.js"></script>-->
+        <!--<script src="scripts/table/Editable.js"></script>-->
+        <!--<script src="scripts/chart/Flot.js"></script>-->
+
+
+        <script src="scripts/ui-elements/Tables.js"></script>
+        <script src="scripts/ui-elements/Panels.js"></script>
+        <script src="scripts/ui-components/Modals.js"></script>
+        <script src="scripts/ui-components/Tiles.js"></script>
+        <script src="scripts/ui-components/Paginations.js"></script>
+        <script src="scripts/ui-components/Progressbars.js"></script>
+        <script src="scripts/ui-components/Tabs.js"></script>
+        <script src="scripts/form/Inline.js"></script>
+        <script src="scripts/form/Validation.js"></script>
+        <script src="scripts/form/Directives.js"></script>
+        <script src="scripts/form/Components.js"></script>
+
+
+        <!--<script src="scripts/layout/Horizontal.js"></script>-->
+        <!--<script src="scripts/layout/Boxed.js"></script>-->
+        <script src="scripts/pages/Controllers.js"></script>
+        <script src="scripts/templates/templates.js"></script>
+        <script src="scripts/templates/overrides.js"></script>
+        <script src="scripts/controllers/Navigation.js"></script>
+        <!--<script src="scripts/controllers/Notifications.js"></script>-->
+        <!--<script src="scripts/controllers/Messages.js"></script>-->
+        <!--<script src="scripts/controllers/ColorPicker.js"></script>-->
+        <script src="scripts/controllers/Dashboard.js"></script>
+        <script src="scripts/controllers/Analysis.js"></script>
+        <script src="scripts/controllers/Me.js"></script>
+        <!--<script src="scripts/controllers/Manlu.js"></script>-->
+        <script src="scripts/controllers/Auth.js"></script>
+
+
+        <!--load models-->
+        <script src="scripts/models/index.js"></script>
+        <script src="scripts/models/DevModel.js"></script>
+
+        <!--load services-->
+        <script src="scripts/services/index.js"></script>
+        <script src="scripts/services/DevService.js"></script>
+        <script src="scripts/services/MapService.js"></script>
+        <script src="scripts/services/HighchartService.js"></script>
+        <script src="scripts/services/UtilService.js"></script>
+        <script src="scripts/services/TranslateService.js"></script>
+        <script src="scripts/services/AuthService.js"></script>
+        <script src="scripts/services/NotifyService.js"></script>
+
+
+        <script src="scripts/services/BaiduMapService.js"></script>
+        <script src="scripts/app.js"></script>
+
+        <!-- endbuild -->
+
+    </body>
+</html>

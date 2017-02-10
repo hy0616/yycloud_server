@@ -1,0 +1,35 @@
+a,html,body,form,input,select,textarea,div,p,h1,h2,h3,h4,h5,h6,p,ul,ol,li,form,img,dl,dt,dd,table,th,td,blockquote,fieldset,div,strong,label,em{margin:0;padding:0;color:black;}
+img{border:0px;}
+.ui-page 
+ul,li,dl,dt,dd{list-style:none;}
+a:active {color:#000;}
+a:visited {color:#000;}
+a:link {color:#000;}
+
+.username_div{border: 1px solid #3AB430;height: 40px;margin: 10px 10px 0 10px;}
+.username_div img{float: left;width: 20px;height: 20px;margin-top:10px;margin-left:5px;}
+.username_div input{float: left;width:88%;height: 30px;margin-top:5px;margin-left: 5px;border: none;}
+
+.password_div{border: 1px solid #3AB430;height: 40px;margin: 10px 10px 0 10px;}
+.password_div img{float: left;width: 20px;height: 20px;margin-top:10px;margin-left:5px;}
+.password_div input{float: left;width:88%; height: 30px;margin-top:5px;margin-left: 5px;border: none;}
+
+.page-style{
+	background-color: #3B3F4B;
+}
+
+.login_page_style{
+	background-image:url(www/./images/login_bg.png);
+}
+.body{
+	background:url(www/./images/login_bg.png);
+}
+.login_body{
+	background-image:url(www/./images/login_bg.png);
+}
+/*去除跳转页面闪屏问题*/
+.ui-page {  
+	backface-visibility: hidden;  
+	-webkit-backface-visibility: hidden; /* Chrome and Safari */  
+	-moz-backface-visibility: hidden; /* Firefox */  
+} 

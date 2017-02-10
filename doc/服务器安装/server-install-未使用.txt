@@ -1,0 +1,59 @@
+I. aliyun server
+
+1. install docker
+curl -s https://get.docker.io/ubuntu/ | sudo sh 
+apt-get update
+
+
+2. load rs docker image
+docker load < rsmonitor.tar 
+(
+ note1: 
+     when upload the docker image use rsync
+     eg:
+     rsync -P --rsh=ssh rsmonitor.tar root@121.42.14.15:/root
+ note2:
+     docker username and password both: monitor
+)
+
+
+3. make share folder for docker
+mkdir -p /rspkg/release
+mkdir -p /rspkg/upgrade
+mkdir -p /mnt/rsftp
+mkdir -p /data/db 
+mkdir -p /mnt/ftp 
+upload upgrade.sh to /usr/local/bin
+upload rsmonitor.tar.gz (firt time, tar xvf=> then go to the folder npm install; in the future, upgrade no need do this, run /usr/local/bin/upgrade.sh)
+
+4. install nodejs, sails
+apt-get install nodejs 
+ln -s nodejs node 
+npm install sails@0.10.5
+
+5. install vsftpd
+apt-get install vsftpd
+modify /etc/vsftpd.conf
+[
+write_enable=YES
+pam_service_name=ftp
+]
+service vsftpd restart
+
+5. add vsftp user 
+useradd -g ftp -d /mnt/ftp rsftp 
+useradd -g ftp -d /rspkg/upgrade rsupdate
+
+passwd rsftp (rsftp)
+passwd rsupdate (rsupdate)
+
+
+4. add boot script 
+add to rc.local below                                                                                                                                                       
+service docker start                                                                                                                                                        
+docker run -p 1337:1337 -p 1935:1935 -p 5022:22 -p 5168:5168 -p 5168:5168/udp -v /rspkg/release/:/release -v /rspkg:/rspkg -v /data/db:/data/db -v /mnt/ftp:/mnt/ftp -d ubuntu:rssite /bin/startall  
+
+
+II. iso 
+1. use virtual box install 
+2. set config_site ip

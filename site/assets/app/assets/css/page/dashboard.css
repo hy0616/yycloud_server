@@ -1,0 +1,377 @@
+
+.panel-white {
+    background-color: #fff;
+    /*background-color: grey;*/
+}
+
+.panel-white.panel-heading {
+    color: red !important;
+}
+
+.panel-body {
+    padding: 3px 8px 8px 8px !important;
+}
+
+.panel .panel-heading h4 {
+    color: #000 !important;
+}
+
+.text-dark {
+    color: grey;
+}
+
+.grey_bottom {
+    border-bottom: 3px solid grey;
+    padding-bottom: 3px;
+}
+
+.am-color {
+    color: rgb(215, 203, 84);
+}
+
+.fm-color {
+    color: rgb(112, 216, 208);
+}
+
+.bold-font {
+    font-weight: bold;
+}
+
+.xx-small {
+    font-size: xx-small;
+}
+
+.ctrl-toggle {
+    background-color: rgb(239, 239, 239);
+    line-height: 20px !important;
+    margin-top: 10px !important;
+    border-radius: 5px;
+    padding: 0 6px;
+    font-size: small;
+    margin-left: -5px !important;
+    cursor: pointer;
+}
+
+.ctrl-toggle-active {
+    background-color: #7dbaff !important;
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
+.sensor-panel {
+    background-color: rgb(245, 244, 244);
+    padding: 6px 12px;
+    margin-top: 4px;
+    border-radius: 5px;
+    height: 50px;
+    /*padding:0 8px;*/
+}
+
+.sensor-green {
+    color: rgb(109, 213, 109);
+}
+
+.sensor-number {
+    font-size: large;
+    /*padding:2px 10px;*/
+    padding: 2px 2px 2px 10px;
+    border-radius: 4px;
+}
+
+.sensor-clock {
+    margin-top: 2px !important;
+    margin-right: 4px !important;
+}
+
+.wendu_label {
+    background-color: rgb(252, 250, 129);
+    padding: 0 4px;
+    border-radius: 4px;
+}
+
+.shidu_label {
+    background-color: rgb(166, 205, 50);
+    color: #fff;
+    padding: 0 3px;
+    border-radius: 5px;
+}
+
+/*th, td {
+    min-width: 100px;
+}*/
+
+.padding-left-3 {
+    padding-left: 3px !important;
+}
+
+.rightbar-status-spot-green {
+    font-size: 0.1em;
+    padding-top: 3px;
+    padding-right: 8px;
+    color: rgb(124, 200, 63);
+}
+
+.rightbar-status-spot-grey {
+    font-size: 0.1em;
+    padding-top: 3px;
+    padding-right: 8px;
+    color: rgb(192, 192, 192);
+}
+
+.rightbar-status-spot-red {
+    font-size: 0.1em;
+    padding-top: 3px;
+    padding-right: 8px;
+    color: rgb(228, 120, 149);
+}
+
+.rightbar-status-spot-eye {
+    font-size: 0.1em;
+    color: rgb(184, 184, 184);
+    margin-left: 5px;
+}
+
+.rightbar-status-group-eye {
+    color: #666565;
+}
+
+.rightbar-status-group-eye-slash {
+    color: #838282;
+    text-decoration: line-through;
+}
+
+.topNegative1000 {
+    top: -1000px !important;
+}
+
+.topZero {
+    top: 0 !important;
+}
+
+.mainview-animation {
+    position: relative;
+}
+
+.mainview-animation.ng-enter {
+    -webkit-transition: .3s linear all;
+    /* Safari/Chrome */
+    -moz-transition: .3s linear all;
+    /* Firefox */
+    -o-transition: .3s linear all;
+    /* Opera */
+    transition: .3s linear all;
+    /* IE10+ and Future Browsers */
+}
+
+/**
+ * Pre animation -> enter
+ */
+.mainview-animation.ng-enter {
+    /* The animation preparation code */
+    opacity: 0;
+}
+
+/**
+ * Post animation -> enter
+ */
+.mainview-animation.ng-enter.ng-enter-active {
+    /* The animation code itself */
+    opacity: 1;
+}
+
+.angular-google-map-container {
+    height: 300px;
+}
+
+.navbar.navbar-default.ng-hide {
+    display: none;
+}
+
+#page-rightbar .jspHorizontalBar {
+    /*display: none !important;*/
+}
+
+.fc-grid .fc-day-number {
+    padding: 5px 6px;
+}
+
+.logout-lable {
+    text-align: right;
+    padding-right: 20px;
+    font-weight: bold;
+}
+
+.logout-lable:hover {
+    background-color: rgb(236, 240, 227);
+    cursor: pointer;
+}
+
+/*首页设备列表样式*/
+
+.price {
+    display: table;
+    background: #444;
+    width: 100%;
+    height: 50px;
+}
+
+.price_figure {
+    font-size: 24px;
+    text-transform: uppercase;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.price_number {
+    font-weight: bold;
+    font-size: medium;
+    display: block;
+}
+
+.price_tenure {
+    font-size: 11px;
+}
+
+/*Features*/
+.features {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    background: #DEF0F4;
+    color: #000;
+}
+
+.features li {
+    padding: 8px 15px;
+    border-bottom: 1px solid #ccc;
+    font-size: 11px;
+    list-style-type: none;
+}
+
+.online_block {
+    text-align: center;
+    width: 180px;
+    color: #fff;
+    float: left;
+    list-style-type: none;
+    box-sizing: border-box;
+    margin-top: 16px;
+    margin-bottom: 10px;
+    margin-left: 6px;
+    border-bottom: 1px solid transparent;
+}
+
+.online_block:hover {
+    box-shadow: 0 0 0px 5px rgba(0, 0, 0, 0.5);
+    transform: scale(1.04) translateY(-5px);
+    border-bottom: 0 none;
+}
+
+.online_block:hover .price {
+    color: #fff;
+    background-color: #449d44;
+    border-color: #398439;
+}
+
+.offline_block {
+    text-align: center;
+    width: 180px;
+    color: #fff;
+    float: left;
+    list-style-type: none;
+    box-sizing: border-box;
+    height: 280px;
+
+    margin-top: 16px;
+    margin-bottom: 10px;
+    margin-left: 6px;
+    border-bottom: 1px solid transparent;
+}
+
+.offline_block:hover {
+    box-shadow: 0 0 0px 5px rgba(0, 0, 0, 0.5);
+    transform: scale(1.04) translateY(-5px);
+    border-bottom: 0 none;
+}
+
+.offline_block:hover .price {
+    background-color: #c12e2a;
+}
+
+.online_state{
+    color: #398439;
+}
+
+.offline_state{
+    color: #c12e2a;
+}
+
+#up_pwd {
+    width: 560px;
+    height: 400px;
+    background: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 522222;
+    margin-top: -305px;
+    margin-left: -350px;
+    border-radius: 5px;
+    box-shadow: #333 0px 0px 10px;
+    _position: absolute;
+    *border: 1px solid #333;
+    border: 1px solid #333 \0;
+    display: none;
+}
+
+#up_pwd > div{
+    text-align: center;
+    width: 560px;
+    margin: 60px auto;
+}
+
+#up_pwd > div div{
+    margin-top: 20px;
+    font-size: 1.3em;
+}
+
+
+#up_pwd h3 {
+    color: #333;
+    height: 46px;
+    font-size: 18px;
+    /*padding-left: 28px;*/
+    text-align: center;
+    line-height: 46px;
+    overflow: hidden;
+    font-weight: bold;
+}
+
+#up_pwd div {
+
+}
+
+#shut {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    display: block;
+    top: 8px;
+    right: 10px;
+    color: #333;
+    font-size: 30px;
+    line-height: 22px;
+    overflow: hidden;
+    text-align: center;
+    cursor: pointer;
+}
+
+#shut:hover {
+    text-decoration: none;
+    color: #f00;
+}
+
+#shut:active {
+    color: #a40606;
+}
+

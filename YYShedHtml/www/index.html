@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5">
+	
+	<link href="hhSwipe/layout.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="jm/jquery.min.js"></script>  
+	<script type="text/javascript" charset="utf-8" src='js/core.js' ></script>
+	<script src='hhSwipe/hhSwipe.js'></script>
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function(){
+			//window.localStorage.removeItem("HomeLogo");
+			//var homeLogo = window.localStorage.getItem("HomeLogo");
+			var homeLogo = "goLogin";
+			if(homeLogo!=null){
+				location.href = "pages/login.html";
+			}
+			var viewData = getViewParams();
+	        $("#scroll_img img").css("width",viewData.width);
+	        $("#scroll_img img").css("height",viewData.height);   
+			window.localStorage.setItem("HomeLogo","HomeLogo_hide");
+			
+			var slider = Swipe(document.getElementById('scroll_img'), {
+				auto: 0,
+				speed: 500,
+				continuous: true,
+				disableScroll: true, 
+				callback: function(pos) {
+				}
+			});
+		});
+	</script>
+	
+	<title>引导页</title> 
+	</head>
+	<body>
+		<div style="width:100%; height:100%;" id="guide">
+			  <div class="scroll relative">
+			    <div class="scroll_box" id="scroll_img">
+			        <ul class="scroll_wrap">
+			          <li><a href="#"><img src="images/introductory/yd002.png" height="100%" /></a></li>
+			          <li><a href="#"><img src="images/introductory/yd004.png" height="100%" /></a></li>
+			          <li><a href="#"><img src="images/introductory/yd005.png" height="100%" /></a></li>
+			          <li><a href="#"><img src="images/introductory/yd006.png" height="100%" /></a></li>
+			        </ul>
+			    </div>
+			</div>
+		</div>
+	</body>
+</html>

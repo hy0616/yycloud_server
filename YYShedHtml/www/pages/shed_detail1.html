@@ -1,0 +1,547 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<script type="text/javascript" src="../jm/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../jm/jquery.mobile-1.4.3.min.js"></script>
+<link rel="stylesheet" href="../jm/jquery.mobile-1.4.3.min.css" />
+<script type="text/javascript" charset="utf-8" src="../js/core.js" ></script>
+<script type="text/javascript" charset="utf-8" src="../js/page.js" ></script>
+<script type="text/javascript" src="../js/lineChart.js"></script>
+<link rel="stylesheet" href="../css/page.css" />
+<link rel="stylesheet" href="../css/core.css" />
+<script type="text/javascript">
+	var componentIds = "";
+	var isShowPic = false; //判断是否已显示图片
+	var dev_uuid = getQueryString("dev_uuid");
+	var shedinfo = "";
+	$(document).ready(function(){
+		var temp =IP+"/api/smartgates/";
+		var url = temp+ dev_uuid + "/infos";
+		var session_token = window.localStorage.session_token;
+		var  Authorization = "bearer " + session_token;
+		$.ajax({
+				type: "GET",
+		        url: url,  
+				success: getUserInfoSuccess,
+				error: getUserInfoError,
+       			headers: {
+           				"Authorization":Authorization
+       				}
+			});
+			
+	});
+	function updateAlias(componentId,index){
+		var name = "nickname"+index;
+		var alias  = document.getElementById(name).value;
+		var session_token = window.localStorage.session_token;
+		var  Authorization = "bearer " + session_token;
+		var url = IP+"/api/enddevices/"+componentId+"/alias";
+		var checkData = {component_id:componentId,alias:alias};
+		$.ajax({
+			type: "put",
+	        url: url,  
+			data: checkData,
+			success: updateAliasSuccess,
+			error: updateAliasError,
+   			headers: {
+       				"Authorization":Authorization
+   				}
+		});
+	}
+	function updateAlias1(){
+		var alias  = document.getElementById("dev_name_new").value;
+		var session_token = window.localStorage.session_token;
+		var  Authorization = "bearer " + session_token;
+		var url = IP+"/api/smartgates/"+dev_uuid+"/alias";
+		var checkData = {dev_uuid:dev_uuid,alias:alias};
+		$.ajax({
+			type: "put",
+	        url: url,  
+			data: checkData,
+			success: updateAliasSuccess,
+			error: updateAliasError,
+   			headers: {
+       				"Authorization":Authorization
+   				}
+		});
+	}
+	
+	function opeErelay2(dev_uuid,componentId,action){
+		var session_token = window.localStorage.session_token;
+		var  Authorization = "bearer " + session_token;
+		var url = IP + "/api/remotes/erelays/actions"+dev_uuid+"/alias";
+		var cmd = "set_eralay2_switch";
+		var ccp_token = "ccp_token-smartgate-20150201";
+		var params = {cmd:cmd,action:action,sn:componentId};
+		var checkData = {smartgate_sn:dev_uuid,ccp_token:ccp_token,params:params};
+		$.ajax({
+			type: "put",
+	        url: url,  
+			data: checkData,
+			success: opeErelay2Success,
+			error: opeErelay2Error,
+   			headers: {
+       				"Authorization":Authorization
+   				}
+		});
+	}
+	
+	function opeErelay2Error(data,status){
+		alert("操作失败!");
+	}
+	
+	function opeErelay2Success(data,status){
+		alert("操作成功!");
+	}
+	
+	function updateAliasError(data,status){
+		alert("更新失败!");
+	}
+	
+	function updateAliasSuccess(data,status){
+		alert("更新成功!");
+	}
+	function getAnalysisResult(sn,device_type,scope) {
+		var url_fix = IP+"/api/analyses/histories?"
+		var datess = getDate();
+		var url =url_fix+"sn="+sn
+		  		+"&device_type="+device_type
+		  		+"&date="+datess
+		  		+"&scope="+scope;
+		$.ajax({
+				type: "GET",
+		        url: url,  
+				success: getAnalysisResultSuccess,
+				error: getAnalysisResultError
+			});
+	}
+ 	function getDate(){
+ 		var today=new Date();  
+		var years=today.getFullYear();  
+		var months=today.getMonth()+1;  
+		var d=today.getDate();
+		var h=today.getHours();
+		var m=today.getMinutes(); 
+		var s=today.getSeconds();
+		var dates = "["+years+"-"+months+"-"+d+"%2000:00:00,"+years+"-"+months+"-"+d+"%20"+h+":"+m+":"+s+"]";
+ 		return dates;
+ 	}
+	function getAnalysisResultSuccess(deviceData,status){
+		showCanvas(deviceData,"humidity-temperature");
+	 }
+	function getAnalysisResultError(deviceData,status){
+	 	alert("失败，可能是网络不通");
+	}
+	function getUserInfoSuccess(deviceData,status){
+		 shedinfo = deviceData;
+		 document.getElementById("title").innerHTML = deviceData.smartgate.dev_name;
+		 document.getElementById("common_plant_name").innerHTML = deviceData.smartgate.plant_name;
+		 document.getElementById("common_plant_time").innerHTML = deviceData.smartgate.plant_time;
+		 document.getElementById("common_area").innerHTML = deviceData.smartgate.area + "平方米";
+		 document.getElementById("common_harvest_time").innerHTML = deviceData.smartgate.harvest_time;
+		 document.getElementById("common_expectation").innerHTML = deviceData.smartgate.expectation + "公斤";
+		 document.getElementById("common_sn").innerHTML = deviceData.smartgate.sn;
+		 document.getElementById("common_location").innerHTML = deviceData.smartgate.dev_location;
+		 show(deviceData);
+	}
+	
+	function getUserInfoError(data,status){
+	    alert("失败，可能是网络不通");
+	}	
+	function getDeviceInfoSuccess(data,status){
+	    show(data);
+	}
+	
+	function getDeviceInfoError(data,status){
+	    alert("失败，可能是网络不通");
+	}	
+	function back()
+	{
+		window.history.go(-1);
+	}
+	function changeTab(index,num){
+		for(var i=1;i<=num;i++) {
+			if(i==index) {
+				document.getElementById("part"+i).style.display = "block";
+				$("#tab"+i).addClass("curr");
+			} else {
+				document.getElementById("part"+i).style.display = "none";
+				$("#tab"+i).removeClass("curr");
+			}
+		}
+	}
+	function changeSettingTab(index,num){
+		for(var i=1;i<=num;i++) {
+			if(i==index) {
+				document.getElementById("part2"+i).style.display = "block";
+				$("#settingtab"+i).addClass("curr");
+			} else {
+				$("#settingtab"+i).removeClass("curr");
+				document.getElementById("part2"+i).style.display = "none";
+			}
+		}
+	}
+	function showPart2() {
+		var dev_name = shedinfo.smartgate.dev_name;
+		var dev_alias = shedinfo.smartgate.dev_alias;
+		document.getElementById("dev_name").innerHTML = dev_name;
+		if(dev_alias == "undefined")
+		  dev_alias = dev_name;
+		document.getElementById("dev_name_new").value= dev_alias;
+		
+	}
+	function show(deviceData){
+		showPart2();
+		addSetting();
+		var components = deviceData.components;
+		if(components.length>0){
+			var cgqArr = new Array(); // 传感器设备数据
+			for(var j=0; j<components.length; j++){
+				//componentIds = componentIds + "," + components[j].component_id;
+				var device_div = document.createElement("div");
+				device_div.className = "component";
+				var stateJson = getState(components[j].online_state,components[j].online_state);
+				if(components[j].dev_type=="cameraip"){  // 监视器
+					device_div.innerHTML = "<div class='detail'><div class='left'>"
+						+ "<img src='"+getComponentIcon(components[j].dev_type,components[j].online_state)+"' class='component-icon'/>"
+						+ "<div>"+components[j].dev_name+"</div></div>"
+						+ "<div class='right'><div>"+stateJson.text+"</div>"
+						+ "<img src='"+stateJson.icon+"' class='status-icon'/></div></div>"
+						+ "<div class='cameraipDiv'><img src='../images/video.png' class='background'/>"
+						+ "<div><a href='javascript:pageUtil.remoteMonitoring(\""+components[j].sn+"\",\""+components[j].user+"\",\""+components[j].password+"\")'>"
+						+ "<img src='../images/video_icon.png' /></a></div></div>";
+					
+					document.getElementById("cameraip").appendChild(device_div);
+				} else if(components[j].dev_type=="erelay") {  // 灌溉机
+					device_div.innerHTML = "<div class='detail'><div class='left'>"
+ 						+ "<img src='../images/category1.png' class='component-icon'/>"
+						+ "<div>"+components[j].dev_name+"</div></div>"
+ 						+ "<div class='right-shed'><span>打开</span>"
+ 						+ "<a id='1_a_component"+components[j].sn+"' href='javascript:pageUtil.closeErelay(\""+dev_uuid+"\","+components[j].sn+",\"1\")'>"
+ 						+ "<img id='1_btn_component"+components[j].sn+"' src='"+stateJson.btn_icon+"' class='operation-icon'/></a>"
+						+ "<a><img src='../images/time.png' class='time-icon'/></a></div></div>";
+					
+					document.getElementById("erelay").appendChild(device_div);
+				} else if(components[j].dev_type=="erelay2") {  // 卷帘机
+				   var dev_name=components[j].dev_name;
+				   if(dev_name=="双向控制" ||dev_name=='')
+				      dev_name = getDefaultNameByExtendType(components[j].dev_extend_type);
+					device_div.innerHTML = "<div class='detail'><div class='left'>"
+ 						+ "<img src='../images/category2.png' class='component-icon'/>"
+						+ "<div>"+dev_name+"</div></div>"
+ 						+ "<div class='right-shed'>"
+ 						+ "<a href='javascript:opeErelay2(\""+dev_uuid+"\","+components[j].sn+",\"back\")'>"
+ 						+ "<img src='../images/forward1.png' class='forward1'/></a>"
+						+ "<a href='javascript:opeErelay2(\""+dev_uuid+"\","+components[j].sn+",\"1\")'>"
+						+ "<img src='../images/forward2.png' class='forward2'/></a>"
+						+ "<a href='javascript:opeErelay2(\""+dev_uuid+"\","+components[j].sn+",\"forward\")'>"
+						+ "<img src='../images/forward3.png' class='forward3'/></a></div></div>";
+					
+					document.getElementById("erelay").appendChild(device_div);
+				} /*else if(components[j].dev_type=="camera") {  //照相机
+					device_div.innerHTML = "<div class='detail'><div class='left'>"
+						+ "<img src='"+getComponentIcon(components[j].dev_type,components[j].online_state)+"' class='component-icon'/>"
+						+ "<div>"+components[j].default_alias+"</div></div>"
+						+ "<div class='right'><div>"+stateJson.text+"</div>"
+						+ "<img src='"+stateJson.icon+"' class='status-icon'/></div></div>"
+						+ "<div class='cameraPic' id='imgDiv"+components[j].component_id+"' style='width:100%'></div>";
+						
+					document.getElementById("picComponents").appendChild(device_div);
+				} */else if(components[j].dev_type=="humidity-temperature" || components[j].dev_type=="illumination" ){
+					cgqArr.push(components[j]);
+				}
+				
+				// pageUtil.getAlarmList(devUuid,components[j].component_id,24,1,1,components[j].default_alias);
+			}
+			if(componentIds!=""){
+				componentIds = componentIds.substring(1);
+			}
+			showCgq(cgqArr);
+		}
+	}
+		
+	function closeResult(msg,flag,componentId){
+		if(msg=="ok"){
+			messageBox("操作成功！");
+			if(flag=="1"){
+				document.getElementById("1_btn_component"+componentId).src = "images/button_close.png";
+				document.getElementById("1_a_component"+componentId).disabled=true;
+			}
+		} else {
+			messageBox("操作失败！");
+		}
+	}
+		
+	function opeResult(msg,flag,componentId){
+		if(msg=="ok"){
+			messageBox("操作成功！");
+		} else {
+			messageBox("操作失败！");
+		}
+	}
+	function add_select(arr) {
+		var select_dev = document.getElementById("select_names");
+		var html = "<select id='select_dev'> ";
+		for(var i=0;i<arr.length;i++){
+			if(i==0){
+				html=html+ "<option value='"+i+"' selected='true'>"+arr[i].dev_name+"</option>";
+			}else{
+				html=html+ "<option value='"+i+"'>"+arr[i].dev_name+"</option>";
+			}
+		}
+		html = html+" </select>";
+		select_dev.innerHTML = html;
+	}
+	// 显示传感器信息
+	function showCgq(arr){
+		if(arr==null||arr.length==0){
+			document.getElementById("cgq-div").style.display = "none";
+			return;
+		}
+		add_select(arr);
+		getAnalysisResult(arr[0].sn,arr[0].dev_type,"scope2");//sn,device_type,scope
+		document.getElementById("cgq-div").style.display = "block";
+		
+		selectCgq(1,arr.length,1,1);
+	}
+		
+	var cur_cgq = "";  // 当前显示的传感器
+	// 选择一个传感器时
+	function selectCgq(index,total,type,cnt){
+		if(cur_cgq==index){
+			document.getElementById("cgq-div").style.display = "none";
+			return;
+		}
+		changeNameCss(index,total,type,cnt);
+		document.getElementById("canvasDiv").innerHTML = "";
+	}
+	function addSetting() {
+		var components = shedinfo.components;
+		var str = "";
+		for(var i=0; i<components.length; i++){
+			var component = components[i];
+			var alias = component.dev_alias;
+			if(alias == "" || alias == undefined || alias == "undefined")
+			    alias = component.dev_name;
+			 str = str +"<tr >"
+			    +"<td style='width: 50px;'><img  src='../images/house.png' class='component-icon'/></td>"
+			    +"<td style='margin-left: 10px; width=100%'><div style='text-align:left;'><span id='dev_name' style='text-align:left;'>"+component.dev_name+"</span></div></td>"
+			    +"<td ></td>"
+			 +"</tr>"
+			     +"<tr >"
+			     	+"<td ></td>"
+			    +"<td ><input  id='nickname"+i+"' type='text' style='line-height:30px;' value='"+alias+"' /></td>"
+			    +"<td  class='settingtd2' ><a href='javascript:updateAlias(\""+component.sn+"\","+i+")'><img src='../images/button5.png' /><div>修改</div></a></td>"
+			 +"</tr>"
+		}
+		var str1 = 	"<table style='width: 100%;margin-right: 10px;margin-top: 8px; '>"
+					+str+"</table>";
+		document.getElementById("settings").innerHTML = str1;
+	}
+	// 显示Canvas图
+	function showCanvas(jsonData,type){
+		var result = jsonData.result;
+		var object = jsonData.msg;
+		var data = object.data;
+		var air_temperature = data.air_temperature;
+		var air_humidity = data.air_humidity;
+		if(result == "OK"){
+			if(!(air_temperature == "" || air_temperature == undefined || air_temperature == "undefined")){
+					var canId = "canvas-air_temperature" + type + object.sn;
+					if(!document.getElementById(canId)){
+						// 创建图
+						var h = (winWidth-30)*3/4;
+						var canvas = document.createElement('canvas');
+						canvas.setAttribute('width',winWidth-30);
+						canvas.setAttribute('height',h);
+						canvas.setAttribute('id',canId);
+						document.getElementById("canvasDiv").appendChild(canvas);
+					}
+					var xTitle = "";
+					var valueArr = new Array(data.length);
+					for(var i=0; i<air_temperature.length; i++){
+						var valueObj = air_temperature[i];
+						var time = valueObj.time;
+						var d =new Date(time); 
+						var dates = formatDate(d);//1:00
+						var value = valueObj.value;//3
+						var json = {x:dates,y:value};
+						valueArr[i] = json;
+					}
+					var multiData = {
+						values:[{
+							value0:valueArr
+						}]
+					};
+					if(type=="humidity-temperature"){
+						xTItle = "湿度%RH";
+						LineChart.setData(canId,multiData,30,"#2C8CFF","#333",true,false,xTitle);
+					} else if(type=="illumination"){
+						xTItle = "光照℃";
+						LineChart.setData(canId,multiData,30,"#FD8C17","#333",true,false,xTitle);
+					}
+			
+			} 
+			if(!(air_humidity == "" || air_humidity == undefined || air_humidity == "undefined")){
+					var canId = "canvas-air_humidity" + type + object.sn;
+					if(!document.getElementById(canId)){
+						// 创建图
+						var h = (winWidth-30)*3/4;
+						var canvas = document.createElement('canvas');
+						canvas.setAttribute('width',winWidth-30);
+						canvas.setAttribute('height',h);
+						canvas.setAttribute('id',canId);
+						document.getElementById("canvasDiv").appendChild(canvas);
+					}
+					var xTitle = "";
+					var valueArr = new Array(data.length);
+					for(var i=0; i<air_humidity.length; i++){
+						var valueObj = air_humidity[i];
+						var time = valueObj.time;
+						var d =new Date(time); 
+						var dates = formatDate(d);
+						var value = valueObj.value;
+						var json = {x:dates,y:value};
+						valueArr[i] = json;
+					}
+					var multiData = {
+						values:[{
+							value0:valueArr
+						}]
+					};
+					if(type=="humidity-temperature"){
+						xTItle = "湿度%RH";
+						LineChart.setData(canId,multiData,30,"#2C8CFF","#333",true,false,xTitle);
+					} else if(type=="illumination"){
+						xTItle = "光照℃";
+						LineChart.setData(canId,multiData,30,"#FD8C17","#333",true,false,xTitle);
+					}
+			
+			}
+	}
+}
+</script>
+<title>大棚</title> 
+</head>
+<body >
+ <header data-role="header" data-theme="a" data-position="fixed"  data-tap-toggle="false" >
+ 	<div class="top">
+ 		<div class="left" onclick="back();"><img style="width:13px;height:24px;" src="../images/item_grid_header_arrow_icon.png"/></div>
+ 		<div class="center"><b id="title"></b></div>
+ 	</div>
+	<div data-role="navbar" data-position="fixed" class="tab">
+		<ul>
+			<li id="tab1" class="curr" style="width: 50%;" onclick="javascript:changeTab(1,2)">详情</li>
+			<li id="tab2" style="width: 50%;" onclick="javascript:changeTab(2,2)">设置</li>
+		</ul>
+	</div>
+ </header>
+ <div class="content">
+	 	<div id="part1" style="display:block;">
+		 	<div class="components">
+		 		<div class="component">
+		 			<div class="plant">种值作物：<span id="common_plant_name">大豆</span></div>
+		 		</div>
+		 		<div class="component">
+		 			<div class="plant">种值时间：<span id="common_plant_time"></span></div>
+		 		</div>
+		 		<div class="component">
+		 			<div class="plant">种植面积：<span id="common_area"></span></div>
+		 		</div>
+		 		<div class="component">
+		 			<div class="plant">收获时间：<span id="common_harvest_time"></span></div>
+		 		</div>
+		 		<div class="component">
+		 			<div class="plant">预估产量：<span id="common_expectation"></span></div>
+		 		</div>
+		 		<div class="component">
+		 			<div class="plant">设备SN号：<span id="common_sn"></span></div>
+		 		</div>
+		 		<div class="component">
+		 			<div class="plant">大棚位置：<span id="common_location"></span></div>
+		 		</div>
+		 	</div>
+		 	
+		 	<div id="cameraip" class="components">
+		 	</div>
+		 	
+		 	<div id="erelay" class="components">
+		 	</div>
+		 	
+		 	<div id="cgq-div" class="components">
+		 		<div class="component">
+			 		<div class="cgq">
+			 			<div id="select_names" style="margin-top: 8px;"　class="name"></div>
+						<div id="canvasDiv">
+						</div>
+						
+					</div>
+				</div>
+		 	</div>
+		 </div>
+	 	 <div id="part2" style="display:none;margin-top: 8px;margin-left: 2px;margin-right: 2px;">
+	 	 	<div data-role="navbar" data-position="fixed" class="settingtab" >
+				<ul>
+					<li id="settingtab1" class="curr" style="width: 33%;" onclick="javascript:changeSettingTab(1,3)">别名设置</li>
+					<li id="settingtab2" style="width: 33%;" onclick="javascript:changeSettingTab(2,3)">报警预案设置</li>
+					<li id="settingtab3" style="width: 34%;" onclick="javascript:changeSettingTab(3,3)">其它设置</li>
+				</ul>
+			</div>
+			<div id="settingContent"> 
+			 	<div id="part21" class="component">
+				 	<div class='detail-2'>
+				 		<div style="width: 100%;margin-top: 10px;">
+					 		<div style='margin-top: 8px;'>
+					 			大棚别名设置
+							</div>
+						</div>
+						<table style='width: 100%;margin-right: 10px; margin-top: 8px;'>
+						  <tr >
+						    <td style='width: 50px;'><img  src='../images/house.png' class='component-icon'/></td>
+						    <td style='margin-left: 10px;'><div style='text-align:left;'><span id='dev_name' style='text-align:left;'></span></div></td>
+						    <td style='width:60px;'></td>
+						 </tr>
+	 				     <tr >
+	 				     	<td ></td>
+						    <td ><input id='dev_name_new' type='text' style='line-height:30px;' data-role="none" /></td>
+						   <td  class='settingtd2' ><a href='javascript:updateAlias1()'><img src='../images/button5.png' /><div>修改</div></a></td>
+						 </tr>
+						</table>
+					</div>
+					<div class='detail-2' id="settings">
+					</div>
+			 	</div>
+			 	<div id="part22" class="component" style="display:none;">
+						<table style="width: 100%;height:40px; margin-top: 10px;margin-left:10px;margin-right: 10px; ">
+						  <tr style="width: 100%;height:40px;">
+						    <td style="width: 70%;">报警预案</td>
+						    <td style="height:40px;">
+					 			<img style="width: 35px;height:35px; " src="../images/refresh.png"/>
+							</td>
+						    <td style="height:40px;">
+					 			<img style="width: 35px;height:35px; " src="../images/apply.png"/>
+							</td>
+						  </tr>
+						</table>
+						<table style="width: 95%;margin-left:10px;margin-right: 10px; ">
+						  <tr >
+						    <td width="25%;">预案名称：</td>
+						    <td style="margin-right: 10px;">
+			    			 	<select id="alram_setting_spinner">
+										<option value="11" selected="true"><未设置报警策略></option>
+										<option value="22" selected=""><未设置报警策略二></option>
+								</select>
+							</td>
+						  </tr>
+						</table>
+			 	</div>
+		 		<div  id="part23" class="component" style="display:none;">
+		 			<div> test3</div>
+			 	</div>
+			</div>
+		 </div>
+	 </div>
+</body>
+</html>

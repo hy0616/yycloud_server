@@ -1,0 +1,107 @@
+.sensor-panel {
+  background-color: rgb(245, 244, 244);
+  padding: 6px 12px;
+  margin-top: 4px;
+  border-radius: 5px;
+  height: 50px;
+  /*padding:0 8px;*/
+}
+
+.sensor-green {
+  color: rgb(109, 213, 109);
+}
+
+.sensor-number {
+  font-size: large;
+  /*padding:2px 10px;*/
+  padding: 2px 2px 2px 10px;
+  border-radius: 4px;
+}
+
+.camera {
+  top: 13px !important;
+}
+
+.marvel-device .screen {
+  box-shadow: 0 0 0 3px #DBDBDB !important;
+}
+
+.marvel-device.ipad {
+  padding: 30px 25px !important;
+  padding-bottom: 22px !important;
+}
+
+.pad-text-val {
+  color:white;
+  font-size: medium;
+  float:right;
+  margin-right:5px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.pad-text-val-id {
+    color:white;
+    font-size: 14px;
+    float:right;
+    margin-right:5px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.pad-text-label {
+  color:white;
+  font-size:medium;
+  font-weight: bold;
+  float:left;
+  margin-left:8px;
+  height: 30px;
+  line-height: 30px;
+}
+
+.marvel-device.ipad .camera {
+  background: #BDC0BD !important;
+}
+
+.gGreen {
+  background: -webkit-linear-gradient(90deg, #3CA55C 10%, #B5AC49 90%); /* Chrome 10+, Saf5.1+ */
+  background:    -moz-linear-gradient(90deg, #3CA55C 10%, #B5AC49 90%); /* FF3.6+ */
+  background:     -ms-linear-gradient(90deg, #3CA55C 10%, #B5AC49 90%); /* IE10 */
+  background:      -o-linear-gradient(90deg, #3CA55C 10%, #B5AC49 90%); /* Opera 11.10+ */
+  background:         linear-gradient(90deg, #3CA55C 10%, #B5AC49 90%); /* W3C */
+}
+
+.text-muted {
+  color: #ABABAB !important;
+}
+
+.hand {
+  cursor: pointer;
+}
+.me-active {
+  color:rgb(80, 142, 37) !important;
+  font-weight:bold;
+}
+
+.refresh-icon {
+  font-size:small;
+  background-color: rgb(176, 176, 176);
+  color:white;
+  padding-left:5px;
+  padding-right:5px;
+  border-radius: 3px;
+}
+
+.ctrl-btn {
+  border-radius: 35px !important;
+  padding:5px 20px !important;
+}
+
+.me_table {
+    text-align: center;
+}
+
+.me_table td{
+    min-width: 80px;
+}
+

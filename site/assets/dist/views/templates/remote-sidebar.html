@@ -1,0 +1,56 @@
+
+
+<div id="rightbar-remote" style="overflow: scroll;top:40px;height:100%;width:350px;box-shadow:rgb(215, 215, 215) 1px 1px 5px 1px;">
+    <span ng-click="hideRemoteSideBar()"
+          style="position: absolute;top:280px;left:0px;height:40px;width:5px;font-weight: bolder;"
+          class="btn btn-default btn-sm">
+      >
+      <!--<i class="fa fa-mail-forward"></i>-->
+    </span>
+
+
+  <div ng-repeat="item in cmdList">
+    <!--<div ng-click="item.__show = !item.__show" class="control-tab-title">-->
+    <div ng-click="ctrlPanelToggle(item)" class="control-tab-title">
+      <span style="background-color: rgb(145, 182, 219);border-radius: 4px;padding:2px 5px;color:#fff;font-weight:bold">
+        <i class="fa fa-wrench"></i>&nbsp;{{item | uppercase | translate}}
+        <span class="pull-right"
+              style="color:grey !important"
+              ng-class="{'fa fa-angle-down':cmdListOpt[item].show, 'fa fa-angle-right': !cmdListOpt[item].show}">
+              <!--ng-class="{'fa fa-angle-down':item.__show, 'fa fa-angle-right': !item.__show}">-->
+        </span>
+      </span>
+    </div>
+
+    <div collapse="!cmdListOpt[item].show" class="table-responsive" style="overflow: scroll">
+
+      <table class="table table-bordered table-condensed table-striped">
+        <tbody>
+        <tr ng-repeat="(key, val) in cmdListOpt[item].data.showcase">
+          <td align="left" style="width:30%">{{key}}</td>
+          <td>
+            <!--onbeforesave="updateCtrlData(item.title,key ,$data)"-->
+
+            <a ng-show="val.display == 'select'" class="light_blue border-bottom-none"
+               onaftersave="changeShowcase(item, key, $data)"
+               onshow="loadOption(item, key, val.show_key)"
+               e-ng-options="s for s in curOption"
+               editable-select="val.val">
+              {{val.val}}
+            </a>
+
+            <a ng-show="val.display == 'text'" class="light_blue border-bottom-none"
+               onaftersave="verifyData(item, key, $data)"
+               editable-text="val.val">
+              {{ val.val || 'empty' }}
+            </a>
+
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div><!--collapse table-->
+  </div><!--ng-repeat="item in cmdList"-->
+</div><!--rightbardetail done-->
+
+

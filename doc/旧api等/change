@@ -1,0 +1,41 @@
+1. 
+'get /api/device/total'
+'get /api/smartgates/total'
+
+2.
+'post /api/devices/dev_component_alias'
+'put /api/devices/:id/alias'
+
+3.
+'post /api/devices/dev_alias'
+'put /api/smartgates/:id/alias'
+
+4.
+'get  /api/devices/info'
+'get  /api/smartgates/:id/info'
+
+5.
+'get  /api/devices/list'
+'get /api/users/smartgates'	获取当前登陆用户的所有主机及设备信息
+'get /api/smartgates'		获取所有主机及设备的信息
+用法：/api/smartgates?page=&limit= 
+
+6.
+'post /api/users/signup'
+'post /api/users/'
+
+7.
+'post /api/users/login'
+'post /api/sessions'
+
+8.
+'post /api/users/signup_with_third'
+'post /api/thirdusers/'
+
+9.
+'post /api/users/login_with_third'
+'post /api/thirdsessions'
+
+
+
+

@@ -1,0 +1,149 @@
+/*cm-alarm*/
+.panel-color {
+    background-color: #99CC99;
+}
+
+.total {
+    background-color: #fff;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: #f6f6f6;
+    height: 50px;
+    width: 100%;
+    border: 1px solid #e7e7e7;
+}
+
+.leftbar {
+    width: 230px;
+    height: 730px;
+    background-color: #f6f6f6;
+    float: left;
+    border-right: 1px solid #e7e7e7;
+
+}
+
+.leftbar ul li {
+    width: 230px;
+    height: 50px;
+    line-height: 50px;
+    list-style-type: none;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.leftbar ul li:hover {
+    background-color: #e7e7e7;
+}
+
+.leftbar ul li a {
+    padding: 0;
+    margin-left: 36px;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.rightbar {
+    border-left: 1px solid #e7e7e7;
+    background-color: #FFFFFF;
+}
+
+.gridStyle {
+    border: 1px solid rgb(212, 212, 212);
+    width: 75%;
+    height: 730px;
+    float: left;
+    margin-left: 30px;
+}
+
+.button{
+    width: 100px;
+    line-height: 30px;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    text-shadow:1px 1px 1px #333;
+    border-radius: 5px;
+    margin:0 20px 20px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.button.gray{
+    color: #8c96a0;
+    text-shadow:1px 1px 1px #fff;
+    border:1px solid #dce1e6;
+    box-shadow: 0 1px 2px #fff inset,0 -1px 0 #a8abae inset;
+    background: -webkit-linear-gradient(top,#f2f3f7,#e4e8ec);
+    background: -moz-linear-gradient(top,#f2f3f7,#e4e8ec);
+    background: linear-gradient(top,#f2f3f7,#e4e8ec);
+}
+
+
+.headerCell span{
+    line-height: 38px
+}
+
+.headerCell button{
+    margin-left: 30px;
+}
+
+
+.click_onread {
+    margin-left: 16px;
+    color: #444444;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.unread {
+    font-size: 16px;
+    color: #2a2a2a;
+    position: relative;
+    vertical-align: baseline;
+    font-weight: 600;
+}
+
+.message_row {
+    line-height: 38px;
+}
+
+.message_row:hover {
+    background-color: #e8e8e8;
+}
+
+.date_style {
+    color: #bbb;
+    float: right;
+    font-size: 12px;
+    padding-right: 26px;
+    text-align: right;
+}
+
+.detailed ul li {
+    list-style-type: none;
+    font-size: 16px;
+    margin-left: 60px;
+}
+
+/*alarm-setting-view*/
+.div-frame {
+    height: 200px;
+    width: 250px;
+    float: left;
+    margin-right: 20px;
+    margin-top: 20px;
+
+    background-color: #fff;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.div-frame:hover {
+    border-color: #ABABAB;
+}
+

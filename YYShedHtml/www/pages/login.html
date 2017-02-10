@@ -1,0 +1,254 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5">
+
+<script type="text/javascript" src="www/./jm/jquery.min.js"></script>  
+<link rel="stylesheet" href="www/./css/core.css" />
+<link rel="stylesheet" href="www/./css/page.css" />
+<script type="text/javascript" src="www/./jm/jquery.mobile.min.js"></script>  
+<script type="text/javascript" charset="utf-8" src="www/./js/core.js" ></script>
+<script type="text/javascript" charset="utf-8" src="www/./js/page.js" ></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		check_dlorzc();
+		//绑定登录注册按钮
+		$("#loginSubmit").bind("click",function(){
+			var userName = document.getElementById("username").value;
+			var passWord = document.getElementById("password").value;
+			if(valid()){
+				//if(check_telephone(userName)){
+					var url = IP+"/api/sessions"
+						//注册时判断用户名是否已经存在
+					var checkData = {username:userName,password:passWord};
+					//alert("url="+checkData.username+" checkData="+checkData);
+					$.ajax({
+						type: "POST",
+				        url: url,  
+						data: checkData,
+						success: loginSuccess,
+						error: loginError
+					});
+			}else{
+				messageBox("请输入用户名、密码!");
+			}
+			
+		});
+		
+	});
+	
+	function check_dlorzc(){
+		var rememberPsd = window.localStorage.rememberPsd;
+		var userNamer = window.localStorage.userNamer;
+		var password = window.localStorage.password;
+		
+		if(rememberPsd == "1"){
+			$("#username").val(userNamer);
+			$("#password").val(password);
+			document.getElementById("isNo").style.display = "none";
+			document.getElementById("isYes").style.display = "";
+		}else{
+			document.getElementById("isNo").style.display = "";
+			document.getElementById("isYes").style.display = "none";
+			$("#username").val("");
+			$("#password").val("");
+		}
+	}
+	function check_telephone(username){  
+	    var reg= /^[1][358]\d{9}$/;  
+	    if(!reg.test(username)){  
+	        $("#username").value = "";  
+	        $("#username").focus();  
+	        return false;  
+	    } 
+	    return true; 
+	} 
+
+	//登录失败
+	function loginError(data,status){
+		alert("登陆失败，可能是网络不通");
+	}
+	
+	//登录成功
+	function loginSuccess(data,status){
+		//如果选择记住用户名
+		//alert("登录成功");
+		//alert("username="+data.username+"session_token="+data.session_token);
+		if($("#isYes").is(":hidden")){//没有记住密码
+			window.localStorage.setItem("rememberPsd","0");
+			window.localStorage.setItem("userNamer","");
+			window.localStorage.setItem("password","");
+		}else{//记住密码
+			window.localStorage.setItem("rememberPsd","1");
+			window.localStorage.setItem("userNamer",data.username);
+			window.localStorage.setItem("password",document.getElementById("password").value);
+		}
+		
+		if($("#isYes1").is(":hidden")){
+			//不自动登录
+			window.localStorage.setItem("autologin","0");
+		}else{
+			//自动登录
+			window.localStorage.setItem("autologin","1");
+		}
+		
+		var loginJson = data; 
+		if(data.session_token !=undefined && !(data.session_token == '')){
+			window.localStorage.setItem("session_token",data.session_token);
+			//alert("登录成功!");
+			location.href = "www/pages/index.html";
+		
+		}else{
+			alert(data.message);
+		}
+	}
+	
+	
+	//js验证
+	function valid(){
+		if($("#username").val()==''||$("#password").val()=='') {
+			return false;
+		}else{
+			return true;
+		}
+	};
+	
+	
+	function select(){
+		if($("#isYes").is(":hidden")){
+			document.getElementById("isYes").style.display = "";
+			document.getElementById("isNo").style.display = "none";
+		}else{
+			document.getElementById("isNo").style.display = "";
+			document.getElementById("isYes").style.display = "none";
+		}
+	}
+	function select1(){
+		if($("#isYes1").is(":hidden")){
+			document.getElementById("isYes1").style.display = "";
+			document.getElementById("isNo1").style.display = "none";
+		}else{
+			document.getElementById("isNo1").style.display = "";
+			document.getElementById("isYes1").style.display = "none";
+		}
+	}
+	function forgetPassword(){
+	   	location.href = "www/pages/forgetpassword.html";
+	}
+	function register(){
+	   	location.href = "www/pages/register.html";
+	}
+	
+</script>
+<title>登录</title> 
+</head>
+<body style="background-image:url('/YYShedHtml/www/images/login_bg.png');no-repeat center fixed">
+<div data-role="page" id="login" data-theme="a" class="page_style">
+<table  class="login_style" >
+	<tr>
+		<td align="center" style="margin-top: 20px">
+		  <img width="120px" height="120px" id="head_center" src="/YYShedHtml/www/images/logo1.png"/>
+		 </td>
+	</tr>
+</table>
+	<div id="content" data-role="content" align="center" class="content_div">
+		<div id="unLogin" style="border:0px;">
+			<div style="margin:3%;">
+			 	<div class="username_div">
+					<img alt="" src="www/./images/number_icon.png">
+					<input type="text" id="username" name="username" data-role="none" />
+				</div>
+				<div class="password_div">
+					<img alt="" src="www/./images/number_icon2.png">
+					<input  type="password" id="password" name="password" data-role="none"  />
+				</div>
+					<table style="border-collapse:separate; border-spacing:10px;">
+						<tr id="islogin" >
+							<td colspan="2" width="100%">
+								<table style="width: 100%; height: 40px">
+									<tr id="checkbox_tr">
+										<td width="10%" align="left"><img width="70px" height="26px" src="www/./images/button_off.png" style="display:" onClick="select()" id="isNo"><img width="70px" height="26px" src="www/./images/button_on.png" id="isYes"  onClick="select()" style="display: none;"></td>
+										<td id="wd_userNamer" width="40%" height="18px" align="left" style="color: #56c1e7" onClick="select()">记住密码</td>
+										<td width="10%" align="left"><img width="70px" height="26px" src="www/./images/button_off.png" style="display:" onClick="select1()" id="isNo1"><img width="70px" height="26px" src="www/./images/button_on.png" id="isYes1"  onClick="select1()" style="display: none;"></td>
+										<td id="wd_passWord" width="40%" height="18px" align="left" style="color: #56c1e7" onClick="select1()">自动登陆</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				<div id="loginSubmit" style="width: 100%;line-height:40px; height: 40px;background-color: #3AB430;text-align: center;text-shadow: none;">
+					登陆
+				</div>
+				<div  style="width: 100%;line-height:40px; height: 40px;">
+					<div  style="width: 20%;float: left;text-align: left;color: #ff9d06" onclick="forgetPassword();">
+						忘记密码
+					</div>
+					
+					<div 　 style="width: 20%;float: right;text-align: right;color: #f4491e" onclick="register();">
+						立即注册
+					</div>
+				</div>
+				<div  style="width: 100%;line-height:40px; height: 40px;">
+					<div  style="width: 30%;height:1px; float: left;text-align: left;background-color: #f5deb3;margin-top: 19px">
+					</div>
+					<div 　 style="width: 40%;float: left;text-align: center;color: black;">
+						或从以下方式登录
+					</div>
+					<div 　 style="width: 30%;height:1px; float: right;text-align: left;background-color: #f5deb3;margin-top: 19px">
+					</div>
+				</div>
+				<table style="width: 100%; ">
+					<tr >
+						<td width="33%">
+							<table  class="login_other_btn_style" >
+								<tr>
+									<td align="center" style="margin-top: 20px">
+									  <img width="80px" height="80px"  src="/YYShedHtml/www/images/logo_qq.png"/>
+									 </td>
+								</tr>
+								<tr>
+									<td align="center" >
+									 QQ
+									 </td>
+								</tr>
+							</table>
+						</td>
+						<td width="33%">
+							<table  class="login_other_btn_style" >
+								<tr>
+									<td align="center" style="margin-top: 20px">
+									  <img width="80px" height="80px"  src="/YYShedHtml/www/images/logo_sinaweibo.png"/>
+									 </td>
+								</tr>
+								<tr>
+									<td align="center" >
+									 新浪微博
+									 </td>
+								</tr>
+							</table>
+						</td>
+						<td width="33%">
+							<table  class="login_other_btn_style" >
+								<tr>
+									<td align="center" style="margin-top: 20px">
+									  <img width="80px" height="80px"  src="/YYShedHtml/www/images/logo_tencentweibo.png"/>
+									 </td>
+								</tr>
+								<tr>
+									<td align="center" >
+									 微信
+									 </td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+	</div>
+</div>
+</body>
+</html>

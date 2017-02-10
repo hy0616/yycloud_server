@@ -1,0 +1,48 @@
+
+<style>
+  .headerbar-tile-info {
+    border-left:2px solid rgb(63, 117, 131);
+    padding-left: 6px;
+    background-color: rgba(74, 74, 74, 0.45);
+    border-radius:4px;
+    height: 80px;
+  }
+
+  .headerbar-tile-header {
+    color:rgb(158, 158, 158);
+    border-bottom: 1px dashed rgb(69, 69, 69);
+  }
+
+  .headerbar-tile-body {
+    height:60px;
+    overflow: scroll;
+    /*overflow: hidden;*/
+  }
+
+  .line-height-14 {
+    line-height: 14px;
+  }
+
+  .small-fa {
+    font-size:0.8em;
+  }
+  .xx-small {
+    font-size: xx-small;
+  }
+  .x-small{
+    font-size: small;
+  }
+
+</style>
+
+<div class="headerbar-tile-info">
+  <!--<div class="headerbar-tile-header"><i class="fa fa-random small-fa"></i>&nbsp;{{data.header.text}}</div>-->
+  <div class="headerbar-tile-header"><i class="{{data.header.cssClass}} small-fa"></i>&nbsp;{{data.header.text}}</div>
+  <div class="headerbar-tile-body">
+    <div class="line-height-14 x-small" ng-repeat="item in data.content">
+      <span>{{item.key | translate}}:</span> <span>{{item.val}}</span>
+    </div>
+
+  </div>
+</div>
+
