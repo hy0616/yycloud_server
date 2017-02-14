@@ -403,10 +403,10 @@
                             <li ng-show="item.dev_alias !== '' && item.dev_alias !== undefined && item.dev_alias !== null && item.dev_alias !== 'undefined' && item.online_state === 'online'">
                                 设备别名:{{item.dev_alias}}
                             </li>
-                            <li>温度: <span odometer="item.air_temperature"
+                            <li>温度: <span odometer="item.soil_temperature"
                                           odometer-options="{theme: 'default', duration: 1000}"></span> °C
                             </li>
-                            <li>湿度: <span odometer="item.air_humidity"
+                            <li>湿度: <span odometer="item.soil_humidity"
                                           odometer-options="{theme: 'default', duration: 1000}"></span> %HR
                             </li>
                             <li>最后更新时间: <span class="pull-center" am-time-ago="update_date"> </span></li>

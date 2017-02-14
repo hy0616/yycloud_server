@@ -41,19 +41,20 @@
                 self.$on("ui:update:curDevForList", function () {
 
                     self.curGreenHouseForList = DevService.curGreenHouseForList;
+                    if(self.curGreenHouseForList.smartgate !== undefined) {
+                        self.plant_time = self.curGreenHouseForList.smartgate.plant_time.substr(0, 4) + "-" +
+                            self.curGreenHouseForList.smartgate.plant_time.substr(4, 2) + "-" +
+                            self.curGreenHouseForList.smartgate.plant_time.substr(6, 2);
 
-                    self.plant_time = self.curGreenHouseForList.smartgate.plant_time.substr(0, 4) + "-" +
-                        self.curGreenHouseForList.smartgate.plant_time.substr(4, 2) + "-" +
-                        self.curGreenHouseForList.smartgate.plant_time.substr(6, 2);
+                        self.harvest_time = self.curGreenHouseForList.smartgate.harvest_time.substr(0, 4) + "-" +
+                            self.curGreenHouseForList.smartgate.harvest_time.substr(4, 2) + "-" +
+                            self.curGreenHouseForList.smartgate.harvest_time.substr(6, 2);
 
-                    self.harvest_time = self.curGreenHouseForList.smartgate.harvest_time.substr(0, 4) + "-" +
-                        self.curGreenHouseForList.smartgate.harvest_time.substr(4, 2) + "-" +
-                        self.curGreenHouseForList.smartgate.harvest_time.substr(6, 2);
-
-                    //转换日期格式-最后更新时间
-                    var oldTime = self.curGreenHouseForList.components[0].server_time;
-                    var newTime = new Date(Number(oldTime)).getTime() + 8 * 60 * 60 * 1000;
-                    self.update_date = new Date(Number(newTime))
+                        //转换日期格式-最后更新时间
+                        var oldTime = self.curGreenHouseForList.components[0].server_time;
+                        var newTime = new Date(Number(oldTime)).getTime() + 8 * 60 * 60 * 1000;
+                        self.update_date = new Date(Number(newTime))
+                    }
                 });
 
             }])
@@ -63,9 +64,9 @@
                 var self = $scope;
                 self.refreshing = false;
 
-                /*setInterval(function () {
+                setInterval(function () {
                     self.refresh();
-                }, 10000);*/
+                }, 10000);
 
                 self.$on("ui:update:curDev", function (ev, da) {
                     if (da === true) {
@@ -79,9 +80,10 @@
 
                     self.falsh_data = true;
                     /*更新时间格式*/
-                    self.plant_time = self.curGreenHouse.smartgate.plant_time.substr(0, 4) + "-" +
-                        self.curGreenHouse.smartgate.plant_time.substr(4, 2) + "-" +
-                        self.curGreenHouse.smartgate.plant_time.substr(6, 2);
+                    if(self.curGreenHouse.smartgate !== undefined){
+                        self.plant_time = self.curGreenHouse.smartgate.plant_time.substr(0, 4) + "-" +
+                            self.curGreenHouse.smartgate.plant_time.substr(4, 2) + "-" +
+                            self.curGreenHouse.smartgate.plant_time.substr(6, 2);
 
                     /*种植时间格式*/
                     self.harvest_time = self.curGreenHouse.smartgate.harvest_time.substr(0, 4) + "-" +
@@ -97,6 +99,8 @@
                     var oldTime = self.curGreenHouse.components[0].server_time;
                     var newTime = new Date(Number(oldTime)).getTime() + 8 * 60 * 60 * 1000;
                     self.update_date = new Date(Number(newTime))
+
+                    }
 
                 });
 
