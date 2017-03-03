@@ -10,10 +10,12 @@ angular.module('service.pushWeb', [])
 
         self.init = function (username) {
             self.username = username;
-            self.socket = io.connect('http://127.0.0.1:3000');
+            self.socket = io.connect('ws://127.0.0.1:3000');
             //self.socket = io.connect('ws://yycloud.yunyangdata.com:3000');
+            //self.socket = io.connect('ws://182.92.67.74:3000');
             // notify the server that a new user login
             self.socket.emit('login', {username: username});
+            console.log("与websocket握手");
             //subscribe the message
             self.socket.on('push_to_' + username, function (data) {
                 $rootScope.$broadcast('event_push', data)

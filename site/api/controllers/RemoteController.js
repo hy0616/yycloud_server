@@ -31,7 +31,7 @@ module.exports = {
     webCmd.on('data', function(data) {
       var realData = JSON.parse(data);
       if (realData.type == 'response') {
-        res.json({ret: realData.ret});
+          res.json({ret: realData.ret});
       }else if (realData.type == 'data') {
         var rtData = realData.data;
         console.log('--------------->rtdata', JSON.stringify(rtData));

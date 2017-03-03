@@ -236,6 +236,7 @@
 .features {
     margin: 0;
     padding: 0;
+    min-height: 227px;
     text-align: left;
     background: #DEF0F4;
     color: #000;
@@ -280,8 +281,6 @@
     float: left;
     list-style-type: none;
     box-sizing: border-box;
-    height: 280px;
-
     margin-top: 16px;
     margin-bottom: 10px;
     margin-left: 6px;
@@ -304,6 +303,37 @@
 
 .offline_state{
     color: #c12e2a;
+}
+
+.relayboxSma > span{
+    width: 18%;
+    font-size: 16px;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.relaybox{
+    margin-top: 6px;
+    overflow: hidden;
+    border: solid 2px #D1EEEE;
+}
+
+.relaybox_body{
+    text-align: center;
+    width: 200px;
+    color: #fff;
+    float: left;
+    list-style-type: none;
+    box-sizing: border-box;
+    margin-top: 16px;
+    margin-bottom: 10px;
+    margin-left: 6px;
+    border-bottom: 1px solid transparent;
+}
+
+.relaybox_body ul > span{
+    margin-top: 25px;
+    margin-left: 10%;
 }
 
 #up_pwd {

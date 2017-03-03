@@ -1,7 +1,7 @@
 <html>
 <head>
     <style>
-        table tr{
+        table tr {
             height: 21px;
             line-height: 21px;
         }
@@ -17,28 +17,6 @@
                         <div class="col-md-6">
                             <div class="table-responsive">
                                 <h3><strong>{{curUserData.username}}您好</strong></h3>
-                                <!--  <table class="table table-condensed">
-                                           <h3><strong>{{curUserData.username}}</strong></h3>
-                                          <tbody>
-                                           <tr>
-                                             <td>电话</td>
-                                             <td><a href="#">{{curUserData.phone}}</a></td>
-                                           </tr>
-                                           <tr>
-                                             <td>Email</td>
-                                             <td><a href="">{{curUserData.email}}</a></td>
-                                           </tr>
-                                           <tr>
-                                             <td>地址</td>
-                                             <td>{{curUserData.contacts}}</td>
-                                           </tr>
-                                           <tr>
-                                             <td>主要作物</td>
-                                             <td><a href="">{{curUserData.devcurdatas[0].content.body.common.plant_name}}</a></td>
-                                           </tr>
-
-                                           </tbody>
-                                      </table>-->
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -50,14 +28,18 @@
                             <tabset class="tab-container tab-success">
                                 <tab heading="设备列表">
                                     <div class="clearfix">
+                                        <!--循环大棚列表-->
                                         <div class="row" ng-repeat="pad in curUserData.smartgates">
+                                            <!--大棚信息展示-->
                                             <div class="col-md-4">
-                                                <div class="marvel-device ipad silver" style="width:280px;height:325px;margin-top:35px;margin-left:8px;">
+                                                <div class="marvel-device ipad silver"
+                                                     style="width:280px;height:325px;margin-top:35px;margin-left:8px;">
                                                     <div class="camera"></div>
                                                     <div class="screen gGreen">
                                                         <div style="padding-top:25px">
                                                             <span class="pad-text-label">设备 sn :</span>
-                                                            <span class="pad-text-val-id" tooltip-placement="top" tooltip="{{pad.smartgate.sn}}">{{pad.smartgate.sn}}</span>
+                                                            <span class="pad-text-val-id" tooltip-placement="top"
+                                                                  tooltip="{{pad.smartgate.sn}}">{{pad.smartgate.sn}}</span>
                                                         </div>
                                                         <div class="clearfix"></div>
                                                         <div>
@@ -87,34 +69,66 @@
                                                 </div>
                                                 <!--pad-->
                                             </div>
+                                            <!--end 大棚信息展示-->
+
+                                            <!--设备信息展示-->
                                             <div class="col-md-8" style="overflow: hidden">
-                                                <h4 class="text-info">{{pad.dev_alias}} <span class="hand refresh-icon" ng-click="refreshUserInfo()"> <i class="fa fa-refresh" ng-class="{'fa-spin': refreshing == true}"></i>&nbsp;刷新 </span> </h4>
+                                                <h4 class="text-info" ng-show="pad.dev_alias == ''  || pad.dev_alias == 'undefined' ||
+                                                pad.dev_alias == null ||  pad.dev_alias == undefined">{{pad.smartgate.dev_name}}
+                                                    <span class="hand refresh-icon"  ng-click="refreshUserInfo()">
+                                                        <i class="fa fa-refresh" ng-class="{'fa-spin': refreshing == true}"></i>&nbsp;刷新
+                                                    </span>
+                                                </h4>
+                                                <h4 class="text-info" ng-show="pad.dev_alias !== '' && pad.online_state === 'online' && pad.dev_alias !== 'undefined' &&
+                                                pad.dev_alias !== null &&  pad.dev_alias !== undefined">{{pad.smartgate.dev_alias}}
+                                                    <span class="hand refresh-icon"  ng-click="refreshUserInfo()">
+                                                        <i class="fa fa-refresh" ng-class="{'fa-spin': refreshing == true}"></i>&nbsp;刷新
+                                                    </span>
+                                                </h4>
+                                                <!--循环该大棚设备列表-->
                                                 <div ng-repeat="sensor in pad.components">
                                                     <div class="sensor-panel" ng-show="sensor.dev_type == 'humidity-temperature'">
                                                         <div style="float: left;line-height: 36px" class="col-md-3">
                                                             <i class="fa fa-dot-circle-o sensor-green"></i>&nbsp;{{sensor.dev_name}}
                                                         </div>
                                                         <div class="col-md-6" style="float: left">
-                                                            <table style="text-align: center">
+                                                            <table class="me_table">
                                                                 <tbody>
                                                                 <tr>
                                                                     <td>设备状态</td>
+                                                                    <td>设备别名</td>
                                                                     <td>温度</td>
                                                                     <td>湿度</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td ng-show="sensor.online_state == 'online'">在线</td>
-                                                                    <td ng-show="sensor.online_state == 'offline'">离线</td>
-                                                                    <td ng-show="sensor.online_state == 'online'">{{sensor.air_temperature}} ℃</td>
-                                                                    <td ng-show="sensor.online_state == 'online'">{{sensor.air_humidity}} %HR</td>
+                                                                    <td ng-show="sensor.online_state == 'online'">在线
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'offline'">离线
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias === '' || sensor.dev_alias === 'undefined' ||
+                                                                    sensor.dev_alias === null || sensor.dev_alias === undefined">
+                                                                        无别名
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias !== '' && sensor.online_state === 'online' && sensor.dev_alias !== 'undefined' &&
+                                                                    sensor.dev_alias !== null &&  sensor.dev_alias !== undefined">
+                                                                        {{sensor.dev_alias}}
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'online'">
+                                                                        {{sensor.air_temperature}} ℃
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'online'">
+                                                                        {{sensor.air_humidity}} %HR
+                                                                    </td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
                                                         <div>
-                                                            <span class="pull-right" am-time-ago="sensor.server_time" tooltip-placement="top" tooltip="最后更新时间"></span>
-                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock" style="color:rgb(190, 190, 190)"></i>&nbsp;
-                                                            <br />
+                                                            <span class="pull-right" am-time-ago="sensor.server_time"
+                                                                  tooltip-placement="top" tooltip="最后更新时间"></span>
+                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock"
+                                                               style="color:rgb(190, 190, 190)"></i>&nbsp;
+                                                            <br/>
                                                         </div>
                                                     </div>
                                                     <div class="sensor-panel" ng-show=" 'camera' == sensor.dev_type">
@@ -122,120 +136,194 @@
                                                             <i class="fa fa-dot-circle-o sensor-green"></i>&nbsp;{{sensor.dev_name}}
                                                         </div>
                                                         <div class="col-md-6" style="float: left">
-                                                            <table style="text-align: center">
+                                                            <table class="me_table">
                                                                 <tbody>
                                                                 <tr>
                                                                     <td>设备状态</td>
+                                                                    <td>设备别名</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td ng-show="sensor.online_state == 'online'">在线</td>
-                                                                    <td ng-show="sensor.online_state == 'offline'">离线</td>
+                                                                    <td ng-show="sensor.online_state == 'online'">在线
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'offline'">离线
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias === '' || sensor.dev_alias === 'undefined' ||
+                                                                    sensor.dev_alias === null || sensor.dev_alias === undefined">
+                                                                        无别名
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias !== '' && sensor.online_state === 'online' && sensor.dev_alias !== 'undefined' &&
+                                                                    sensor.dev_alias !== null &&  sensor.dev_alias !== undefined">
+                                                                        {{sensor.dev_alias}}
+                                                                    </td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
                                                         <div>
-                                                            <span class="pull-right" am-time-ago="sensor.server_time" tooltip-placement="top" tooltip="最后更新时间"></span>
-                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock" style="color:rgb(190, 190, 190)"></i>&nbsp;
+                                                            <span class="pull-right" am-time-ago="sensor.server_time"
+                                                                  tooltip-placement="top" tooltip="最后更新时间"></span>
+                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock"
+                                                               style="color:rgb(190, 190, 190)"></i>&nbsp;
                                                         </div>
-                                                        <br />
+                                                        <br/>
                                                     </div>
                                                     <div class="sensor-panel" ng-show=" 'cameraip' == sensor.dev_type">
                                                         <div style="float: left;line-height: 36px" class="col-md-3">
                                                             <i class="fa fa-dot-circle-o sensor-green"></i>&nbsp;{{sensor.dev_name}}
                                                         </div>
                                                         <div class="col-md-6" style="float: left">
-                                                            <table style="text-align: center">
+                                                            <table class="me_table">
                                                                 <tbody>
                                                                 <tr>
                                                                     <td>设备状态</td>
+                                                                    <td>设备别名</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td ng-show="sensor.online_state == 'online'">在线</td>
-                                                                    <td ng-show="sensor.online_state == 'offline'">离线</td>
+                                                                    <td ng-show="sensor.online_state == 'online'">在线
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'offline'">离线
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias === '' || sensor.dev_alias === 'undefined' ||
+                                                                    sensor.dev_alias === null || sensor.dev_alias === undefined">
+                                                                        无别名
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias !== '' && sensor.online_state === 'online' && sensor.dev_alias !== 'undefined' &&
+                                                                    sensor.dev_alias !== null &&  sensor.dev_alias !== undefined">
+                                                                        {{sensor.dev_alias}}
+                                                                    </td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
                                                         <div>
-                                                            <span class="pull-right" am-time-ago="sensor.server_time" tooltip-placement="top" tooltip="最后更新时间"></span>
-                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock" style="color:rgb(190, 190, 190)"></i>&nbsp;
+                                                            <span class="pull-right" am-time-ago="sensor.server_time"
+                                                                  tooltip-placement="top" tooltip="最后更新时间"></span>
+                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock"
+                                                               style="color:rgb(190, 190, 190)"></i>&nbsp;
                                                         </div>
-                                                        <br />
+                                                        <br/>
                                                     </div>
                                                     <div class="sensor-panel" ng-show="sensor.dev_type == 'erelay'">
                                                         <div style="float: left;line-height: 36px" class="col-md-3">
                                                             <i class="fa fa-dot-circle-o sensor-green"></i>&nbsp;{{sensor.dev_name}}
                                                         </div>
                                                         <div class="col-md-6" style="float: left">
-                                                            <table style="text-align: center">
+                                                            <table class="me_table">
                                                                 <tbody>
                                                                 <tr>
                                                                     <td>设备状态</td>
+                                                                    <td>设备别名</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td ng-show="sensor.online_state == 'online'">在线</td>
-                                                                    <td ng-show="sensor.online_state == 'offline'">离线</td>
+                                                                    <td ng-show="sensor.online_state == 'online'">在线
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'offline'">离线
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias === '' || sensor.dev_alias === 'undefined' ||
+                                                                    sensor.dev_alias === null || sensor.dev_alias === undefined">
+                                                                        无别名
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias !== '' && sensor.online_state === 'online' && sensor.dev_alias !== 'undefined' &&
+                                                                    sensor.dev_alias !== null &&  sensor.dev_alias !== undefined">
+                                                                        {{sensor.dev_alias}}
+                                                                    </td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
                                                         <div>
-                                                            <span class="pull-right" am-time-ago="sensor.server_time" tooltip-placement="top" tooltip="最后更新时间"></span>
-                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock" style="color:rgb(190, 190, 190)"></i>&nbsp;
+                                                            <span class="pull-right" am-time-ago="sensor.server_time"
+                                                                  tooltip-placement="top" tooltip="最后更新时间"></span>
+                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock"
+                                                               style="color:rgb(190, 190, 190)"></i>&nbsp;
                                                         </div>
-                                                        <br />
+                                                        <br/>
                                                     </div>
                                                     <div class="sensor-panel" ng-show="sensor.dev_type == 'erelay2'">
                                                         <div class="col-md-3" style="float: left;line-height: 36px">
                                                             <i class="fa fa-dot-circle-o sensor-green"></i>&nbsp;{{sensor.dev_name}}
                                                         </div>
                                                         <div class="col-md-6" style="float: left">
-                                                            <table style="text-align: center">
+                                                            <table class="me_table">
                                                                 <tbody>
                                                                 <tr>
                                                                     <td>设备状态</td>
+                                                                    <td>设备别名</td>
                                                                     <td>卷帘机状态</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td ng-show="sensor.online_state == 'online'">在线</td>
-                                                                    <td ng-show="sensor.online_state == 'offline'">离线</td>
-                                                                    <td ng-show="sensor.online_state == 'online' && sensor.status == 0">上行</td>
-                                                                    <td ng-show="sensor.online_state == 'online' && sensor.status == 1">停止</td>
-                                                                    <td ng-show="sensor.online_state == 'online' && sensor.status == 2">下行</td>
+                                                                    <td ng-show="sensor.online_state == 'online'">在线
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'offline'">离线
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias === '' || sensor.dev_alias === 'undefined' ||
+                                                                    sensor.dev_alias === null || sensor.dev_alias === undefined">
+                                                                        无别名
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias !== '' && sensor.online_state === 'online' && sensor.dev_alias !== 'undefined' &&
+                                                                    sensor.dev_alias !== null &&  sensor.dev_alias !== undefined">
+                                                                        {{sensor.dev_alias}}
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'online' && sensor.status == 0">
+                                                                        上行
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'online' && sensor.status == 1">
+                                                                        停止
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'online' && sensor.status == 2">
+                                                                        下行
+                                                                    </td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
                                                         <div>
-                                                            <span class="pull-right" am-time-ago="sensor.server_time" tooltip-placement="top" tooltip="最后更新时间"></span>
-                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock" style="color:rgb(190, 190, 190)"></i>&nbsp;
+                                                            <span class="pull-right" am-time-ago="sensor.server_time"
+                                                                  tooltip-placement="top" tooltip="最后更新时间"></span>
+                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock"
+                                                               style="color:rgb(190, 190, 190)"></i>&nbsp;
                                                         </div>
-                                                        <br />
+                                                        <br/>
                                                     </div>
-                                                    <div class="sensor-panel" ng-show="sensor.dev_type == 'illumination'">
+                                                    <div class="sensor-panel"
+                                                         ng-show="sensor.dev_type == 'illumination'">
                                                         <div style="float: left;line-height: 36px" class="col-md-3">
                                                             <i class="fa fa-dot-circle-o sensor-green"></i>&nbsp;{{sensor.dev_name}}
                                                         </div>
                                                         <div class="col-md-6" style="float: left">
-                                                            <table style="text-align: center">
+                                                            <table class="me_table">
                                                                 <tbody>
                                                                 <tr>
                                                                     <td>设备状态</td>
+                                                                    <td>设备别名</td>
                                                                     <td>光照</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td ng-show="sensor.online_state == 'online'">在线</td>
-                                                                    <td ng-show="sensor.online_state == 'offline'">离线</td>
-                                                                    <td ng-show="sensor.online_state == 'online'">{{sensor.lux}} lux</td>
+                                                                    <td ng-show="sensor.online_state == 'online'">在线
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'offline'">离线
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias === '' || sensor.dev_alias === 'undefined' ||
+                                                                    sensor.dev_alias === null || sensor.dev_alias === undefined">
+                                                                        无别名
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias !== '' && sensor.online_state === 'online' && sensor.dev_alias !== 'undefined' &&
+                                                                    sensor.dev_alias !== null &&  sensor.dev_alias !== undefined">
+                                                                        {{sensor.dev_alias}}
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'online'">
+                                                                        {{sensor.lux}} lux
+                                                                    </td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
                                                         <div>
-                                                            <span class="pull-right" am-time-ago="sensor.server_time" tooltip-placement="top" tooltip="最后更新时间"></span>
-                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock" style="color:rgb(190, 190, 190)"></i>&nbsp;
-                                                            <br />
+                                                            <span class="pull-right" am-time-ago="sensor.server_time"
+                                                                  tooltip-placement="top" tooltip="最后更新时间"></span>
+                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock"
+                                                               style="color:rgb(190, 190, 190)"></i>&nbsp;
+                                                            <br/>
                                                         </div>
                                                     </div>
                                                     <div class="sensor-panel" ng-show="sensor.dev_type == 'co'">
@@ -243,144 +331,296 @@
                                                             <i class="fa fa-dot-circle-o sensor-green"></i>&nbsp;{{sensor.dev_name}}
                                                         </div>
                                                         <div class="col-md-6" style="float: left">
-                                                            <table style="text-align: center">
+                                                            <table class="me_table">
                                                                 <tbody>
                                                                 <tr>
                                                                     <td>设备状态</td>
+                                                                    <td>设备别名</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td ng-show="sensor.online_state == 'online'">在线</td>
-                                                                    <td ng-show="sensor.online_state == 'offline'">离线</td>
+                                                                    <td ng-show="sensor.online_state == 'online'">在线
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'offline'">离线
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias === '' || sensor.dev_alias === 'undefined' ||
+                                                                    sensor.dev_alias === null || sensor.dev_alias === undefined">
+                                                                        无别名
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias !== '' && sensor.online_state === 'online' && sensor.dev_alias !== 'undefined' &&
+                                                                    sensor.dev_alias !== null &&  sensor.dev_alias !== undefined">
+                                                                        {{sensor.dev_alias}}
+                                                                    </td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
                                                         <div>
-                                                            <span class="pull-right" am-time-ago="sensor.server_time" tooltip-placement="top" tooltip="最后更新时间"></span>
-                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock" style="color:rgb(190, 190, 190)"></i>&nbsp;
+                                                            <span class="pull-right" am-time-ago="sensor.server_time"
+                                                                  tooltip-placement="top" tooltip="最后更新时间"></span>
+                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock"
+                                                               style="color:rgb(190, 190, 190)"></i>&nbsp;
                                                         </div>
-                                                        <br />
+                                                        <br/>
                                                     </div>
                                                     <div class="sensor-panel" ng-show="sensor.dev_type == 'co2'">
                                                         <div style="float: left;line-height: 36px" class="col-md-3">
                                                             <i class="fa fa-dot-circle-o sensor-green"></i>&nbsp;{{sensor.dev_name}}
                                                         </div>
                                                         <div class="col-md-6" style="float: left">
-                                                            <table style="text-align: center">
+                                                            <table class="me_table">
                                                                 <tbody>
                                                                 <tr>
                                                                     <td>设备状态</td>
+                                                                    <td>设备别名</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td ng-show="sensor.online_state == 'online'">在线</td>
-                                                                    <td ng-show="sensor.online_state == 'offline'">离线</td>
+                                                                    <td ng-show="sensor.online_state == 'online'">在线
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'offline'">离线
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias === '' || sensor.dev_alias === 'undefined' ||
+                                                                    sensor.dev_alias === null || sensor.dev_alias === undefined">
+                                                                        无别名
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias !== '' && sensor.online_state === 'online' && sensor.dev_alias !== 'undefined' &&
+                                                                    sensor.dev_alias !== null &&  sensor.dev_alias !== undefined">
+                                                                        {{sensor.dev_alias}}
+                                                                    </td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
                                                         <div>
-                                                            <span class="pull-right" am-time-ago="sensor.server_time" tooltip-placement="top" tooltip="最后更新时间"></span>
-                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock" style="color:rgb(190, 190, 190)"></i>&nbsp;
+                                                            <span class="pull-right" am-time-ago="sensor.server_time"
+                                                                  tooltip-placement="top" tooltip="最后更新时间"></span>
+                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock"
+                                                               style="color:rgb(190, 190, 190)"></i>&nbsp;
                                                         </div>
-                                                        <br />
+                                                        <br/>
                                                     </div>
-                                                    <div class="sensor-panel" ng-show="sensor.dev_type == 'soil_th'">
+                                                    <div class="sensor-panel" ng-show="sensor.dev_type == 'soil-th'">
                                                         <div style="float: left;line-height: 36px" class="col-md-3">
                                                             <i class="fa fa-dot-circle-o sensor-green"></i>&nbsp;{{sensor.dev_name}}
                                                         </div>
                                                         <div class="col-md-6" style="float: left">
-                                                            <table style="text-align: center">
+                                                            <table class="me_table">
                                                                 <tbody>
                                                                 <tr>
                                                                     <td>设备状态</td>
+                                                                    <td>设备别名</td>
                                                                     <td>温度</td>
                                                                     <td>湿度</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td ng-show="sensor.online_state == 'online'">在线</td>
-                                                                    <td ng-show="sensor.online_state == 'offline'">离线</td>
-                                                                    <td ng-show="sensor.online_state == 'online'">{{sensor.air_temperature}}℃</td>
-                                                                    <td ng-show="sensor.online_state == 'online'">{{sensor.air_humidity}} %HR</td>
+                                                                    <td ng-show="sensor.online_state == 'online'">在线
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'offline'">离线
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias === '' || sensor.dev_alias === 'undefined' ||
+                                                                    sensor.dev_alias === null || sensor.dev_alias === undefined">
+                                                                        无别名
+                                                                    </td>
+                                                                    <td ng-show="sensor.dev_alias !== '' && sensor.online_state === 'online' && sensor.dev_alias !== 'undefined' &&
+                                                                    sensor.dev_alias !== null &&  sensor.dev_alias !== undefined">
+                                                                        {{sensor.dev_alias}}
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'online'">
+                                                                        {{sensor.soil_temperature}}℃
+                                                                    </td>
+                                                                    <td ng-show="sensor.online_state == 'online'">
+                                                                        {{sensor.soil_humidity}} %HR
+                                                                    </td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
                                                         <div>
-                                                            <span class="pull-right" am-time-ago="sensor.server_time" tooltip-placement="top" tooltip="最后更新时间"></span>
-                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock" style="color:rgb(190, 190, 190)"></i>&nbsp;
-                                                            <br />
+                                                            <span class="pull-right" am-time-ago="sensor.server_time"
+                                                                  tooltip-placement="top" tooltip="最后更新时间"></span>
+                                                            <i class="fa fa-ellipsis-v pull-right sensor-clock"
+                                                               style="color:rgb(190, 190, 190)"></i>&nbsp;
+                                                            <br/>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <hr />
                                             </div>
-                                            <hr />
+                                            <!--end 单个设备列表-->
+
+                                            <!--电气柜-->
+                                            <div class="col-md-8" style="overflow: hidden">
+                                                <div ng-repeat="dev in pad.components">
+                                                    <div class="me_relaybox" ng-show="'relaybox' == dev.dev_type">
+                                                        <span>设备类型: 电气柜</span>
+                                                        <span>名称: {{dev.dev_name}}</span>
+                                                        <span ng-show="dev.online_state == 'online'">状态: 在线</span>
+                                                        <span ng-show="dev.online_state == 'offline'">状态: 离线</span>
+                                                        <span>通道数: {{dev.pool_list.length}}</span>
+                                                        <span>sn: {{dev.sn}}</span>
+                                                        <div class="relaybox">
+                                                            <div ng-repeat="sensor in dev.pool_list" class="me_relaybox_body">
+                                                                <div style="float: left;line-height: 36px;width: 18%;">
+                                                                    <i class="fa fa-dot-circle-o sensor-green"></i>&nbsp;{{sensor.dev_name}}
+                                                                </div>
+                                                                <div style="float: left;width: 80%" ng-show="'SINGLE' == sensor.dev_type">
+                                                                    <table class="me_table">
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td>通道</td>
+                                                                            <td>类型</td>
+                                                                            <td>名称</td>
+                                                                            <td>状态</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>{{sensor.pool_index}}</td>
+                                                                            <td>单继电器</td>
+                                                                            <td>{{sensor.dev_extend_type}}</td>
+                                                                            <td ng-show="sensor.status == '1'"> 开启 </td>
+                                                                            <td ng-show="sensor.status == '0'"> 关闭 </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div style="float: left;width: 80%" ng-show="'DOUBLE' == sensor.dev_type">
+                                                                    <table class="me_table">
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td>通道</td>
+                                                                            <td>类型</td>
+                                                                            <td>名称</td>
+                                                                            <td>状态</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>{{sensor.pool_index}}</td>
+                                                                            <td>双继电器</td>
+                                                                            <td>{{sensor.dev_extend_type}}</td>
+                                                                            <td ng-show="sensor.status == '0'"> 上行 </td>
+                                                                            <td ng-show="sensor.status == '2'"> 停止 </td>
+                                                                            <td ng-show="sensor.status == '1'"> 下行 </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--end 电气柜-->
                                         </div>
                                     </div>
                                 </tab>
-                               <!-- <tab heading="统计分析" ng-click="chartResize()">
-                                    <div ng-repeat="pad in curUserData.smartgates">
-                                        <h4 class="text-info">{{pad.dev_alias}}</h4>
-                                        <div class="row">
-                                            <div class="col-md-2" style="border-right:1px solid rgb(228, 228, 228);height:250px;border-bottom:3px solid rgb(236, 236, 236);margin-top:3px;">
-                                                <h4 class="text-warning">大棚sn:{{pad.smartgate.sn}}</h4>
-                                                <div class="text-muted">
-                                                    <span class="hand" ng-class="{'me-active': 'today' == optsionPool[pad.smartgate.sn].chartDate}" ng-click="selectDate('today', pad.smartgate.sn)">今天</span>
-                                                    <span class="hand" ng-class="{'me-active': 'week' == optsionPool[pad.smartgate.sn].chartDate}" ng-click="selectDate('week', pad.smartgate.sn)">本周</span>
-                                                    <span class="hand" ng-class="{'me-active': 'month' == optsionPool[pad.smartgate.sn].chartDate}" ng-click="selectDate('month', pad.smartgate.sn)">本月</span>
-                                                </div>
-                                                <div class="text-muted">
-                                                    <span class="hand" ng-class="{'me-active': 'scope2' == optsionPool[pad.smartgate.sn].chartSize}" ng-click="selectSize('scope2', pad.smartgate.sn)">小时</span>
-               <span class="hand" ng-show="optsionPool[pad.smartgate.sn].chartDate == 'today' ||
-                          optsionPool[pad.smartgate.sn].chartDate == 'week'" ng-class="{'me-active': 'scope1' == optsionPool[pad.smartgate.sn].chartSize}" ng-click="selectSize('scope1', pad.smartgate.sn)">20分钟</span>
-                                                    <span class="hand" ng-show="optsionPool[pad.smartgate.sn].chartDate == 'today'" ng-class="{'me-active': 'scope0' == optsionPool[pad.smartgate.sn].chartSize}" ng-click="selectSize('scope0', pad.smartgate.sn)">5分钟</span>
-                                                </div>
-                                                <div class="text-muted">
-                                                    <span class="hand" ng-class="{'me-active': 'line' == optsionPool[pad.smartgate.sn].chartType}" ng-click="selectType('line', pad.smartgate.sn)">线性图</span>
-                                                    <span class="hand" ng-class="{'me-active': 'column' == optsionPool[pad.smartgate.sn].chartType}" ng-click="selectType('column', pad.smartgate.sn)">柱状图</span>
-                                                    <span class="hand" ng-class="{'me-active': 'area' == optsionPool[pad.smartgate.sn].chartType}" ng-click="selectType('area', pad.smartgate.sn)">面积图</span>
-                                                </div>
-                                                <hr />
-                                                <div>
-                                                    <span>主要作物：</span>
-                                                    <span>{{pad.smartgate.plant_name}} </span>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                                <div>
-                                                    <span>大棚面积：</span>
-                                                    <span>{{pad.smartgate.area}} 平方米</span>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                            <div class="col-md-10" style="margin-bottom:25px;border-bottom:3px solid rgb(236, 236, 236)">
-                                                <highchart class="fuck-chart" config="chartConfig[pad.smartgate.sn +'temperature']" style="height:125px;"></highchart>
-                                                <highchart class="fuck-chart" config="chartConfig[pad.smartgate.sn + 'humidity']" style="height:125px;"></highchart>
-                                                <highchart class="fuck-chart" config="chartConfig[pad.smartgate.sn + 'illumination']" style="height:125px;"></highchart>
-                                            </div>
-                                        </div>
-                                        <hr />
-                                    </div>
-                                </tab>-->
+                                <!-- <tab heading="统计分析" ng-click="chartResize()">
+                                     <div ng-repeat="pad in curUserData.smartgates">
+                                         <h4 class="text-info">{{pad.dev_alias}}</h4>
+                                         <div class="row">
+                                             <div class="col-md-2" style="border-right:1px solid rgb(228, 228, 228);height:250px;border-bottom:3px solid rgb(236, 236, 236);margin-top:3px;">
+                                                 <h4 class="text-warning">大棚sn:{{pad.smartgate.sn}}</h4>
+                                                 <div class="text-muted">
+                                                     <span class="hand" ng-class="{'me-active': 'today' == optsionPool[pad.smartgate.sn].chartDate}" ng-click="selectDate('today', pad.smartgate.sn)">今天</span>
+                                                     <span class="hand" ng-class="{'me-active': 'week' == optsionPool[pad.smartgate.sn].chartDate}" ng-click="selectDate('week', pad.smartgate.sn)">本周</span>
+                                                     <span class="hand" ng-class="{'me-active': 'month' == optsionPool[pad.smartgate.sn].chartDate}" ng-click="selectDate('month', pad.smartgate.sn)">本月</span>
+                                                 </div>
+                                                 <div class="text-muted">
+                                                     <span class="hand" ng-class="{'me-active': 'scope2' == optsionPool[pad.smartgate.sn].chartSize}" ng-click="selectSize('scope2', pad.smartgate.sn)">小时</span>
+                <span class="hand" ng-show="optsionPool[pad.smartgate.sn].chartDate == 'today' ||
+                           optsionPool[pad.smartgate.sn].chartDate == 'week'" ng-class="{'me-active': 'scope1' == optsionPool[pad.smartgate.sn].chartSize}" ng-click="selectSize('scope1', pad.smartgate.sn)">20分钟</span>
+                                                     <span class="hand" ng-show="optsionPool[pad.smartgate.sn].chartDate == 'today'" ng-class="{'me-active': 'scope0' == optsionPool[pad.smartgate.sn].chartSize}" ng-click="selectSize('scope0', pad.smartgate.sn)">5分钟</span>
+                                                 </div>
+                                                 <div class="text-muted">
+                                                     <span class="hand" ng-class="{'me-active': 'line' == optsionPool[pad.smartgate.sn].chartType}" ng-click="selectType('line', pad.smartgate.sn)">线性图</span>
+                                                     <span class="hand" ng-class="{'me-active': 'column' == optsionPool[pad.smartgate.sn].chartType}" ng-click="selectType('column', pad.smartgate.sn)">柱状图</span>
+                                                     <span class="hand" ng-class="{'me-active': 'area' == optsionPool[pad.smartgate.sn].chartType}" ng-click="selectType('area', pad.smartgate.sn)">面积图</span>
+                                                 </div>
+                                                 <hr />
+                                                 <div>
+                                                     <span>主要作物：</span>
+                                                     <span>{{pad.smartgate.plant_name}} </span>
+                                                 </div>
+                                                 <div class="clearfix"></div>
+                                                 <div>
+                                                     <span>大棚面积：</span>
+                                                     <span>{{pad.smartgate.area}} 平方米</span>
+                                                 </div>
+                                                 <div class="clearfix"></div>
+                                             </div>
+                                             <div class="col-md-10" style="margin-bottom:25px;border-bottom:3px solid rgb(236, 236, 236)">
+                                                 <highchart class="fuck-chart" config="chartConfig[pad.smartgate.sn +'temperature']" style="height:125px;"></highchart>
+                                                 <highchart class="fuck-chart" config="chartConfig[pad.smartgate.sn + 'humidity']" style="height:125px;"></highchart>
+                                                 <highchart class="fuck-chart" config="chartConfig[pad.smartgate.sn + 'illumination']" style="height:125px;"></highchart>
+                                             </div>
+                                         </div>
+                                         <hr />
+                                     </div>
+                                 </tab>-->
                                 <tab heading="设备控制">
                                     设备控制
                                     <div ng-repeat="pad in curUserData.smartgates">
-                                        <h4 class="text-info">{{pad.smartgate.dev_name}}</h4>
+                                        <h4 class="text-info" ng-show="pad.dev_alias !== '' && pad.online_state === 'online' && pad.dev_alias !== 'undefined' &&
+                                                pad.dev_alias !== null &&  pad.dev_alias !== undefined">{{pad.smartgate.dev_alias}}</h4>
+                                        <h4 class="text-info" ng-show="pad.dev_alias == '' || pad.dev_alias == 'undefined' ||
+                                                pad.dev_alias == null ||  pad.dev_alias == undefined">{{pad.smartgate.dev_name}}</h4>
                                         <!--switchBtns: {{switchBtns}}-->
                                         <div ng-repeat="sensor in pad.components">
                                             <div class="sensor-panel" ng-show="sensor.dev_type == 'erelay'">
-                                                <i class="fa fa-dot-circle-o sensor-green"></i>&nbsp;{{sensor.dev_name}}
+                                                <span style="line-height: 36px"><i class="fa fa-dot-circle-o sensor-green"></i>
+                                                    &nbsp;{{sensor.dev_name}}:</span>
+
+                                                <span ng-show="sensor.dev_alias != 'undefined'">{{sensor.dev_alias}}</span>
+                                                <span ng-show="sensor.dev_alias == 'undefined'">下线</span>
                                                 <!--<img src="assets/img/open.png" style="margin-left:10px">-->
-                                                <span class="btn btn-sm pull-right btn-danger ctrl-btn" ng-click="toggleSwitch(pad.smartgate.sn,sensor.sn)" ng-show="switchBtns[pad.smartgate.sn+sensor.sn]"> <span ng-show="switchBtnsLoading[pad.smartgate.sn+sensor.sn]"> <i class="fa fa-spinner fa-spin"></i>&nbsp; </span> 已关闭 </span>
-                                                <span class="btn btn-sm pull-right btn-success ctrl-btn" ng-click="toggleSwitch(pad.smartgate.sn,sensor.sn)" ng-show="!switchBtns[pad.smartgate.sn+sensor.sn]"> <span ng-show="switchBtnsLoading[pad.smartgate.sn+sensor.sn]"> <i class="fa fa-spinner fa-spin"></i>&nbsp; </span> 已开启 </span>
-                                                <i class="fa fa-wrench pull-right sensor-clock" style="color:rgb(152, 152, 152);padding-top:6px;">&nbsp;&nbsp;控制开关：</i>&nbsp;
-                                                <br />
+                                                <span class="btn btn-sm pull-right btn-danger ctrl-btn" disabled
+                                                      ng-click="OneToggleSwitch(pad.smartgate.sn, sensor.sn, 'set_eralay_switch', '1')"
+                                                      ng-show="sensor.status == 0"> <span
+                                                        ng-show="switchBtnsLoading[pad.smartgate.sn+sensor.sn]">
+                                                    <i class="fa fa-spinner fa-spin"></i>&nbsp; </span> 已关闭 </span>
+                                                <span class="btn btn-sm pull-right btn-success ctrl-btn" disabled
+                                                      ng-click="OneToggleSwitch(pad.smartgate.sn, sensor.sn, 'set_eralay_switch', '0')"
+                                                      ng-show="sensor.status == 1">
+                                                    <span ng-show="switchBtnsLoading[pad.smartgate.sn+sensor.sn]">
+                                                        <i class="fa fa-spinner fa-spin"></i>&nbsp; </span> 已开启 </span>
+
+                                               <span class="pull-right" style="line-height: 36px"><i class="fa fa-wrench sensor-clock">
+                                                   &nbsp;&nbsp;控制开关：</i>&nbsp;</span>
+                                                <br/>
                                             </div>
+
                                             <div class="sensor-panel" ng-show="sensor.dev_type == 'erelay2'">
-                                                <i class="fa fa-dot-circle-o sensor-green"></i>&nbsp;{{sensor.dev_name}}
-                                                <span class="btn btn-sm pull-right btn-danger ctrl-btn" ng-click="toggleSwitch(pad.smartgate.sn,sensor.sn)" ng-show="switchBtns[pad.smartgate.sn+sensor.sn]"> <span ng-show="switchBtnsLoading[pad.smartgate.sn+sensor.sn]"> <i class="fa fa-spinner fa-spin"></i>&nbsp; </span> 已关闭 </span>
-                                                <span class="btn btn-sm pull-right btn-success ctrl-btn" ng-click="toggleSwitch(pad.smartgate.sn,sensor.sn)" ng-show="!switchBtns[pad.smartgate.sn+sensor.sn]"> <span ng-show="switchBtnsLoading[pad.smartgate.sn+sensor.sn]"> <i class="fa fa-spinner fa-spin"></i>&nbsp; </span> 已开启 </span>
-                                                <i class="fa fa-wrench pull-right sensor-clock" style="color:rgb(152, 152, 152);padding-top:6px;">&nbsp;&nbsp;控制开关：</i>&nbsp;
-                                                <br />
+                                                <span style="line-height: 36px"><i class="fa fa-dot-circle-o sensor-green"></i>
+                                                    &nbsp;{{sensor.dev_name}}:</span>
+                                                <span ng-show="sensor.dev_alias != 'undefined'">{{sensor.dev_alias}}</span>
+                                                <span ng-show="sensor.online_state == 'offline'">下线</span>
+                                                <span ng-show="sensor.online_state == 'online'">正常</span>
+
+                                                <div class="btn-group pull-right" style="line-height: 36px">
+                                                    <button type="button" class="btn pull-right" disabled
+                                                            ng-class="{'btn-success': sensor.status == 1}"
+                                                            ng-click="twoToggleSwitch(pad.smartgate.sn, sensor.sn, 'set_eralay2_switch', '1', sensor.dev_extend_type)">
+                                                        <span ng-show="switchBtnsLoading[pad.smartgate.sn+sensor.sn+'1']">
+                                                        <i class="fa fa-spinner fa-spin"></i>&nbsp; </span>
+                                                        下行
+                                                    </button>
+
+                                                    <button type="button" class="btn pull-right" disabled
+                                                            ng-class="{'btn-success': sensor.status == 2}"
+                                                            ng-click="twoToggleSwitch(pad.smartgate.sn, sensor.sn, 'set_eralay2_switch', '2', sensor.dev_extend_type)">
+                                                        <span ng-show="switchBtnsLoading[pad.smartgate.sn+sensor.sn+'2']">
+                                                        <i class="fa fa-spinner fa-spin"></i>&nbsp; </span>
+                                                        停止
+                                                    </button>
+                                                    <button type="button" class="btn pull-right" disabled
+                                                            ng-class="{'btn-success': sensor.status == 0}"
+                                                            ng-click="twoToggleSwitch(pad.smartgate.sn, sensor.sn, 'set_eralay2_switch', '0', sensor.dev_extend_type)">
+                                                        <span ng-show="switchBtnsLoading[pad.smartgate.sn+sensor.sn+'0']">
+                                                        <i class="fa fa-spinner fa-spin"></i>&nbsp; </span>
+                                                        上行
+                                                    </button>
+
+                                                </div>
+
+                                                <span class="pull-right" style="line-height: 36px"><i class="fa fa-wrench sensor-clock">
+                                                    &nbsp;&nbsp;控制开关：</i>&nbsp;</span>
+
+                                                <br/>
                                             </div>
                                         </div>
                                         <!--sensor-->

@@ -8,12 +8,22 @@ module.exports = {
     initPushSocketServer();
   },
 
-  pushSpecialUserWeb: function (username, msg) {
+  pushSpecialUserWebb: function (username, msg) {
     if (userSockets.hasOwnProperty(username)) {
       _.forEach(userSockets[username], function (socketPair) {
         _.values(socketPair)[0].emit('push_to_' + username, {data: msg});
       })
     }
+  },
+  pushDevStatusChangelUserWeb: function (username, msg) {
+      console.log('PushWebService_pushDevStatusChangelUserWeb 执行了....');
+      console.log(username+' '+userSockets.hasOwnProperty(username));//false
+      if (userSockets.hasOwnProperty(username)) {
+          _.forEach(userSockets[username], function (socketPair) {
+              _.values(socketPair)[0].emit('dev_push_to_' + username, {data: msg});
+              console.log("data:",msg);
+          })
+      }
   }
 }
 

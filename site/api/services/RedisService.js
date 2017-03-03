@@ -56,12 +56,28 @@ module.exports = {
           result.smartgate = res;
           client.hgetall(redis_config.key_config.smartgatedevice + smartGateSn, function (err, res) {
             Promise.map(_.keys(res), function (deviceSn) {
-              return new Promise(function (resolve, reject) {
-                client.hgetall(redis_config.key_config.deviceinfos + deviceSn, function (err, res) {
-                  result.components.push(res);
-                  resolve();
-                });
-              });
+
+              if(deviceSn !== null && deviceSn !== undefined ){
+
+                  return new Promise(function (resolve, reject) {
+                      client.hgetall(redis_config.key_config.deviceinfos + deviceSn, function (err, res) {
+                          //console.log('------------->res',res);
+                          if(res !== null && res !== undefined && res !== '') {
+                              if(res.dev_type !== null && res.dev_type !== undefined && res.dev_type !== ''){
+                                  if(res.dev_type ==='relaybox'){
+                                      //console.log('------------->res.pool_list',res.pool_list);
+                                      res.pool_list = JSON.parse(res.pool_list);
+                                      // console.log('------------->JSON.parse(res.pool_list)',res.pool_list);
+                                  }
+                              }
+                              result.components.push(res);
+                              resolve();
+                          }
+                      });
+                  });
+
+              }
+
             }).then(function () {
               resolve(result);
             });
@@ -160,6 +176,11 @@ module.exports = {
         } else {
           if (client.hexists(redis_config.key_config.usersmartgate + username, smartGateSn, function (err, res1) {
               if (res1 === 1) {
+                  if(res.dev_type ==='relaybox'){
+                      //console.log('------------->res.pool_list',res.pool_list);
+                      res.pool_list = JSON.parse(res.pool_list);
+                      // console.log('------------->JSON.parse(res.pool_list)',res.pool_list);
+                  }
                 resolve(res);
               } else {
                 resolve({msg: 'wrong device sn'});
@@ -282,11 +303,36 @@ module.exports = {
     })
   },
 };
+function initDevSubscribe() {//订阅设备状态改变
+    pubSubClient.subscribe(redis_config.buffer_redis.notice_channel_config.server_to_site_dev_channel);
+    pubSubClient.on('message', function (channel, message) {
+      if(channel === redis_config.buffer_redis.notice_channel_config.server_to_site_dev_channel){
+          console.log('订阅设备状态改变message:','channel:'+channel+' '+'message:'+message);
+          var msg = JSON.parse(message);
+          SmartGate.findInfo(msg.info.owner)
+              .then(function (record) {
+                  Promise.map(record, function (singleRecord) {
+                      console.log('singleRecord',singleRecord);
+                      var username = singleRecord.owner;
+                      console.log('username',username);
+                      if(username !== 'unknown' && username !== undefined && username !== null ){
+                          PushWebService.pushDevStatusChangelUserWeb(username,msg);
+                      }
+                  })
+              })
+      }
 
-function initSubscribe() {
+    });
+};
+
+function initSubscribe() {//订阅事件
   pubSubClient.subscribe(redis_config.buffer_redis.notice_channel_config.server_to_site_channel);
   pubSubClient.on('message', function (channel, message) {
-    handleSubMsg(channel, message);
+    if(channel === redis_config.buffer_redis.notice_channel_config.server_to_site_channel ){
+       // console.log('订阅事件message:','channel:'+channel+' '+'message:'+message);
+        handleSubMsg(channel, message);
+    }
+
   });
 };
 
@@ -300,7 +346,7 @@ function handleSubMsg(channel, message) {
           var alarmObj = generateEventObj(msg);
           var channels = ['event'];
           PushService.pushSpecialUser(installationId, channels, alarmObj.title, alarmObj.eventStr);
-            PushWebService.pushSpecialUserWebb(username,msg);
+          PushWebService.pushSpecialUserWebb(username,msg);
         }
       })
   }

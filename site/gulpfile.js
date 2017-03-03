@@ -79,7 +79,8 @@ var LIB_JS_FILES = [
     "assets/app/assets/plugins/leaflet/leaflet.markercluster.js",
     'assets/app/assets/plugins/leaflet/angular-leaflet-directive.js',
     'assets/app/assets/plugins/progress-skylo/skylo.js',
-    'assets/app/assets/plugins/socket.io.js'
+    'assets/app/assets/plugins/socket.io.js',
+    'assets/app/assets/plugins/angular-popups.js'
 
 ];
 
@@ -123,8 +124,8 @@ var LOGIC_JS_FILES = [
 
 
 var CSS_FILES = [
-    "assets/app/assets/css/theme/main.css",
-    "assets/app/assets/css/theme/vender.css",
+    /*"assets/app/assets/css/theme/main.css",
+    "assets/app/assets/css/theme/vender.css",*/
     "assets/app/assets/css/page/base.css",
     "assets/app/assets/css/page/dashboard.css",
     "assets/app/assets/css/page/analysis.css",

@@ -7,6 +7,23 @@
   /*padding:0 8px;*/
 }
 
+
+.me_relaybox > span{
+    width: 18%;
+    font-size: 16px;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.me_relaybox_body{
+    background-color: rgb(245, 244, 244);
+    padding: 6px 12px;
+    margin-top: 4px;
+    border-radius: 5px;
+    min-height: 60px;
+    overflow: hidden;
+}
+
 .sensor-green {
   color: rgb(109, 213, 109);
 }
@@ -98,10 +115,11 @@
 }
 
 .me_table {
-    text-align: center;
+    width: 100%;
 }
 
 .me_table td{
-    min-width: 80px;
+    width: 24%;
+    text-align: center;
 }
 

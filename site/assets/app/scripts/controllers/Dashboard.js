@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('page.dashboard', [])
+    angular.module('page.dashboard', ['angular-popups'])
 
         .controller("DevListController", ['$scope', 'DevService', '$global', '$rootScope',
             function ($scope, DevService, $global, $rootScope) {
@@ -59,8 +59,8 @@
 
             }])
 
-        .controller("DashCurController", ["$scope", "DevService", "$rootScope",
-            function ($scope, DevService, $rootScope) {
+        .controller("DashCurController", ["$scope", "DevService", "$rootScope", "AuthService",
+            function ($scope, DevService, $rootScope, AuthService) {
                 var self = $scope;
                 self.refreshing = false;
 
@@ -92,7 +92,7 @@
 
                     /*传感器排序*/
                     self.sort_curGreenHouse = _.sortBy(self.curGreenHouse.components, function (item) {
-                        return item.dev_type
+                        if(item !== null) return item.dev_type
                     })
 
                     //转换日期格式-最后更新时间
@@ -110,18 +110,144 @@
                     self.curTabname = DevService.curTabname;
                 });
 
+                //刷新指定大棚及设备信息
                 self.refresh = function () {
 
-                    self.refreshing = true;
-
-                    //刷新指定大棚及设备信息
-                    DevService.getDevInfoByUid(DevService.curDevuuid).then(function (data) {
-                        DevService.curGreenHouse = data;
-                        $rootScope.$broadcast("ui:update:curDev", true);
-                        self.curDevInfo = data;
-                        self.refreshing = false;
-                    });
+                    if(DevService.curDevuuid != undefined){
+                        self.refreshing = true;
+                        DevService.getDevInfoByUid(DevService.curDevuuid).then(function (data) {
+                            DevService.curGreenHouse = data;
+                            $rootScope.$broadcast("ui:update:curDev", true);
+                            self.curDevInfo = data;
+                            self.refreshing = false;
+                        });
+                    }
                 };
+
+
+                /*--------------电气柜控制------------------------*/
+                /*
+                 * 设备控制返回状态
+                 * ret：success 正确
+                 * ret: fail, not this dev_uuid or device offline 大棚下找不到该设备
+                 * ret: fail, not this dev_uuid 找不到该大棚
+                 */
+
+                self.dialog={
+                    open: false,
+                    content: ""
+                }
+                self.switchIndex = { //手动改变通道状态
+                    oneIndex: "",
+                    twoIndex: ""
+                };
+                //self.relayboxSwitch1 = true //设备状态显示
+                self.relayboxSwitchLoading1 = {} //加载状态显示
+                var ccp_token = "ccp_token-smartgate-20150201";
+                var token = AuthService.gettoken(); //用户token
+
+                //单继电器控制
+                self.relayboxOneSwitch1 = function (dev_uuid, component_id, type, active,  poolIndex) {
+
+                    self.relayboxSwitchLoading1[component_id + poolIndex + active] = true;
+                    var parameter = {
+                         ccp_token: ccp_token,
+                         smartgate_sn: dev_uuid,  //大棚sn
+                         params: {
+                             cmd: type,  //单/双继电器类型
+                             status: active,  // 0关闭 1开启
+                             sn: component_id,  //设备sn
+                             poolIndex: poolIndex  //通道标识
+                        }
+                     }
+
+                     DevService.remotesActions(parameter, token).then(function (data) {
+                         console.log("单继电器返回状态",data);
+
+                         if (data.data.ret === "success") {
+
+                             //updateState();
+                             if (active == 0) {
+                                 self.dialog.open = true;
+                                 self.dialog.content = "设备成功开启!"
+
+                             } else {
+                                 self.dialog.open = true;
+                                 self.dialog.content = "设备成功关闭!"
+                             }
+                             self.relayboxSwitchLoading1[component_id + poolIndex + active] = false;
+                         } else {
+                             self.dialog.open = true;
+                             self.dialog.content = "操作失败!"
+                             self.relayboxSwitchLoading1[component_id + poolIndex + active] = false;
+                         }
+
+                     })
+
+                    //测试
+                    /*setTimeout(function(){
+                        self.relayboxSwitchLoading1[component_id + poolIndex] = false;
+                        self.$apply();
+                    },3000)*/
+
+                }
+
+                //双继电器控制
+                self.relayboxTwoSwitch1 = function (dev_uuid, component_id, type, active,  poolIndex) {
+
+                    self.relayboxSwitchLoading1[component_id + poolIndex + active] = true;//开启加载
+
+                    var parameter = {
+                         ccp_token: ccp_token,
+                         smartgate_sn: dev_uuid,
+                         params: {
+                             cmd: type,
+                             action: active, // 0上行 1下行 2停止
+                             sn: component_id,
+                             poolIndex: poolIndex  //通道标识
+                         }
+                     }
+
+                     DevService.remotesActions(parameter, token).then(function (data) {
+                         console.log("双继电器返回状态",data);
+                         if (data.data.ret === "success") {
+                             self.relayboxSwitchLoading1[component_id + poolIndex + active] = false;
+                            //updateState();
+                             self.dialog.open = true;
+                             self.dialog.content = "操作成功!"
+                         } else {
+                             self.dialog.open = true;
+                             self.dialog.content = "操作失败!"
+                         }
+
+                     })
+
+                    //测试
+                   /* setTimeout(function(){
+                        self.relayboxSwitchLoading1[component_id + poolIndex + active] = false;
+                        self.$apply();
+                    },3000)*/
+                }
+
+                //定时器 定时查询设备状态
+                /*$interval(function(){
+                 updateState()
+                 },10000)*/
+
+                //更新设备状态
+                function updateState(){
+                    DevService.getUserDev().then(function (data) {
+                        self.curUserData = data;
+                    })
+                }
+
+                //弹出框关闭
+                self.closeDialog = function(){
+                    self.dialog.open = false;
+                }
+
+                /*--------------end 电气柜控制---------------------*/
+
 
                 self.testMoment = {
                     //        time:"2015-06-01 07:11:00"

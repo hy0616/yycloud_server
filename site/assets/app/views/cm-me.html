@@ -28,7 +28,9 @@
                             <tabset class="tab-container tab-success">
                                 <tab heading="设备列表">
                                     <div class="clearfix">
+                                        <!--循环大棚列表-->
                                         <div class="row" ng-repeat="pad in curUserData.smartgates">
+                                            <!--大棚信息展示-->
                                             <div class="col-md-4">
                                                 <div class="marvel-device ipad silver"
                                                      style="width:280px;height:325px;margin-top:35px;margin-left:8px;">
@@ -67,16 +69,25 @@
                                                 </div>
                                                 <!--pad-->
                                             </div>
-                                            <div class="col-md-8" style="overflow: hidden">
-                                                <h4 class="text-info">{{pad.dev_alias}} <span class="hand refresh-icon"
-                                                                                              ng-click="refreshUserInfo()"> <i
-                                                        class="fa fa-refresh"
-                                                        ng-class="{'fa-spin': refreshing == true}"></i>&nbsp;刷新 </span>
-                                                </h4>
+                                            <!--end 大棚信息展示-->
 
+                                            <!--设备信息展示-->
+                                            <div class="col-md-8" style="overflow: hidden">
+                                                <h4 class="text-info" ng-show="pad.dev_alias == ''  || pad.dev_alias == 'undefined' ||
+                                                pad.dev_alias == null ||  pad.dev_alias == undefined">{{pad.smartgate.dev_name}}
+                                                    <span class="hand refresh-icon"  ng-click="refreshUserInfo()">
+                                                        <i class="fa fa-refresh" ng-class="{'fa-spin': refreshing == true}"></i>&nbsp;刷新
+                                                    </span>
+                                                </h4>
+                                                <h4 class="text-info" ng-show="pad.dev_alias !== '' && pad.online_state === 'online' && pad.dev_alias !== 'undefined' &&
+                                                pad.dev_alias !== null &&  pad.dev_alias !== undefined">{{pad.smartgate.dev_alias}}
+                                                    <span class="hand refresh-icon"  ng-click="refreshUserInfo()">
+                                                        <i class="fa fa-refresh" ng-class="{'fa-spin': refreshing == true}"></i>&nbsp;刷新
+                                                    </span>
+                                                </h4>
+                                                <!--循环该大棚设备列表-->
                                                 <div ng-repeat="sensor in pad.components">
-                                                    <div class="sensor-panel"
-                                                         ng-show="sensor.dev_type == 'humidity-temperature'">
+                                                    <div class="sensor-panel" ng-show="sensor.dev_type == 'humidity-temperature'">
                                                         <div style="float: left;line-height: 36px" class="col-md-3">
                                                             <i class="fa fa-dot-circle-o sensor-green"></i>&nbsp;{{sensor.dev_name}}
                                                         </div>
@@ -387,7 +398,7 @@
                                                         </div>
                                                         <br/>
                                                     </div>
-                                                    <div class="sensor-panel" ng-show="sensor.dev_type == 'soil_th'">
+                                                    <div class="sensor-panel" ng-show="sensor.dev_type == 'soil-th'">
                                                         <div style="float: left;line-height: 36px" class="col-md-3">
                                                             <i class="fa fa-dot-circle-o sensor-green"></i>&nbsp;{{sensor.dev_name}}
                                                         </div>
@@ -414,10 +425,10 @@
                                                                         {{sensor.dev_alias}}
                                                                     </td>
                                                                     <td ng-show="sensor.online_state == 'online'">
-                                                                        {{sensor.air_temperature}}℃
+                                                                        {{sensor.soil_temperature}}℃
                                                                     </td>
                                                                     <td ng-show="sensor.online_state == 'online'">
-                                                                        {{sensor.air_humidity}} %HR
+                                                                        {{sensor.soil_humidity}} %HR
                                                                     </td>
                                                                 </tr>
                                                                 </tbody>
@@ -432,9 +443,69 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <hr/>
                                             </div>
-                                            <hr/>
+                                            <!--end 单个设备列表-->
+
+                                            <!--电气柜-->
+                                            <div class="col-md-8" style="overflow: hidden">
+                                                <div ng-repeat="dev in pad.components">
+                                                    <div class="me_relaybox" ng-show="'relaybox' == dev.dev_type">
+                                                        <span>设备类型: 电气柜</span>
+                                                        <span>名称: {{dev.dev_name}}</span>
+                                                        <span ng-show="dev.online_state == 'online'">状态: 在线</span>
+                                                        <span ng-show="dev.online_state == 'offline'">状态: 离线</span>
+                                                        <span>通道数: {{dev.pool_list.length}}</span>
+                                                        <span>sn: {{dev.sn}}</span>
+                                                        <div class="relaybox">
+                                                            <div ng-repeat="sensor in dev.pool_list" class="me_relaybox_body">
+                                                                <div style="float: left;line-height: 36px;width: 18%;">
+                                                                    <i class="fa fa-dot-circle-o sensor-green"></i>&nbsp;{{sensor.dev_name}}
+                                                                </div>
+                                                                <div style="float: left;width: 80%" ng-show="'SINGLE' == sensor.dev_type">
+                                                                    <table class="me_table">
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td>通道</td>
+                                                                            <td>类型</td>
+                                                                            <td>名称</td>
+                                                                            <td>状态</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>{{sensor.pool_index}}</td>
+                                                                            <td>单继电器</td>
+                                                                            <td>{{sensor.dev_extend_type}}</td>
+                                                                            <td ng-show="sensor.status == '1'"> 开启 </td>
+                                                                            <td ng-show="sensor.status == '0'"> 关闭 </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div style="float: left;width: 80%" ng-show="'DOUBLE' == sensor.dev_type">
+                                                                    <table class="me_table">
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td>通道</td>
+                                                                            <td>类型</td>
+                                                                            <td>名称</td>
+                                                                            <td>状态</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>{{sensor.pool_index}}</td>
+                                                                            <td>双继电器</td>
+                                                                            <td>{{sensor.dev_extend_type}}</td>
+                                                                            <td ng-show="sensor.status == '0'"> 上行 </td>
+                                                                            <td ng-show="sensor.status == '2'"> 停止 </td>
+                                                                            <td ng-show="sensor.status == '1'"> 下行 </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--end 电气柜-->
                                         </div>
                                     </div>
                                 </tab>
@@ -484,7 +555,10 @@
                                 <tab heading="设备控制">
                                     设备控制
                                     <div ng-repeat="pad in curUserData.smartgates">
-                                        <h4 class="text-info">{{pad.dev_alias}}</h4>
+                                        <h4 class="text-info" ng-show="pad.dev_alias !== '' && pad.online_state === 'online' && pad.dev_alias !== 'undefined' &&
+                                                pad.dev_alias !== null &&  pad.dev_alias !== undefined">{{pad.smartgate.dev_alias}}</h4>
+                                        <h4 class="text-info" ng-show="pad.dev_alias == '' || pad.dev_alias == 'undefined' ||
+                                                pad.dev_alias == null ||  pad.dev_alias == undefined">{{pad.smartgate.dev_name}}</h4>
                                         <!--switchBtns: {{switchBtns}}-->
                                         <div ng-repeat="sensor in pad.components">
                                             <div class="sensor-panel" ng-show="sensor.dev_type == 'erelay'">

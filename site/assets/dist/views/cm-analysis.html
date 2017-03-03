@@ -14,8 +14,19 @@
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-3 col-sm-3" style="color:grey">
-                                <!--今天 | 本周 | 本月-->
+
                                 <div class="btn-group">
+                                    <label class="btn btn-default btn-xs bold" ng-click="updateChartType('area')"
+                                           ng-model="typeModel" btn-radio="'area'" uncheckable="">面积图</label>
+                                    <label class="btn btn-default btn-xs bold" ng-click="updateChartType('column')"
+                                           ng-model="typeModel" btn-radio="'column'" uncheckable="">柱状图</label>
+                                    <label class="btn btn-default btn-xs bold" ng-click="updateChartType('line')"
+                                           ng-model="typeModel" btn-radio="'line'" uncheckable="">线图</label>
+
+                                </div><br>
+
+                                <!--今天 | 本周 | 本月-->
+                                <div class="btn-group" style="margin: 6px 0;">
                                     <label class="btn btn-default btn-xs bold" ng-click="selectDateRange('today')"
                                            ng-model="dayModel" btn-radio="'today'" uncheckable="">今天 </label>
                                     <label class="btn btn-default btn-xs bold" ng-click="selectDateRange('week')"
@@ -24,35 +35,49 @@
                                            ng-model="dayModel" btn-radio="'month'" uncheckable="">本月 </label>
                                     <label ng-click="isDateStaffCollapsed = true" class="btn btn-default btn-xs bold"
                                            ng-model="dayModel" btn-radio="'custom'" uncheckable="">自定义 </label>
+                                </div><br>
+
+                                <div class="btn-group">
+                                    <label class="btn btn-default btn-xs bold" ng-click="updateChartSize('scope2')"
+                                           ng-model="hourModel" btn-radio="'scope2'" uncheckable=""><i
+                                            class="fa fa-circle"></i>&nbsp;小时</label>
+                                    <label ng-show="range == 'today' || range == 'week' "
+                                           class="btn btn-default btn-xs bold" ng-click="updateChartSize('scope1')"
+                                           ng-model="hourModel" btn-radio="'scope1'" uncheckable=""><i
+                                            class="fa fa-clock-o"></i>&nbsp;20分钟</label>
+                                    <label ng-show="range == 'today'" class="btn btn-default btn-xs bold"
+                                           ng-click="updateChartSize('scope0')" ng-model="hourModel" btn-radio="'scope0'"
+                                           uncheckable=""><i class="fa fa-clock-o"></i>&nbsp;5分钟</label>
                                 </div>
+
                             </div>
                             <div class="col-md-6 col-sm-4" style="text-align: center;color:rgb(10, 132, 95)">
                                 {{dateTimeTitle}}
                             </div>
-                            <div class="btn-group" style="float:right;margin-right:20px;">
-                                <label class="btn btn-default btn-xs bold" ng-click="updateChartType('area')"
-                                       ng-model="typeModel" btn-radio="'area'" uncheckable="">面积图</label>
-                                <label class="btn btn-default btn-xs bold" ng-click="updateChartType('column')"
-                                       ng-model="typeModel" btn-radio="'column'" uncheckable="">柱状图</label>
-                                <label class="btn btn-default btn-xs bold" ng-click="updateChartType('line')"
-                                       ng-model="typeModel" btn-radio="'line'" uncheckable="">线图</label>
-                                <label class="btn btn-default btn-xs bold" ng-click="updateChartSize('scope2')"
-                                       ng-model="sizeModel" btn-radio="'scope2'" uncheckable=""><i
-                                        class="fa fa-circle"></i>&nbsp;小时</label>
-                                <label ng-show="range == 'today' || range == 'week' "
-                                       class="btn btn-default btn-xs bold" ng-click="updateChartSize('scope1')"
-                                       ng-model="sizeModel" btn-radio="'scope1'" uncheckable=""><i
-                                        class="fa fa-clock-o"></i>&nbsp;20分钟</label>
-                                <label ng-show="range == 'today'" class="btn btn-default btn-xs bold"
-                                       ng-click="updateChartSize('scope0')" ng-model="sizeModel" btn-radio="'scope0'"
-                                       uncheckable=""><i class="fa fa-clock-o"></i>&nbsp;5分钟</label>
+                            <div style="float: right;margin-right: 20px;min-width: 100px" class="form-inline" ng-show="showExcel">
+
+                                <select class="form-control" ng-model="selectSensorData" ng-options="value.dev_name for (key, value) in curSensors"
+                                        ng-change="selectSensor(selectSensorData)">
+                                    <option value="" selected disabled>&#45;&#45;请选择设备&#45;&#45;</option>
+                                </select>
+                                <button class="btn btn-default" style="background-color: #fff;border: 1px solid #e1e3e8;margin-left: 6px;"
+                                        ng-click="exportExcel()">导出</button>
                             </div>
+
+                           <!-- <div style="float: right;margin-right: 20px;min-width: 100px" class="form-inline" ng-show="showExcel">
+
+                                <div style="min-width:200px" class="js-example-basic-multiple" multiple="multiple" ng-model="">
+                                </div>
+
+                                <button class="btn btn-default" style="background-color: #fff;border: 1px solid #e1e3e8;margin-left: 6px;"
+                                        ng-click="exportExcel()">导出</button>
+
+                            </div>-->
+
                         </div>
                         <!--row-->
                         <div ng-show="showNotSelectError" class="alert alert-danger" style="margin-top:20px;">
-                            <!--<div collapse="showNotSelectError != true" class="alert alert-danger" style="margin-top:20px">-->
-                            请在
-                            <strong>右侧--&gt;</strong>选择大棚
+                            <span>请在<strong>右侧--&gt;</strong>选择大棚</span>
                         </div>
                     </div>
                     <!--md-col-10-->
@@ -117,17 +142,13 @@
                                             </script>
                                         </div>
                                         <div>
-                                            <span ng-click="isDateStaffCollapsed = false;showNotSelectError = false;showExcel = false"
+                                            <span ng-click="isDateStaffCollapsed = false;showNotSelectError = false;"
                                                   class="btn btn-default btn-xs pull-right hand"
                                                   style="margin-right:25px">{{&quot;CANCLE&quot; | translate}}</span>
                                             <span ng-click="dateRangeConfirm()"
                                                   class="btn btn-success btn-xs pull-right hand"
                                                   style="margin-right:4px">{{&quot;CONFIRM&quot; | translate}}</span>
                                         </div>
-                                    </div>
-
-                                    <div style="float: right; margin: 8px 30px 0 0;" ng-if="showExcel">
-                                        <a href="javascript:return false" download="myexcel.xls" ng-click="exportExcel('#exportTable')"><img src="assets/img/fxdc.jpg" /></a>
                                     </div>
 
                                     <div style="display: none;">
@@ -160,7 +181,7 @@
 
                                 </div>
                                 <!--row-->
-                                <span ng-click="isDateStaffCollapsed = false;showExcel = false"
+                                <span ng-click="isDateStaffCollapsed = false"
                                       class="btn btn-default btn-xs pull-right hand">收起</span>
                                 <br/>
                             </div>
@@ -178,21 +199,21 @@
                                    ng-show="soilth_chartshow"></highchart>
                         <highchart config="smoke_chartOptionForTemp" style="height:220px;"
                                    ng-show="smoke_chartshow"></highchart>
-                        <div class="sensor_selector_area">
+                        <!--<div class="sensor_selector_area">
                             <div class="row">
                                 <div ng-repeat="item in curSensors" class="col-md-2 item">
            <span class="hand" ng-click="selectSensor(item.sn,item.dev_type)"> <i
                    ng-class="{'fa fa-check-circle':item.sn == curSensorId, 'fa fa-circle-thin':item.sn != curSensorId}"> </i>&nbsp;
-            <!--class="fa fa-circle-thin"></i>&nbsp;--> <span tooltip-placement="top"
+            &lt;!&ndash;class="fa fa-circle-thin"></i>&nbsp;&ndash;&gt; <span tooltip-placement="top"
                                                               tooltip="传感器sn: {{item.sn}}"> <span>{{item.dev_name}}</span> </span> </span>
                                 </div>
                                 <span ng-show="!humidity_temperature_chartshow && !illumination_chartshow && !soilth_chartshow && !smoke_chartshow"
                                       style="font-weight: bold;line-height: 50px;font-size: large">该大棚无传感器</span>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                     <!--col-md-10-->
-                    <div class="col-md-2" style="height:500px;overflow: scroll;margin-top:-20px;">
+                    <div class="col-md-2" style="height:500px;overflow: scroll;margin-top:-70px;">
                         <div ng-repeat="group in geoGroups" style="margin-bottom:5px">
                             <div style="background-color: #f3f3f3;padding:10px 8px;border-left:3px solid rgb(125, 204, 147)"
                                  ng-click="group.__isCollapsed = !group.__isCollapsed;showGeoGroupDetail(group.name, group.__isCollapsed)">

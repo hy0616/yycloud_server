@@ -676,8 +676,8 @@ angular.module('service.dev', [])
         self.remotesActions = function(list, token){
             var deferred = $q.defer();
 
-            DevModel.remotesActions(list, token).then(function(){
-                return deferred.resolve();
+            DevModel.remotesActions(list, token).then(function(data){
+                return deferred.resolve(data);
             }).catch(function(err){
                 return deferred.reject(err);
             })
